@@ -10,6 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZooSeekerTeam35">
         <activity
+            android:name=".DirectionsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PlanResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchResultsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

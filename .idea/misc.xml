@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/julia/StudioProjects/zooseeker-cse-110-team-35/app/src/main/res/layout/activity_main.xml" value="0.5546875" />
-        <entry key="..\:/Users/julia/StudioProjects/zooseeker-cse-110-team-35/app/src/main/res/layout/activity_search.xml" value="0.540625" />
+        <entry key="app/src/main/res/layout/activity_directions.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_plan_results.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.13697916666666668" />
       </map>
     </option>
   </component>
