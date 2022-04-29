@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override
@@ -15,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
-
+        List<Vertex> exhibits = ZooInfoProvider.getSelectedExhibits();
 
     }
 
