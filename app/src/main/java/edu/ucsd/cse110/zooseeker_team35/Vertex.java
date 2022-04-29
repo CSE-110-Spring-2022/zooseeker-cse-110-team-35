@@ -14,22 +14,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Entity(tableName = "sample_node_info.json")
-public abstract class Vertex {
+public class Vertex {
 
-    @PrimaryKey
+    @PrimaryKey @NonNull
     String id;
 
     @NonNull
     String kind;
     String name;
-    String[] tags;
+    ArrayList<String> tags;
     boolean isAdded;
 
-    public Vertex(@NonNull String id, String kind, String name, String[] tags) {
+    public Vertex(@NonNull String id, String kind, String name, ArrayList<String> tags) {
         this.id = id;
         this.kind = kind;
         this.name = name;
@@ -49,7 +50,7 @@ public abstract class Vertex {
         return name;
     }
 
-    String[] getTags() {
+    ArrayList<String> getTags() {
         return tags;
     }
 
@@ -69,7 +70,7 @@ public abstract class Vertex {
         this.name = name;
     }
 
-    void setTags(String[] tags) {
+    void setTags(ArrayList<String> tags) {
         this.tags = tags;
     }
 

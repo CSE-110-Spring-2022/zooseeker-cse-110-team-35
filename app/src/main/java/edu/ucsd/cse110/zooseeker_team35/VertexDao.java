@@ -14,6 +14,9 @@ public interface VertexDao {
     @Insert
     long insert(Vertex vertex);
 
+    @Insert
+    List<Long> insertAll(List<Vertex> vertex);
+
     @Update
     int update(Vertex vertex);
 
@@ -24,7 +27,7 @@ public interface VertexDao {
     List<Vertex> getAll();
 
     @Query("SELECT * FROM `sample_node_info.json` WHERE `kind`=:kind")
-    List<Vertex> getKind(String kind);
+    List<Vertex> getAllOfType(String kind);
 
     @Delete
     int delete(Vertex vertex);
