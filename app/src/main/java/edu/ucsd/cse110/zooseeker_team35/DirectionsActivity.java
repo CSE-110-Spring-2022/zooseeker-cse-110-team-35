@@ -10,5 +10,7 @@ public class DirectionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
+
+        //TODO: display the current exhibit's name, then directions to that exhibit
     }
 }
