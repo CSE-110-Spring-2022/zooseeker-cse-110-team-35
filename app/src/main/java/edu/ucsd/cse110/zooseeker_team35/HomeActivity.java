@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,7 +32,8 @@ public class HomeActivity extends AppCompatActivity {
     public void onSearchButtonClicked(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
         //pass in the searchTerm as an extra to the SearchResultsActivity
-        String searchTerm = "";
+        TextView searchTermView = (TextView)findViewById(R.id.search_text);
+        String searchTerm = searchTermView.getText().toString();
         intent.putExtra("searchTerm", searchTerm);
         startActivity(intent);
     }
