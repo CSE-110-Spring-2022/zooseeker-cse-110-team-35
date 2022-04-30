@@ -21,6 +21,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private Button searchBtn2;
     private EditText searchBar;
     private TextView backButton;
+    private SearchListViewModel viewModel;
     public RecyclerView recyclerView;
     public SearchListAdapter adapter;
 
@@ -38,13 +39,14 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         //initialize recycler/adapter
         this.adapter = new SearchListAdapter();
+        //viewModel.getSearchItems().observe(this, adapter::setSearchItems);
         adapter.setHasStableIds(true);
 
         recyclerView = findViewById(R.id.search_item_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        this.exhibitResults = new ArrayList<ZooData.VertexInfo>();
+        this.exhibitResults = new ArrayList<>();
 
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm");
@@ -64,6 +66,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     }
 
     void onSearchButton2Clicked(View view){
+
         //sets no result message to invisible in case the search result pulls something
         TextView noResultsFound = this.findViewById(R.id.no_results_msg);
         noResultsFound.setVisibility(View.INVISIBLE);
@@ -76,7 +79,11 @@ public class SearchResultsActivity extends AppCompatActivity {
             this.searchFail();
         }
         else{
-            this.displaySearchResult(searchResult);
+            getIntent().putExtra("searchTerm", searchTerm);
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
         }
     }
 
