@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class ZooseekerDatabaseTester {
@@ -72,7 +73,32 @@ public class ZooseekerDatabaseTester {
         test1 = dao.get("monkeys");
         assertNotNull(test1);
         assertTrue(test1.getIsAdded());
+    }
 
+    @Test
+    public void testGetAll() {
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
+        assertNotNull(test1);
+        dao.insert(test1);
 
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
+        assertNotNull(test2);
+        dao.insert(test2);
+
+        ExhibitStatus test3 = new ExhibitStatus("sharks", false);
+        assertNotNull(test3);
+        dao.insert(test3);
+
+        List<ExhibitStatus> testList = dao.getAll();
+        assertNotNull(testList);
+
+        assertEquals(test1.getId(), testList.get(0).getId());
+        assertEquals(test1.getIsAdded(), testList.get(0).getIsAdded());
+
+        assertEquals(test2.getId(), testList.get(1).getId());
+        assertEquals(test2.getIsAdded(), testList.get(1).getIsAdded());
+
+        assertEquals(test3.getId(), testList.get(2).getId());
+        assertEquals(test3.getIsAdded(), testList.get(2).getIsAdded());
     }
 }
