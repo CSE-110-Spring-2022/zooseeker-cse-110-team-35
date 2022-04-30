@@ -64,7 +64,7 @@ public class ZooseekerDatabaseTester {
     }
 
     @Test
-    public void testGetAllowed() {
+    public void testGetAdded() {
         ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
         ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
         ExhibitStatus test3 = new ExhibitStatus("humans",  false);
