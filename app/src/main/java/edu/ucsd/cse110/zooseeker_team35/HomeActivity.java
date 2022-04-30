@@ -36,5 +36,6 @@ public class HomeActivity extends AppCompatActivity {
         String searchTerm = searchTermView.getText().toString();
         intent.putExtra("searchTerm", searchTerm);
         startActivity(intent);
+        searchTermView.setText("");
     }
 }

@@ -17,14 +17,14 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     public void setSearchItems(List<ZooData.VertexInfo> newSearchItems) {
         this.searchItems.clear();
         this.searchItems = newSearchItems;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater
                 .from(parent.getContext())
-                .inflate(R.layout.search_item, parent, false);
+                .inflate(R.layout.search_result_item, parent, false);
 
 
         return new ViewHolder(view);
@@ -41,6 +41,14 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
     }
 
     public String getId(int position) { return searchItems.get(position).id; }
+
+/*
+    public void addExhibit(ZooData.VertexInfo exhibit) {
+        searchItems.add(exhibit);
+        notifyItemInserted(searchItems.size() - 1);
+    }
+
+ */
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
