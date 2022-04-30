@@ -68,7 +68,7 @@ public class ZooseekerDatabaseTester {
         ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
         ExhibitStatus test3 = new ExhibitStatus("humans",  false);
 
-        List<ExhibitStatus> exhibits = new ArrayList<ExhibitStatus>();
+        List<ExhibitStatus> exhibits = new ArrayList<>();
         exhibits.add(test1);
         exhibits.add(test2);
         exhibits.add(test3);
