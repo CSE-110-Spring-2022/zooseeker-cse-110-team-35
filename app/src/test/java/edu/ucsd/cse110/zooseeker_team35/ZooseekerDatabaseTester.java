@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +18,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class ZooseekerDatabaseTester {
@@ -57,6 +60,35 @@ public class ZooseekerDatabaseTester {
 
         assertEquals(test2.getId(), test1.getId());
         assertEquals(test2.getIsAdded(), test1.getIsAdded());
+    }
+
+    @Test
+    public void testGetAllowed() {
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
+        ExhibitStatus test3 = new ExhibitStatus("humans",  false);
+
+        List<ExhibitStatus> exhibits = new ArrayList<ExhibitStatus>();
+        exhibits.add(test1);
+        exhibits.add(test2);
+        exhibits.add(test3);
+
+        dao.insertAll(exhibits);
+
+        List<ExhibitStatus> exhibits2 = dao.getAdded(false);
+        assertNotNull(exhibits2);
+
+        assertEquals(exhibits2.get(0).getId(), test1.getId());
+        assertEquals(exhibits2.get(0).getIsAdded(), test1.getIsAdded());
+
+        assertEquals(exhibits2.get(1).getId(), test3.getId());
+        assertEquals(exhibits2.get(1).getIsAdded(), test3.getIsAdded());
+
+        List<ExhibitStatus> exhibits3 = dao.getAdded(true);
+        assertNotNull(exhibits3);
+
+        assertEquals(exhibits3.get(0).getId(), test2.getId());
+        assertEquals(exhibits3.get(0).getIsAdded(), test2.getIsAdded());
     }
 
     @Test
