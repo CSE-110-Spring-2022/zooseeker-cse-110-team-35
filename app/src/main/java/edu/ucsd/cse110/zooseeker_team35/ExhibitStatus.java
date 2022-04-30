@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "exhibitStatuses")
 public class ExhibitStatus {
 
-    @PrimaryKey @NonNull
-    String id;
+    @PrimaryKey
+    @NonNull String id;
 
     boolean isAdded;
 
@@ -24,10 +24,6 @@ public class ExhibitStatus {
 
     boolean getIsAdded() {
         return isAdded;
-    }
-
-    void setId(@NonNull String id) {
-        this.id = id;
     }
 
     void setIsAdded(boolean isAdded) {

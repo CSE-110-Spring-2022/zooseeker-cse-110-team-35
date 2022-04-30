@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "edu.ucsd.cse110.zooseeker_team35"
         minSdk 28
-        targetSdk 32
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -25,6 +25,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    testOptions  {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -34,8 +40,8 @@ dependencies {
     implementation "org.jgrapht:jgrapht-core:$jgrapht_version"
     implementation "org.jgrapht:jgrapht-io:$jgrapht_version"
 
-    implementation "com.google.code.gson:gson:$gson_version"
     implementation "androidx.room:room-runtime:$room_version"
+    implementation "com.google.code.gson:gson:$gson_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
     implementation 'androidx.appcompat:appcompat:1.4.1'

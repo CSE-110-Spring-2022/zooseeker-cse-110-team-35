@@ -28,8 +28,8 @@ public abstract class ExhibitStatusDatabase extends RoomDatabase {
 
     private static ExhibitStatusDatabase makeDatabase(Context context) {
         //Loads all the vertices from the json and creates a list of statuses we will put in the db
-        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON("sample_node_info.json");
-        List<ExhibitStatus> exhibitStatuses = new ArrayList<ExhibitStatus>();
+        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON(context,"sample_node_info.json");
+        List<ExhibitStatus> exhibitStatuses = new ArrayList<>();
 
         //Goes through and adds all exhibits to the list, with default isAdded values false
         for(String id : vertices.keySet()) {
