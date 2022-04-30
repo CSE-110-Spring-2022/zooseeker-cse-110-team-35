@@ -17,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
-        List<Vertex> exhibits = ZooInfoProvider.getSelectedExhibits();
+        //List<Vertex> exhibits = ZooInfoProvider.getSelectedExhibits();
 
     }
 
@@ -28,7 +28,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //functionality when the search button is clicked
-    //TODO: get the search term from the search bar input and pass in the search term to SearchResultsActivity
     public void onSearchButtonClicked(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
         //pass in the searchTerm as an extra to the SearchResultsActivity

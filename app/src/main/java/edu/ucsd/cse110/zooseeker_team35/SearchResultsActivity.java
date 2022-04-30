@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.Map;
+
 public class SearchResultsActivity extends AppCompatActivity {
 
     @Override
@@ -14,5 +16,14 @@ public class SearchResultsActivity extends AppCompatActivity {
         //      and display the exhibits in a recyler view
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm");
+
+        Map<String, ZooData.VertexInfo> exhibits =
+                ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+
+        ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
+        if(searchResult == null) {
+            //Todo: Set "No results" view to visible
+            return;
+        }
     }
 }
