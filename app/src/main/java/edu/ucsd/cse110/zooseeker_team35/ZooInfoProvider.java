@@ -52,7 +52,7 @@ public class ZooInfoProvider{
 
     public static List<ZooData.VertexInfo> getSelectedExhibits() {
         //TODO: get the list of ExhibitStatus with isAdded=true
-        List<ExhibitStatus> exhibitStatuses = dao.getAdded(true);
+        List<ExhibitStatus> exhibitStatuses = new LinkedList<ExhibitStatus>();
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
             if (exhibitStatus.getIsAdded()){
