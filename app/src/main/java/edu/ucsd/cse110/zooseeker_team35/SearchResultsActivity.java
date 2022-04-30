@@ -3,6 +3,8 @@ package edu.ucsd.cse110.zooseeker_team35;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -22,7 +24,8 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
         if(searchResult == null) {
-            //Todo: Set "No results" view to visible
+            TextView no_result =(TextView)findViewById(R.id.no_results_msg);
+            no_result.setVisibility(View.VISIBLE);
             return;
         }
     }
