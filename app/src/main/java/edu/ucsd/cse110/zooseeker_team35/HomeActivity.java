@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
+
         List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
     }
 
@@ -27,12 +29,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //functionality when the search button is clicked
-    //TODO: get the search term from the search bar input and pass in the search term to SearchResultsActivity
     public void onSearchButtonClicked(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
         //pass in the searchTerm as an extra to the SearchResultsActivity
-        String searchTerm = "";
+        TextView searchTermView = (TextView)findViewById(R.id.search_text);
+        String searchTerm = searchTermView.getText().toString();
         intent.putExtra("searchTerm", searchTerm);
         startActivity(intent);
+        searchTermView.setText("");
     }
 }
