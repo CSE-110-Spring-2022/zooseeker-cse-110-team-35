@@ -17,8 +17,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
-        List<Vertex> exhibits = ZooInfoProvider.getSelectedExhibits();
-
+        List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
     }
 
     //functionality when the plan button is clicked

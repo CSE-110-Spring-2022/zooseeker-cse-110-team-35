@@ -12,5 +12,6 @@ public class DirectionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_directions);
 
         //TODO: display the current exhibit's name, then directions to that exhibit
+
     }
 }
