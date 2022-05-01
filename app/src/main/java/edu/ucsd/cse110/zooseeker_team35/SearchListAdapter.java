@@ -3,6 +3,7 @@ package edu.ucsd.cse110.zooseeker_team35;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,11 +53,21 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
+        private final CheckBox checkBox;
+        ExhibitStatusDao dao;
         private ZooData.VertexInfo searchItem;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.textView = itemView.findViewById(R.id.search_item_text);
+            this.checkBox = itemView.findViewById(R.id.checkBox);
+            this.dao = ExhibitStatusDatabase.getSingleton(itemView.getContext()).exhibitStatusDao();
+
+            checkBox.setOnClickListener(view -> {
+                ExhibitStatus exhibitStatus = dao.get(searchItem.id);
+                exhibitStatus.setIsAdded(checkBox.isChecked());
+                dao.update(exhibitStatus);
+            });
         }
 
         public ZooData.VertexInfo getSearchItem() {return searchItem;}
@@ -64,6 +75,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         public void setSearchItem(ZooData.VertexInfo searchItem) {
             this.searchItem = searchItem;
             this.textView.setText(searchItem.name);
+            this.checkBox.setChecked(dao.get(searchItem.id).isAdded);
         }
     }
 

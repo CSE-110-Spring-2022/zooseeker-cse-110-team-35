@@ -3,13 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/julia/StudioProjects/zooseeker-cse-110-team-35/app/src/main/res/layout/activity_plan_results.xml" value="0.15273556231003038" />
-        <entry key="..\:/Users/julia/StudioProjects/zooseeker-cse-110-team-35/app/src/main/res/layout/activity_search_results.xml" value="0.15273556231003038" />
-        <entry key="..\:/Users/julia/StudioProjects/zooseeker-cse-110-team-35/app/src/main/res/layout/search_result_item.xml" value="0.15273556231003038" />
         <entry key="app/src/main/res/layout/activity_directions.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.13697916666666668" />
         <entry key="app/src/main/res/layout/activity_plan_results.xml" value="0.13697916666666668" />
-        <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/activity_search_results.xml" value="0.2096232096354167" />
+        <entry key="app/src/main/res/layout/search_result_item.xml" value="0.13697916666666668" />
       </map>
     </option>
   </component>

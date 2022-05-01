@@ -13,6 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="17dp"
         android:gravity="center_vertical"
+        android:textSize="25dp"
         android:text="exhibit name"
         app:layout_constraintEnd_toStartOf="@+id/checkBox"
         app:layout_constraintStart_toStartOf="parent"
