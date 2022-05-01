@@ -20,7 +20,7 @@ public class PlanResultsActivity extends AppCompatActivity {
 
         Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), "sample_zoo_graph.json");
         ZooMap zooMap = new ZooMap(zooGraph);
-        List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits();
+        List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits(this.getApplicationContext());
         List<String> targetExhibits = new LinkedList<>();
         for (ZooData.VertexInfo vertex : selectedExhibits){
             targetExhibits.add(vertex.id);

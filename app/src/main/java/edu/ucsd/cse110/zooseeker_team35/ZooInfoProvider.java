@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,9 +52,9 @@ public class ZooInfoProvider{
         ZooInfoProvider.vertexes = vertexes;
     }
 
-    public static List<ZooData.VertexInfo> getSelectedExhibits() {
+    public static List<ZooData.VertexInfo> getSelectedExhibits(Context context) {
         //TODO: get the list of ExhibitStatus with isAdded=true
-        List<ExhibitStatus> exhibitStatuses = new LinkedList<ExhibitStatus>();
+        List<ExhibitStatus> exhibitStatuses = ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao().getAdded(true);
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
             if (exhibitStatus.getIsAdded()){
