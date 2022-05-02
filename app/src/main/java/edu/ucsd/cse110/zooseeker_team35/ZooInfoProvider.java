@@ -40,7 +40,7 @@ public class ZooInfoProvider{
         return exhibits;
     }
 
-    public static void setExhibits(List<ZooData.VertexInfo> exhibits) {
+    private static void setExhibits(List<ZooData.VertexInfo> exhibits) {
         ZooInfoProvider.exhibits = exhibits;
     }
 
@@ -48,13 +48,18 @@ public class ZooInfoProvider{
         return vertexes;
     }
 
-    public static void setVertexes(List<ZooData.VertexInfo> vertexes) {
+    private static void setVertexes(List<ZooData.VertexInfo> vertexes) {
         ZooInfoProvider.vertexes = vertexes;
     }
 
     public static List<ZooData.VertexInfo> getSelectedExhibits(Context context) {
         //TODO: get the list of ExhibitStatus with isAdded=true
-        List<ExhibitStatus> exhibitStatuses = ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao().getAdded(true);
+        return getSelectedExhibits(context, ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao());
+    }
+
+    public static List<ZooData.VertexInfo> getSelectedExhibits(Context context, ExhibitStatusDao dao) {
+        //TODO: get the list of ExhibitStatus with isAdded=true
+        List<ExhibitStatus> exhibitStatuses = dao.getAdded(true);
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
             if (exhibitStatus.getIsAdded()){
