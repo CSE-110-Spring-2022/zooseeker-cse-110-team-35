@@ -1,6 +1,9 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+    public RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +22,26 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
-
         List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
+
+        ExhibitListViewModel viewModel = new ViewModelProvider(this)
+                .get(ExhibitListViewModel.class);
+
+        ExhibitsAdapter adapter = new ExhibitsAdapter();
+        //viewModel.getExhibits().observe(this, adapter::setExhibits);
+        adapter.setHasStableIds(true);
+
+        //trying to display the message: "No Exhibit is added when the recyclerview is empty but this crashes the app"
+        if (exhibits.isEmpty()) {
+            TextView tv = (TextView) findViewById(R.id.no_exhibit);
+            tv.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView = findViewById(R.id.added_exhibits_recycler);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(adapter);
+            adapter.setExhibits(exhibits);
+        }
     }
 
     //functionality when the plan button is clicked
