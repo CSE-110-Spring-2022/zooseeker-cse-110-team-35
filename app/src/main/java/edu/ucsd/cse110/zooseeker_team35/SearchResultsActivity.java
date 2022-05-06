@@ -56,7 +56,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
         Log.d("searchTerm", "The Search Term is: " + searchTerm);
         searchBar.setText(searchTerm);
-        if(searchResult == null) {
+        if(searchResult == null || searchResult.kind != ZooData.VertexInfo.Kind.EXHIBIT) {
             this.searchFail();
         }
         else{

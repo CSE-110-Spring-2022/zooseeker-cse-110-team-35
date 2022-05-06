@@ -13,8 +13,10 @@ import android.widget.TextView;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-    public RecyclerView recyclerView;
-
+    private RecyclerView recyclerView;
+    private List<ZooData.VertexInfo> exhibits;
+    private ExhibitsAdapter adapter;
+    private TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,26 +24,18 @@ public class HomeActivity extends AppCompatActivity {
 
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
-        List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
-
+        exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
         ExhibitListViewModel viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
-
-        ExhibitsAdapter adapter = new ExhibitsAdapter();
+        adapter = new ExhibitsAdapter();
         //viewModel.getExhibits().observe(this, adapter::setExhibits);
         adapter.setHasStableIds(true);
-
+        recyclerView = findViewById(R.id.added_exhibits_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        tv = (TextView) findViewById(R.id.no_exhibit);
         //trying to display the message: "No Exhibit is added when the recyclerview is empty but this crashes the app"
-        if (exhibits.isEmpty()) {
-            TextView tv = (TextView) findViewById(R.id.no_exhibit);
-            tv.setVisibility(View.VISIBLE);
-        }
-        else {
-            recyclerView = findViewById(R.id.added_exhibits_recycler);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(adapter);
-            adapter.setExhibits(exhibits);
-        }
+        updateDisplay();
     }
 
     //functionality when the plan button is clicked
@@ -60,4 +54,23 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
         searchTermView.setText("");
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
+        updateDisplay();
+        System.out.println("resumed: " + exhibits.size());
+    }
+
+    public void updateDisplay() {
+        if (exhibits.isEmpty()) {
+            tv.setVisibility(View.VISIBLE);
+        }
+        else {
+            tv.setVisibility(View.INVISIBLE);
+        }
+        adapter.setExhibits(exhibits);
+    }
+
 }
