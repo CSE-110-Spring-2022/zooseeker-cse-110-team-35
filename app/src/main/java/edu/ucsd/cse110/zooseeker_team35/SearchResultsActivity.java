@@ -49,20 +49,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         this.exhibitResults = new ArrayList<>();
 
         Bundle extra = getIntent().getExtras();
-        String searchTerm = extra.getString("searchTerm");
+        String searchTerm = extra.getString("searchTerm").toLowerCase();
 
         this.exhibits = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
-        ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
-        Log.d("searchTerm", "The Search Term is: " + searchTerm);
-        searchBar.setText(searchTerm);
-        if(searchResult == null) {
-            this.searchFail();
-        }
-        else{
-            this.displaySearchResult(searchResult);
-        }
-
+        displaySearchResult(searchTerm);
     }
 
     void onSearchButton2Clicked(View view){
@@ -73,30 +64,43 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         //searches for new search result
         String searchTerm = searchBar.getText().toString();
-        ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
         //sets no result back to visible if not found
-        if(searchResult == null) {
-            this.searchFail();
-        }
-        else{
-            getIntent().putExtra("searchTerm", searchTerm);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
-        }
+        getIntent().putExtra("searchTerm", searchTerm);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     void onBackButtonClicked(View view){
         finish();
     }
 
-    void displaySearchResult(ZooData.VertexInfo exhibit){
+    void displaySearchResult(String searchTerm) {
         //remove other search results first
         exhibitResults.clear();
-        //show result
-        exhibitResults.add(exhibit);
-        adapter.setSearchItems(exhibitResults);
+        for (ZooData.VertexInfo exhibit : exhibits.values()) {
+            boolean isExhibit = (exhibit.kind == ZooData.VertexInfo.Kind.EXHIBIT);
+            if (exhibit.name.toLowerCase().contains(searchTerm) && isExhibit) {
+                exhibitResults.add(exhibit);
+            }
+            else {
+                for(String tag : exhibit.tags) {
+                    if(tag.toLowerCase().contains(searchTerm) && isExhibit) {
+                        exhibitResults.add(exhibit);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if(exhibitResults.isEmpty()) {
+            searchFail();
+        }
+        else {
+            adapter.setSearchItems(exhibitResults);
+            searchBar.setText(searchTerm);
+        }
     }
 
     void searchFail(){
