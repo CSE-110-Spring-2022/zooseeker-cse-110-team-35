@@ -79,6 +79,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     void displaySearchResult(String searchTerm) {
         //remove other search results first
         exhibitResults.clear();
+
         for (ZooData.VertexInfo exhibit : exhibits.values()) {
             boolean isExhibit = (exhibit.kind == ZooData.VertexInfo.Kind.EXHIBIT);
             if (exhibit.name.toLowerCase().contains(searchTerm) && isExhibit) {
