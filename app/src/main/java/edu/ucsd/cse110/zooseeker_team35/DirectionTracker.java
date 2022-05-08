@@ -44,16 +44,16 @@ public class DirectionTracker implements Serializable {
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         List<String> vertexes = path.getVertexList();
 
+        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
         for (int i = 0; i < edges.size(); i++) {
             IdentifiedWeightedEdge e = edges.get(i);
             String startNode = vertexes.get(i);
             String endNode = vertexes.get(i + 1);
-            String pathInfo = String.format("  %d. Proceed on %s %.0f ft from '%s' towards '%s'.\n",
-                    i + 1,
-                    edgeInfo.get(e.getId()).street,
-                    graph.getEdgeWeight(e),
+            String pathInfo = directionFormatter.buildDirection(i+1,
                     vertexInfo.get(startNode).name,
-                    vertexInfo.get(endNode).name);
+                    vertexInfo.get(endNode).name,
+                    edgeInfo.get(e.getId()).street,
+                    graph.getEdgeWeight(e));
             directionList.add(pathInfo);
         }
         return directionList;
