@@ -39,15 +39,16 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         //initialize recycler/adapter
         this.adapter = new SearchListAdapter();
-        //viewModel.getSearchItems().observe(this, adapter::setSearchItems);
         adapter.setHasStableIds(true);
 
         recyclerView = findViewById(R.id.search_item_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        //Initializes ArrayList which will hold the searched exhibits that are to be displayed
         this.exhibitResults = new ArrayList<>();
 
+        //Grabs the search term, and normalizes it to all lower case
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm").toLowerCase();
 
@@ -79,6 +80,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     void displaySearchResult(String searchTerm) {
         //remove other search results first
         exhibitResults.clear();
+
 
         for (ZooData.VertexInfo exhibit : exhibits.values()) {
             boolean isExhibit = (exhibit.kind == ZooData.VertexInfo.Kind.EXHIBIT);

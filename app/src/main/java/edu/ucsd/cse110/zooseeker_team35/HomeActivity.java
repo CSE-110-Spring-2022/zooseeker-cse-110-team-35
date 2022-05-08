@@ -31,10 +31,12 @@ public class HomeActivity extends AppCompatActivity {
     //functionality when the search button is clicked
     public void onSearchButtonClicked(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
+
         //pass in the searchTerm as an extra to the SearchResultsActivity
         TextView searchTermView = (TextView)findViewById(R.id.search_text);
         String searchTerm = searchTermView.getText().toString();
         intent.putExtra("searchTerm", searchTerm);
+
         startActivity(intent);
         searchTermView.setText("");
     }
