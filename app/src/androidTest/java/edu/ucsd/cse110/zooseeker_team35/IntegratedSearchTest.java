@@ -9,12 +9,23 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+import java.util.Map;
+
 @RunWith(AndroidJUnit4.class)
 public class IntegratedSearchTest {
+
+    @Before
+    public void setZooInfo() {
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(ApplicationProvider.getApplicationContext(), ZooInfoProvider.nodeInfoJSON);
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), ZooInfoProvider.edgeInfoJSON);
+        ZooInfoProvider.setIdVertexMap(vertexInfo);
+        ZooInfoProvider.setIdEdgeMap(edgeInfo);
+    }
 
     @Test
     public void testValidNameSearch() {
