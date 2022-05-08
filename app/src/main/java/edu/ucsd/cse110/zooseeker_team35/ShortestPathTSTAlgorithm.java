@@ -8,10 +8,9 @@ import org.jgrapht.traverse.ClosestFirstIterator;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-public class ZooPathFinder implements PathAlgorithms {
+public class ShortestPathTSTAlgorithm implements PathAlgorithmStrategy {
     @Override
     public List<GraphPath<String, IdentifiedWeightedEdge>> findShortestWeightedPath(Graph<String, IdentifiedWeightedEdge> zooGraph, String start, String end, List<String> selectedExhibits) {
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = new ArrayList<GraphPath<String, IdentifiedWeightedEdge>>();

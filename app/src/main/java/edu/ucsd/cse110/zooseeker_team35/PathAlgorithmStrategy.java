@@ -11,6 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public interface PathAlgorithms {
+public interface PathAlgorithmStrategy {
     List<GraphPath<String, IdentifiedWeightedEdge>> findShortestWeightedPath(Graph<String, IdentifiedWeightedEdge> zooGraph, String start, String end, List<String> selectedExhibits);
 }
