@@ -52,7 +52,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm").toLowerCase();
 
-        this.exhibits = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
+        this.exhibits = ZooData.loadVertexInfoJSON(this, ZooInfoProvider.nodeInfoJSON);
 
         displaySearchResult(searchTerm);
     }

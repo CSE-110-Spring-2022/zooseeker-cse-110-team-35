@@ -1,10 +1,6 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import android.content.Context;
 
@@ -41,5 +37,8 @@ public class ZooDataTester {
         assertEquals(vertexTest.id, "gorillas");
         assertEquals(vertexTest.name, "Gorillas");
         assertEquals(vertexTest.kind, ZooData.VertexInfo.Kind.EXHIBIT);
+
+        ZooData.VertexInfo vertexTest2 = testMap.get("Dinosaurs");
+        assertNull(vertexTest2);
     }
 }
