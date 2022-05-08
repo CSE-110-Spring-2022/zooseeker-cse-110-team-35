@@ -53,7 +53,6 @@ public class ZooInfoProvider{
     }
 
     public static List<ZooData.VertexInfo> getSelectedExhibits(Context context) {
-        //TODO: get the list of ExhibitStatus with isAdded=true
         return getSelectedExhibits(context, ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao());
     }
 
@@ -63,11 +62,20 @@ public class ZooInfoProvider{
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
             if (exhibitStatus.getIsAdded()){
-                selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
+                if (getVertexWithId(exhibitStatus.getId()) != null ){
+                    selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
+                }
             }
         }
         return selectedExhibits;
     }
 
 
+    public static Map<String, ZooData.EdgeInfo> getEdgeMap() {
+        return idEdgeMap;
+    }
+
+    public static Map<String, ZooData.VertexInfo> getVertexMap() {
+        return idVertexMap;
+    }
 }

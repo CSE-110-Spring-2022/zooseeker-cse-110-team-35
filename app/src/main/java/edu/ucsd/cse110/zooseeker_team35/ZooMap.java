@@ -22,9 +22,7 @@ public class ZooMap {
     //TODO: calculate the path that solves the TSP
     List<GraphPath<String, IdentifiedWeightedEdge>> calculatePath(String start, String end, List<String> selectedExhibits) {
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = new ArrayList<GraphPath<String, IdentifiedWeightedEdge>>();
-
         Set<String> targetExhibits = new HashSet<String>(selectedExhibits);
-
         String pathStart = start;
         while(!targetExhibits.isEmpty()){
             ClosestFirstIterator graphIterator = new ClosestFirstIterator(zooGraph, pathStart);
