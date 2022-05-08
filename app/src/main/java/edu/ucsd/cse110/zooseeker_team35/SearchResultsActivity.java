@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchResultsActivity extends AppCompatActivity {
-    private Map<String, ZooData.VertexInfo> exhibits;
+    //private Map<String, ZooData.VertexInfo> exhibits;
+    private List<ZooData.VertexInfo> exhibits;
     private List<ZooData.VertexInfo> exhibitResults;
     private Button searchBtn2;
     private EditText searchBar;
@@ -52,7 +53,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm").toLowerCase();
 
-        this.exhibits = ZooInfoProvider.getIdVertexMap();
+        this.exhibits = ZooInfoProvider.getExhibits();
 
         displaySearchResult(searchTerm);
     }
@@ -63,9 +64,14 @@ public class SearchResultsActivity extends AppCompatActivity {
         TextView noResultsFound = this.findViewById(R.id.no_results_msg);
         noResultsFound.setVisibility(View.INVISIBLE);
 
-        //searches for new search result
+        //Gets the new search results
         String searchTerm = searchBar.getText().toString();
-        //sets no result back to visible if not found
+
+        /*
+        Uses some code from
+        https://stackoverflow.com/questions/1397361/how-to-restart-activity-in-android
+        Concerning how to "restart" an activity without screen flickering
+         */
         getIntent().putExtra("searchTerm", searchTerm);
         finish();
         overridePendingTransition(0, 0);
@@ -81,21 +87,19 @@ public class SearchResultsActivity extends AppCompatActivity {
         //remove other search results first
         exhibitResults.clear();
 
-
-        for (ZooData.VertexInfo exhibit : exhibits.values()) {
-            boolean isExhibit = (exhibit.kind == ZooData.VertexInfo.Kind.EXHIBIT);
-            if (exhibit.name.toLowerCase().contains(searchTerm) && isExhibit) {
+        for(ZooData.VertexInfo exhibit : exhibits) {
+            if (exhibit.name.toLowerCase().contains(searchTerm)) {
                 exhibitResults.add(exhibit);
             }
-            else {
+            else
                 for(String tag : exhibit.tags) {
-                    if(tag.toLowerCase().contains(searchTerm) && isExhibit) {
+                    if(tag.toLowerCase().contains(searchTerm)) {
                         exhibitResults.add(exhibit);
                         break;
                     }
                 }
-            }
         }
+
 
         if(exhibitResults.isEmpty()) {
             searchFail();

@@ -3,6 +3,7 @@ package edu.ucsd.cse110.zooseeker_team35;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class ZooInfoProvider{
                 exhibits.add(vertex);
             }
         }
+
+        exhibits.sort(Comparator.comparing(v -> v.name));
+
         ZooInfoProvider.setVertexes(vertexes);
         ZooInfoProvider.setExhibits(exhibits);
     }
