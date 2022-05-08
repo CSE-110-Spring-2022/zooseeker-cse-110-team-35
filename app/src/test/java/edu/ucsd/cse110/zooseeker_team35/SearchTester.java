@@ -25,6 +25,13 @@ import java.util.Map;
 @RunWith(AndroidJUnit4.class)
 public class SearchTester {
 
+    @Before
+    public void setZooInfo() {
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(ApplicationProvider.getApplicationContext(), ZooInfoProvider.nodeInfoJSON);
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), ZooInfoProvider.edgeInfoJSON);
+        ZooInfoProvider.setIdVertexMap(vertexInfo);
+        ZooInfoProvider.setIdEdgeMap(edgeInfo);
+    }
     //Checks when user searches up an exhibit that doesn't exist
     @Test
     public void invalidSearchTest() {
@@ -52,7 +59,7 @@ public class SearchTester {
             scenario.onActivity(activity -> {
                 SearchListAdapter adapter = new SearchListAdapter();
                 Map<String, ZooData.VertexInfo> exhibits =
-                        ZooData.loadVertexInfoJSON(activity, "sample_node_info.json");
+                        ZooData.loadVertexInfoJSON(activity, ZooInfoProvider.nodeInfoJSON);
                 Bundle b = intent.getExtras();
                 String searchResult = b.getString("searchTerm");
                 assertEquals(searchResult, "gorillas");
