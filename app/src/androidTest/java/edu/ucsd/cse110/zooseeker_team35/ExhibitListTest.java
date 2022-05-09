@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.room.Room;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -172,6 +173,8 @@ public class ExhibitListTest {
     }
     @Test
     public void removeExhibitsTest() {
+        ActivityScenario.launch(MainActivity.class);
+
         ViewInteraction textView = onView(
                 allOf(withId(R.id.no_exhibit), withText("No Exhibits Added"),
                         withParent(withParent(withId(android.R.id.content))),

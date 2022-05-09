@@ -37,7 +37,6 @@ public class ExhibitsAdapter extends RecyclerView.Adapter<ExhibitsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setExhibits(exhibits.get(position));
-        holder.setIsRecyclable(false);
     }
 
     @Override
