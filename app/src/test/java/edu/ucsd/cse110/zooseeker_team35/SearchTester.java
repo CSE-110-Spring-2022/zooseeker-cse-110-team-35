@@ -48,30 +48,4 @@ public class SearchTester {
         }
     }
 
-    @Test
-    public void validSearchTest() {
-        //Intent intent = new Intent(SearchResultsActivity.class);
-        Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
-                SearchResultsActivity.class);
-        intent.putExtra("searchTerm", "gorillas");
-        try(ActivityScenario<SearchResultsActivity> scenario =
-                    ActivityScenario.launch(intent)) {
-            scenario.onActivity(activity -> {
-                SearchListAdapter adapter = new SearchListAdapter();
-                Map<String, ZooData.VertexInfo> exhibits =
-                        ZooData.loadVertexInfoJSON(activity, ZooInfoProvider.nodeInfoJSON);
-                Bundle b = intent.getExtras();
-                String searchResult = b.getString("searchTerm");
-                assertEquals(searchResult, "gorillas");
-
-                ZooData.VertexInfo exhibit = exhibits.get(searchResult);
-                List<ZooData.VertexInfo> exhibitResults = new ArrayList<>();
-                exhibitResults.add(exhibit);
-                adapter.setSearchItems(exhibitResults);
-                assertEquals(1, adapter.getItemCount());
-                assertEquals(adapter.getId(0), "gorillas");
-            });
-        }
-    }
-
 }

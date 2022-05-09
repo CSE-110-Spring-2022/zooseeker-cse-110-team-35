@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
 import android.content.Intent;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.lifecycle.Lifecycle;
@@ -45,6 +46,9 @@ public class IntegratedSearchTest {
             TextView resultView = firstVH.itemView.findViewById(R.id.search_item_text);
             String resultText = resultView.getText().toString();
             assertEquals(resultText, "Gorillas");
+
+            TextView noResultsView = activity.findViewById(R.id.no_results_msg);
+            assertEquals(noResultsView.getVisibility(), View.INVISIBLE);
         });
     }
 
@@ -62,7 +66,7 @@ public class IntegratedSearchTest {
             RecyclerView recyclerView = activity.recyclerView;
             TextView noResultsView = activity.findViewById(R.id.no_results_msg);
             RecyclerView.ViewHolder firstVH = recyclerView.findViewHolderForAdapterPosition(0);
-            assertEquals(noResultsView.getVisibility(), 0);
+            assertEquals(noResultsView.getVisibility(), View.VISIBLE);
 
             assertNull(firstVH);
         });
