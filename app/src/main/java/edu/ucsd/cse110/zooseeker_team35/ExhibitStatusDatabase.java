@@ -3,6 +3,7 @@ package edu.ucsd.cse110.zooseeker_team35;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -24,6 +25,14 @@ public abstract class ExhibitStatusDatabase extends RoomDatabase {
             singleton = ExhibitStatusDatabase.makeDatabase(context);
         }
         return singleton;
+    }
+
+    @VisibleForTesting
+    public static void injectTestDatabase(ExhibitStatusDatabase testDatabase){
+        if (singleton != null){
+            singleton.close();
+        }
+        singleton = testDatabase;
     }
 
     private static ExhibitStatusDatabase makeDatabase(Context context) {

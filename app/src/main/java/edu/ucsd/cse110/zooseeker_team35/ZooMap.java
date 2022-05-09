@@ -23,5 +23,6 @@ public class ZooMap {
 
     public List<GraphPath<String, IdentifiedWeightedEdge>> calculatePath(String start, String end, List<String> selectedExhibits) {
         return pathAlgorithm.findShortestWeightedPath(zooGraph, start, end, selectedExhibits);
+
     }
 }

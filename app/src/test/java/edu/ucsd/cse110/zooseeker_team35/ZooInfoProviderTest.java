@@ -53,13 +53,14 @@ public class ZooInfoProviderTest {
 
     @Test
     public void testGetSelectedExhibits(){
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", true);
+        ExhibitStatus test1 = new ExhibitStatus("gators", true);
         ExhibitStatus test2 = new ExhibitStatus("gorillas", false);
         ExhibitStatus test3 = new ExhibitStatus("arctic_foxes", true);
         dao.insert(test1);
         dao.insert(test2);
         dao.insert(test3);
         List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits(context, dao);
+
         assertEquals(selectedExhibits.size(), 2);
         assertTrue(selectedExhibits.contains(ZooInfoProvider.getVertexWithId(test1.getId())));
         assertTrue(selectedExhibits.contains(ZooInfoProvider.getVertexWithId(test3.getId())));

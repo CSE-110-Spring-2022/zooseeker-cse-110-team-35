@@ -17,6 +17,8 @@ public class HomeActivity extends AppCompatActivity {
     private List<ZooData.VertexInfo> exhibits;
     private ExhibitsAdapter adapter;
     private TextView tv;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +27,19 @@ public class HomeActivity extends AppCompatActivity {
         //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
         //      and display them in a recyclerView
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
+
         ExhibitListViewModel viewModel = new ViewModelProvider(this)
                 .get(ExhibitListViewModel.class);
+
         adapter = new ExhibitsAdapter();
         //viewModel.getExhibits().observe(this, adapter::setExhibits);
         adapter.setHasStableIds(true);
         recyclerView = findViewById(R.id.added_exhibits_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+
         tv = (TextView) findViewById(R.id.no_exhibit);
-        //trying to display the message: "No Exhibit is added when the recyclerview is empty but this crashes the app"
+
         updateDisplay();
     }
 
@@ -47,10 +52,12 @@ public class HomeActivity extends AppCompatActivity {
     //functionality when the search button is clicked
     public void onSearchButtonClicked(View view) {
         Intent intent = new Intent(this, SearchResultsActivity.class);
+
         //pass in the searchTerm as an extra to the SearchResultsActivity
         TextView searchTermView = (TextView)findViewById(R.id.search_text);
         String searchTerm = searchTermView.getText().toString();
         intent.putExtra("searchTerm", searchTerm);
+
         startActivity(intent);
         searchTermView.setText("");
     }
@@ -60,7 +67,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
         updateDisplay();
-        System.out.println("resumed: " + exhibits.size());
     }
 
     public void updateDisplay() {
