@@ -13,12 +13,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.filters.LargeTest;
@@ -28,13 +31,46 @@ import androidx.test.runner.AndroidJUnit4;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UI_SearchResultSuggestions {
+
+    private ExhibitStatusDatabase testDb;
+
+    @Before
+    public void createDb() {
+        Context context = ApplicationProvider.getApplicationContext();
+        testDb = Room.inMemoryDatabaseBuilder(context, ExhibitStatusDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        ExhibitStatusDatabase.injectTestDatabase(testDb);
+
+        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON(context,"sample_node_info.json");
+        List<ExhibitStatus> exhibitStatuses = new ArrayList<>();
+        for(String id : vertices.keySet()) {
+            if(vertices.get(id).kind == ZooData.VertexInfo.Kind.EXHIBIT) {
+                exhibitStatuses.add(new ExhibitStatus(id, false));
+            }
+        }
+        ExhibitStatusDao exhibitStatusDao = testDb.exhibitStatusDao();
+        exhibitStatusDao.insertAll(exhibitStatuses);
+    }
+
+    @After
+    public void closeDb() throws IOException {
+        testDb.close();
+    }
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
