@@ -16,7 +16,9 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<ZooData.VertexInfo> exhibits;
     private ExhibitsAdapter adapter;
-    private TextView tv;
+    private TextView noExhibitsTextView;
+    private TextView exhibitsCountTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +35,9 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.added_exhibits_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        tv = (TextView) findViewById(R.id.no_exhibit);
-        //trying to display the message: "No Exhibit is added when the recyclerview is empty but this crashes the app"
+        noExhibitsTextView = (TextView) findViewById(R.id.no_exhibit);
+        exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
+
         updateDisplay();
     }
 
@@ -67,10 +70,13 @@ public class HomeActivity extends AppCompatActivity {
 
     public void updateDisplay() {
         if (exhibits.isEmpty()) {
-            tv.setVisibility(View.VISIBLE);
+            noExhibitsTextView.setVisibility(View.VISIBLE);
+            exhibitsCountTextView.setVisibility(View.INVISIBLE);
         }
         else {
-            tv.setVisibility(View.INVISIBLE);
+            noExhibitsTextView.setVisibility(View.INVISIBLE);
+            exhibitsCountTextView.setVisibility(View.VISIBLE);
+            exhibitsCountTextView.setText(Integer.toString(exhibits.size()));
         }
         adapter.setExhibits(exhibits);
     }
