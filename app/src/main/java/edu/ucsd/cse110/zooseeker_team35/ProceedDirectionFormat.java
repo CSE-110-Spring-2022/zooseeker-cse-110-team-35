@@ -1,4 +1,6 @@
 package edu.ucsd.cse110.zooseeker_team35;
+
+// Formats a String direction using the Proceed on `streetname` `distance` feet form `start` towards `end`
 public class ProceedDirectionFormat implements DirectionFormatStrategy{
 
     @Override

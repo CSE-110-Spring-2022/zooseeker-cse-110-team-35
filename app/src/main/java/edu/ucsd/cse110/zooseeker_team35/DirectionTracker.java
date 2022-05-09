@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-//TODO: implemnet DirectionTracker such that nextExhibit moves to the next exhibit,
+//      DirectionTracker has methods nextExhibit, prevExhibit such that nextExhibit moves to the next exhibit,
 //      prevExhibit moves to the previous exhibit, and getDirectionsToCurrentExhibit()
-//      returns the list of edges for the current exhibit
+//      returns the list of edges for the current exhibit,
+//      DirectionTracker will be used to keep track of the current exhibit we are getting directions to
 public class DirectionTracker implements Serializable {
     static int currentExhibit;
     static List<GraphPath<String, IdentifiedWeightedEdge>> pathList;
@@ -49,7 +50,8 @@ public class DirectionTracker implements Serializable {
             IdentifiedWeightedEdge e = edges.get(i);
             String startNode = vertexes.get(i);
             String endNode = vertexes.get(i + 1);
-            String pathInfo = directionFormatter.buildDirection(i+1,
+            String pathInfo = directionFormatter.buildDirection(
+                    i+1,
                     vertexInfo.get(startNode).name,
                     vertexInfo.get(endNode).name,
                     edgeInfo.get(e.getId()).street,

@@ -8,6 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/*
+A static class that contains information about the exhibits at the Zoo
+with methods to get the vertex list, edge list, exhibit list and the list of
+selected vertexes
+ */
+
 public class ZooInfoProvider{
     private static ExhibitStatusDao dao;
     public static String edgeInfoJSON = "sample_edge_info.json";

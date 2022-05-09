@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+
 public class PlanResultsActivity extends AppCompatActivity {
 
     @Override
@@ -23,7 +24,7 @@ public class PlanResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_results);
 
-        Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), "sample_zoo_graph.json");
+        Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), ZooInfoProvider.zooGraphJSON);
         ZooMap zooMap = new ZooMap(zooGraph);
         List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits(this.getApplicationContext());
         List<String> targetExhibits = new LinkedList<>();
