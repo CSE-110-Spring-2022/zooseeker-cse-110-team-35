@@ -18,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     private ExhibitsAdapter adapter;
     private TextView tv;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
         updateDisplay();
-        System.out.println("resumed: " + exhibits.size());
     }
 
     public void updateDisplay() {

@@ -61,7 +61,7 @@ public class ZooInfoProvider{
         List<ExhibitStatus> exhibitStatuses = dao.getAdded(true);
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
-            if (exhibitStatus.getIsAdded()){
+            if (exhibitStatus.isAdded){
                 if (getVertexWithId(exhibitStatus.getId()) != null ){
                     selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
                 }
