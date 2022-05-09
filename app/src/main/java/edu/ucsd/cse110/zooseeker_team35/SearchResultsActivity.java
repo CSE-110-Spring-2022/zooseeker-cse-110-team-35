@@ -52,6 +52,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         Bundle extra = getIntent().getExtras();
         String searchTerm = extra.getString("searchTerm").toLowerCase();
 
+
         this.exhibits = ZooInfoProvider.getExhibits();
 
         displaySearchResult(searchTerm);
