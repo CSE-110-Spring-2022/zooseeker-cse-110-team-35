@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchResultsActivity extends AppCompatActivity {
-    private Map<String, ZooData.VertexInfo> exhibits;
+    private List<ZooData.VertexInfo> exhibits;
     private List<ZooData.VertexInfo> exhibitResults;
     private Button searchBtn2;
     private EditText searchBar;
@@ -39,30 +39,23 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         //initialize recycler/adapter
         this.adapter = new SearchListAdapter();
-        //viewModel.getSearchItems().observe(this, adapter::setSearchItems);
         adapter.setHasStableIds(true);
 
         recyclerView = findViewById(R.id.search_item_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        //Initializes ArrayList which will hold the searched exhibits that are to be displayed
         this.exhibitResults = new ArrayList<>();
 
+        //Grabs the search term, and normalizes it to all lower case
         Bundle extra = getIntent().getExtras();
-        String searchTerm = extra.getString("searchTerm");
+        String searchTerm = extra.getString("searchTerm").toLowerCase();
 
-        this.exhibits = ZooData.loadVertexInfoJSON(this, "sample_node_info.json");
 
-        ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
-        Log.d("searchTerm", "The Search Term is: " + searchTerm);
-        searchBar.setText(searchTerm);
-        if(searchResult == null || searchResult.kind != ZooData.VertexInfo.Kind.EXHIBIT) {
-            this.searchFail();
-        }
-        else{
-            this.displaySearchResult(searchResult);
-        }
+        this.exhibits = ZooInfoProvider.getExhibits();
 
+        displaySearchResult(searchTerm);
     }
 
     void onSearchButton2Clicked(View view){
@@ -71,34 +64,53 @@ public class SearchResultsActivity extends AppCompatActivity {
         TextView noResultsFound = this.findViewById(R.id.no_results_msg);
         noResultsFound.setVisibility(View.INVISIBLE);
 
-        //searches for new search result
+        //Gets the new search results
         String searchTerm = searchBar.getText().toString();
-        ZooData.VertexInfo searchResult = exhibits.get(searchTerm);
-        //sets no result back to visible if not found
-        if(searchResult == null) {
-            this.searchFail();
-        }
-        else{
-            getIntent().putExtra("searchTerm", searchTerm);
-            finish();
-            overridePendingTransition(0, 0);
-            startActivity(getIntent());
-            overridePendingTransition(0, 0);
-        }
+
+        /*
+        Uses some code from
+        https://stackoverflow.com/questions/1397361/how-to-restart-activity-in-android
+        Concerning how to "restart" an activity without screen flickering
+         */
+        getIntent().putExtra("searchTerm", searchTerm);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 
     void onBackButtonClicked(View view){
         finish();
     }
 
-    void displaySearchResult(ZooData.VertexInfo exhibit){
+    void displaySearchResult(String searchTerm) {
         //remove other search results first
         exhibitResults.clear();
-        //show result
-        exhibitResults.add(exhibit);
-        adapter.setSearchItems(exhibitResults);
+
+        //Adds all exhibits which contain the search term in either their name or tags
+        for(ZooData.VertexInfo exhibit : exhibits) {
+            if (exhibit.name.toLowerCase().contains(searchTerm)) {
+                exhibitResults.add(exhibit);
+            }
+            else
+                for(String tag : exhibit.tags) {
+                    if(tag.toLowerCase().contains(searchTerm)) {
+                        exhibitResults.add(exhibit);
+                        break;
+                    }
+                }
+        }
+
+        if(exhibitResults.isEmpty()) {
+            searchFail();
+        }
+        else {
+            adapter.setSearchItems(exhibitResults);
+            searchBar.setText(searchTerm);
+        }
     }
 
+    //RecyclerView is updated with an empty list and show no results message
     void searchFail(){
         exhibitResults.clear();
         adapter.notifyDataSetChanged();
