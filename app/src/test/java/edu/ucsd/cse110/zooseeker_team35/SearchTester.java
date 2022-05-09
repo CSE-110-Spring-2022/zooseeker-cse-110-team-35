@@ -32,6 +32,7 @@ public class SearchTester {
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
     }
+
     //Checks when user searches up an exhibit that doesn't exist
     @Test
     public void invalidSearchTest() {

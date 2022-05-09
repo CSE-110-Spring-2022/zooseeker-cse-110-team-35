@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchResultsActivity extends AppCompatActivity {
-    //private Map<String, ZooData.VertexInfo> exhibits;
     private List<ZooData.VertexInfo> exhibits;
     private List<ZooData.VertexInfo> exhibitResults;
     private Button searchBtn2;
@@ -87,6 +86,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         //remove other search results first
         exhibitResults.clear();
 
+        //Adds all exhibits which contain the search term in either their name or tags
         for(ZooData.VertexInfo exhibit : exhibits) {
             if (exhibit.name.toLowerCase().contains(searchTerm)) {
                 exhibitResults.add(exhibit);
@@ -100,7 +100,6 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
         }
 
-
         if(exhibitResults.isEmpty()) {
             searchFail();
         }
@@ -110,6 +109,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
+    //RecyclerView is updated with an empty list and show no results message
     void searchFail(){
         exhibitResults.clear();
         adapter.notifyDataSetChanged();
