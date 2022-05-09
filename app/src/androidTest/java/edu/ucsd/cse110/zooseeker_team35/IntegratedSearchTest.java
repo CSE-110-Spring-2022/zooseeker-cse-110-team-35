@@ -1,24 +1,32 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class IntegratedSearchTest {
+
+    private ExhibitStatusDatabase testDb;
 
     @Before
     public void setZooInfo() {
@@ -26,6 +34,27 @@ public class IntegratedSearchTest {
         Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), ZooInfoProvider.edgeInfoJSON);
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
+
+        Context context = ApplicationProvider.getApplicationContext();
+        testDb = Room.inMemoryDatabaseBuilder(context, ExhibitStatusDatabase.class)
+                .allowMainThreadQueries()
+                .build();
+        ExhibitStatusDatabase.injectTestDatabase(testDb);
+
+        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON(context,"sample_node_info.json");
+        List<ExhibitStatus> exhibitStatuses = new ArrayList<>();
+        for(String id : vertices.keySet()) {
+            if(vertices.get(id).kind == ZooData.VertexInfo.Kind.EXHIBIT) {
+                exhibitStatuses.add(new ExhibitStatus(id, false));
+            }
+        }
+        ExhibitStatusDao exhibitStatusDao = testDb.exhibitStatusDao();
+        exhibitStatusDao.insertAll(exhibitStatuses);
+    }
+
+    @After
+    public void closeDb() throws IOException {
+        testDb.close();
     }
 
     @Test
