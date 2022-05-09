@@ -211,46 +211,6 @@ public class ExhibitListTest {
                         isDisplayed()));
         materialCheckBox.perform(click());
 
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.search_bar_2), withText("lion"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText("elephant"));
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.search_bar_2), withText("elephant"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText3.perform(closeSoftKeyboard());
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.search_btn_2), withText("Search"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton2.perform(click());
-
-        ViewInteraction materialCheckBox2 = onView(
-                allOf(withId(R.id.checkBox),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.search_item_recycler),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialCheckBox2.perform(click());
-
         ViewInteraction materialTextView = onView(
                 allOf(withId(R.id.back_btn),
                         childAtPosition(
@@ -351,12 +311,6 @@ public class ExhibitListTest {
                         isDisplayed()));
         materialTextView3.perform(click());
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.exhibit_item_text), withText("Elephant Odyssey"),
-                        withParent(withParent(withId(R.id.added_exhibits_recycler))),
-                        isDisplayed()));
-        textView2.check(matches(withText("Elephant Odyssey")));
-
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.exhibit_item_text), withText("Gorillas"),
                         withParent(withParent(withId(R.id.added_exhibits_recycler))),
@@ -364,10 +318,10 @@ public class ExhibitListTest {
         textView3.check(matches(withText("Gorillas")));
 
         ViewInteraction textView4 = onView(
-                allOf(withId(R.id.exhibit_count), withText("2"),
+                allOf(withId(R.id.exhibit_count), withText("1"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView4.check(matches(withText("2")));
+        textView4.check(matches(withText("1")));
 
         ViewInteraction appCompatEditText7 = onView(
                 allOf(withId(R.id.search_text),
@@ -379,45 +333,6 @@ public class ExhibitListTest {
                         isDisplayed()));
         appCompatEditText7.perform(click());
 
-        ViewInteraction appCompatEditText8 = onView(
-                allOf(withId(R.id.search_text),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        appCompatEditText8.perform(replaceText("elephant"), closeSoftKeyboard());
-
-        ViewInteraction materialButton5 = onView(
-                allOf(withId(R.id.search_btn), withText("Search"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton5.perform(click());
-
-        ViewInteraction materialCheckBox5 = onView(
-                allOf(withId(R.id.checkBox),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.search_item_recycler),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialCheckBox5.perform(click());
-
-        ViewInteraction materialTextView4 = onView(
-                allOf(withId(R.id.back_btn),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
-                        isDisplayed()));
-        materialTextView4.perform(click());
 
         ViewInteraction appCompatEditText9 = onView(
                 allOf(withId(R.id.search_text),
