@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,15 +34,19 @@ public class PlanResultsActivity extends AppCompatActivity {
         DirectionTracker.initialize(zooGraph, pathList);
 
         //TODO: display the results of the plan in a recyclerView
-        StringBuilder results = new StringBuilder();
-        results.append(pathList.get(0).getStartVertex()).append("\n\n");
+        List<String> planSummary = new ArrayList<>();
+        planSummary.add(ZooInfoProvider.getVertexWithId(pathList.get(0).getStartVertex()).name + "\n\n");
         double distance = 0;
         for (GraphPath<String, IdentifiedWeightedEdge> path : pathList){
             distance += path.getWeight();
-            results.append(path.getEndVertex()).append(" - ").append(distance).append(" feet away \n\n");
+            planSummary.add( ZooInfoProvider.getVertexWithId(path.getEndVertex()).name + " - " + distance + " feet away \n\n");
         }
-        TextView textView = findViewById(R.id.plan_results);
-        textView.setText(results.toString());
+        ListView listView = findViewById(R.id.plan_summary);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                planSummary);
+        listView.setAdapter(adapter);
+
     }
 
     //

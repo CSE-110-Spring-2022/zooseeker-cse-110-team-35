@@ -16,7 +16,8 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<ZooData.VertexInfo> exhibits;
     private ExhibitsAdapter adapter;
-    private TextView tv;
+    private TextView noExhibitsTextView;
+    private TextView exhibitsCountTextView;
 
 
     @Override
@@ -38,15 +39,18 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        tv = (TextView) findViewById(R.id.no_exhibit);
+        noExhibitsTextView = (TextView) findViewById(R.id.no_exhibit);
+        exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
 
         updateDisplay();
     }
 
     //functionality when the plan button is clicked
     public void onPlanButtonClicked(View view) {
-        Intent intent = new Intent(this, PlanResultsActivity.class);
-        startActivity(intent);
+        if (exhibits.size() > 0){
+            Intent intent = new Intent(this, PlanResultsActivity.class);
+            startActivity(intent);
+        }
     }
 
     //functionality when the search button is clicked
@@ -71,10 +75,13 @@ public class HomeActivity extends AppCompatActivity {
 
     public void updateDisplay() {
         if (exhibits.isEmpty()) {
-            tv.setVisibility(View.VISIBLE);
+            noExhibitsTextView.setVisibility(View.VISIBLE);
+            exhibitsCountTextView.setVisibility(View.INVISIBLE);
         }
         else {
-            tv.setVisibility(View.INVISIBLE);
+            noExhibitsTextView.setVisibility(View.INVISIBLE);
+            exhibitsCountTextView.setVisibility(View.VISIBLE);
+            exhibitsCountTextView.setText(Integer.toString(exhibits.size()));
         }
         adapter.setExhibits(exhibits);
     }
