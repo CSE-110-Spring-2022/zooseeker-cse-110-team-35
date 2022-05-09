@@ -33,6 +33,7 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setExhibits(directions.get(position));
+        holder.setIsRecyclable(false);
     }
 
     @Override
