@@ -31,6 +31,7 @@ public class PlanResultsActivity extends AppCompatActivity {
             targetExhibits.add(vertex.id);
         }
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        DirectionTracker.initialize(zooGraph, pathList);
 
         //TODO: display the results of the plan in a recyclerView
         List<String> planSummary = new ArrayList<>();
@@ -51,7 +52,6 @@ public class PlanResultsActivity extends AppCompatActivity {
     //
     public void onDirectionsButtonClicked(View view) {
         Intent intent = new Intent(this, DirectionsActivity.class);
-        //TODO: either pass in the DirectionTracker to DirectionsActivity or use singleton pattern
         startActivity(intent);
     }
 }

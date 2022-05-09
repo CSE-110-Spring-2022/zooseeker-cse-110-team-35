@@ -109,7 +109,6 @@ public class ZooData {
         try {
             InputStream input = context.getAssets().open(path);
             Reader reader = new InputStreamReader(input);
-
             // And now we just import it!
             importer.importGraph(g, reader);
 

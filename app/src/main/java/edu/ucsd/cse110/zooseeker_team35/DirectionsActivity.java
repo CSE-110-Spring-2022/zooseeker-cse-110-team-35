@@ -1,10 +1,20 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class DirectionsActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    DirectionsAdapter adapter;
+    TextView exhibitName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,6 +22,31 @@ public class DirectionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_directions);
 
         //TODO: display the current exhibit's name, then directions to that exhibit
+        DirectionTracker.getDirectionsToCurrentExhibit();
+        exhibitName = findViewById(R.id.exhibit_name);
+        exhibitName.setText(DirectionTracker.getCurrentExhibit());
 
+        adapter = new DirectionsAdapter();
+        adapter.setHasStableIds(true);
+        recyclerView = findViewById(R.id.directions_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        updateDisplay();
+    }
+
+    public void onPrevButtonClicked(View view) {
+        DirectionTracker.prevExhibit();
+        updateDisplay();
+    }
+
+    public void onNextButtonClicked(View view) {
+        DirectionTracker.nextExhibit();
+        updateDisplay();
+    }
+
+    private void updateDisplay() {
+        exhibitName.setText(DirectionTracker.getCurrentExhibit());
+        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit());
     }
 }
