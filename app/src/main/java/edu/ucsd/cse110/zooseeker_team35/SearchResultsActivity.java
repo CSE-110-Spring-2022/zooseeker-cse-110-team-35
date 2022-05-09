@@ -87,6 +87,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         //remove other search results first
         exhibitResults.clear();
 
+        System.out.println("Exhibits: ");
+        for (ZooData.VertexInfo search : exhibits){
+            System.out.println(search.name);
+        }
+
         //Adds all exhibits which contain the search term in either their name or tags
         for(ZooData.VertexInfo exhibit : exhibits) {
             if (exhibit.name.toLowerCase().contains(searchTerm)) {
@@ -99,6 +104,11 @@ public class SearchResultsActivity extends AppCompatActivity {
                         break;
                     }
                 }
+        }
+
+        System.out.println("Search Results: ");
+        for (ZooData.VertexInfo search : exhibitResults){
+            System.out.println(search.name);
         }
 
         if(exhibitResults.isEmpty()) {

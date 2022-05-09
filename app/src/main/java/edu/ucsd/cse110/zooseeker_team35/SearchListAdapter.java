@@ -31,9 +31,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         return new ViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setSearchItem(searchItems.get(position));
+        holder.setIsRecyclable(false);
     }
 
     @Override
@@ -48,7 +50,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         searchItems.add(exhibit);
         notifyItemInserted(searchItems.size() - 1);
     }
-
  */
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,6 +66,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
             checkBox.setOnClickListener(view -> {
                 ExhibitStatus exhibitStatus = dao.get(searchItem.id);
+                System.out.println(searchItem.id + "added");
                 exhibitStatus.setIsAdded(checkBox.isChecked());
                 dao.update(exhibitStatus);
             });

@@ -3,7 +3,6 @@ package edu.ucsd.cse110.zooseeker_team35;
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
-import java.nio.file.Path;
 import java.util.List;
 
 public class ZooMap {
@@ -12,7 +11,7 @@ public class ZooMap {
     PathAlgorithmStrategy pathAlgorithm;
 
     ZooMap(Graph<String, IdentifiedWeightedEdge> zooGraph) {
-        pathAlgorithm = new ShortestPathTSTAlgorithm();
+        pathAlgorithm = new ShortestPathTSAlgorithm();
         this.zooGraph = zooGraph;
     }
 

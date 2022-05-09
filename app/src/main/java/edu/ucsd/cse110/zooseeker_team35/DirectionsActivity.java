@@ -21,17 +21,13 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
 
-        //TODO: display the current exhibit's name, then directions to that exhibit
-        DirectionTracker.getDirectionsToCurrentExhibit();
         exhibitName = findViewById(R.id.exhibit_name);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-
         adapter = new DirectionsAdapter();
         adapter.setHasStableIds(true);
         recyclerView = findViewById(R.id.directions_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-
         updateDisplay();
     }
 
@@ -45,6 +41,7 @@ public class DirectionsActivity extends AppCompatActivity {
         updateDisplay();
     }
 
+    //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
         adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit());
