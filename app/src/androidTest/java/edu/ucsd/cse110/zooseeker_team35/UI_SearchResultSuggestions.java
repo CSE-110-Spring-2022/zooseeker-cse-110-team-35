@@ -129,6 +129,70 @@ public class UI_SearchResultSuggestions {
                 .check(matches(recyclerViewSize(0)));
     }
 
+    @Test
+    public void searchButton2Test() {
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.search_btn), withText("Search"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        materialButton.perform(click());
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(0, hasDescendant(withText("Alligators")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(1, hasDescendant(withText("Arctic Foxes")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(2, hasDescendant(withText("Elephant Odyssey")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(3, hasDescendant(withText("Gorillas")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(4, hasDescendant(withText("Lions")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(recyclerViewSize(5)));
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.search_bar_2),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                1),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("monkey"), closeSoftKeyboard());
+
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(R.id.search_btn_2), withText("Search"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        materialButton2.perform(click());
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(atPosition(0, hasDescendant(withText("Gorillas")))));
+
+        ViewInteraction materialTextView = onView(
+                allOf(withId(R.id.back_btn),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                3),
+                        isDisplayed()));
+        materialTextView.perform(click());
+    }
+
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
