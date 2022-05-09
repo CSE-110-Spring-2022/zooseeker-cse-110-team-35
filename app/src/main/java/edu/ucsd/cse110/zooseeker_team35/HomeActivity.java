@@ -37,14 +37,15 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         noExhibitsTextView = (TextView) findViewById(R.id.no_exhibit);
         exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
-
         updateDisplay();
     }
 
     //functionality when the plan button is clicked
     public void onPlanButtonClicked(View view) {
-        Intent intent = new Intent(this, PlanResultsActivity.class);
-        startActivity(intent);
+        if (exhibits.size() > 0){
+            Intent intent = new Intent(this, PlanResultsActivity.class);
+            startActivity(intent);
+        }
     }
 
     //functionality when the search button is clicked
