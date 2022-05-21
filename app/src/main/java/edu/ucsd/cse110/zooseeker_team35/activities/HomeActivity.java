@@ -29,8 +29,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
-        //      and display them in a recyclerView
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
 
         adapter = new ExhibitsAdapter();

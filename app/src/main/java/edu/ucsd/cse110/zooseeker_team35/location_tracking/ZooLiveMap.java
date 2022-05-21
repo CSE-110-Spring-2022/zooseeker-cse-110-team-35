@@ -7,9 +7,9 @@ import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 //TODO: implement the ZooLiveMap class
 public class ZooLiveMap{
-    LocationProvider userLocationProvider;
+    LocationSubject userLocationProvider;
 
-    public ZooLiveMap(LocationProvider userLocationProvider) {
+    public ZooLiveMap(LocationSubject userLocationProvider) {
         this.userLocationProvider = userLocationProvider;
     }
 
@@ -18,6 +18,7 @@ public class ZooLiveMap{
         return null;
     }
 
+    //TODO: return whether we have the current location of user
     public boolean hasLiveData() {
         return false;
     }

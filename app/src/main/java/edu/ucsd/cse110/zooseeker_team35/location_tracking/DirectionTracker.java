@@ -73,6 +73,7 @@ public class DirectionTracker{
         return directionList;
     }
 
+    //TODO: get the directions to current exhibit from the current location using zooLiveMap's getClosestVertex method
     public static List<String> getDirectionsToCurrentExhibit(ZooLiveMap zooLiveMap){
         if (!zooLiveMap.hasLiveData()){
             return getDirectionsToCurrentExhibit();
@@ -83,7 +84,7 @@ public class DirectionTracker{
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         List<String> vertexes = path.getVertexList();
 
-        return null;
+        return directionList;
     }
 
     public static String getCurrentExhibit() {
