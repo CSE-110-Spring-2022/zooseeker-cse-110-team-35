@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.ExhibitListViewModel;
-import edu.ucsd.cse110.zooseeker_team35.ExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.R;
 import edu.ucsd.cse110.zooseeker_team35.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;

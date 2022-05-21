@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +12,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker_team35.R;
-import edu.ucsd.cse110.zooseeker_team35.SearchListAdapter;
+import edu.ucsd.cse110.zooseeker_team35.adapters.SearchListAdapter;
 import edu.ucsd.cse110.zooseeker_team35.SearchListViewModel;
 import edu.ucsd.cse110.zooseeker_team35.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;

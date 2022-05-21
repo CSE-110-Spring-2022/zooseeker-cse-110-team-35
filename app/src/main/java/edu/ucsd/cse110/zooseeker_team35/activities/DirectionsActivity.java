@@ -4,16 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import edu.ucsd.cse110.zooseeker_team35.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.DirectionTracker;
-import edu.ucsd.cse110.zooseeker_team35.DirectionsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.LocationObserver;
 import edu.ucsd.cse110.zooseeker_team35.LocationProvider;
 import edu.ucsd.cse110.zooseeker_team35.R;
