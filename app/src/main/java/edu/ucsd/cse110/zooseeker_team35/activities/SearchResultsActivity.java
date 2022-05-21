@@ -15,9 +15,8 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.R;
 import edu.ucsd.cse110.zooseeker_team35.adapters.SearchListAdapter;
-import edu.ucsd.cse110.zooseeker_team35.SearchListViewModel;
-import edu.ucsd.cse110.zooseeker_team35.ZooData;
-import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private List<ZooData.VertexInfo> exhibits;
@@ -25,7 +24,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     private Button searchBtn2;
     private EditText searchBar;
     private TextView backButton;
-    private SearchListViewModel viewModel;
     public RecyclerView recyclerView;
     public SearchListAdapter adapter;
 

@@ -15,6 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ProceedDirectionFormat;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
+
 @RunWith(AndroidJUnit4.class)
 public class DirectionTrackerTest {
     ZooPathFinder zooPathFinder;
@@ -35,7 +43,7 @@ public class DirectionTrackerTest {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
+        DirectionTracker.initialize(zooPathFinder.getZooGraph(), pathList);
         assertEquals(DirectionTracker.getCurrentExhibit(), "Gorillas");
     }
 
@@ -44,7 +52,7 @@ public class DirectionTrackerTest {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
+        DirectionTracker.initialize(zooPathFinder.getZooGraph(), pathList);
         List<String> expectedDirections = new ArrayList<String>();
         DirectionFormatStrategy formatStrategy = new ProceedDirectionFormat();
         expectedDirections.add(formatStrategy.buildDirection(1, "Entrance and Exit Gate", "Entrance Plaza", "Entrance Way", 10 ));
@@ -58,7 +66,7 @@ public class DirectionTrackerTest {
         targetExhibits.add("gorillas");
         targetExhibits.add("gators");
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
+        DirectionTracker.initialize(zooPathFinder.getZooGraph(), pathList);
         DirectionTracker.nextExhibit();
         assertEquals(DirectionTracker.getCurrentExhibit(), "Gorillas");
         DirectionTracker.nextExhibit();
@@ -73,7 +81,7 @@ public class DirectionTrackerTest {
         targetExhibits.add("gorillas");
         targetExhibits.add("gators");
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
+        DirectionTracker.initialize(zooPathFinder.getZooGraph(), pathList);
         DirectionTracker.setCurrentExhibit(1);
         DirectionTracker.prevExhibit();
         assertEquals(DirectionTracker.getCurrentExhibit(), "Alligators");

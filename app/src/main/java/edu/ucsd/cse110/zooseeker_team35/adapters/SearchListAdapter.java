@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Collections;
 import java.util.List;
 
-import edu.ucsd.cse110.zooseeker_team35.ExhibitStatus;
-import edu.ucsd.cse110.zooseeker_team35.ExhibitStatusDao;
-import edu.ucsd.cse110.zooseeker_team35.ExhibitStatusDatabase;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 import edu.ucsd.cse110.zooseeker_team35.R;
-import edu.ucsd.cse110.zooseeker_team35.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
     private List<ZooData.VertexInfo> searchItems = Collections.emptyList();

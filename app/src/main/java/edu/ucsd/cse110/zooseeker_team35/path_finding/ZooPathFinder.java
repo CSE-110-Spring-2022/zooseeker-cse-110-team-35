@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.path_finding;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -9,6 +9,10 @@ public class ZooPathFinder {
     //TODO: initialize the Graph using vertex information from the database
     Graph<String, IdentifiedWeightedEdge> zooGraph;
     PathAlgorithmStrategy pathAlgorithm;
+
+    public Graph<String, IdentifiedWeightedEdge> getZooGraph() {
+        return zooGraph;
+    }
 
     public ZooPathFinder(Graph<String, IdentifiedWeightedEdge> zooGraph) {
         pathAlgorithm = new ShortestPathTSAlgorithm();

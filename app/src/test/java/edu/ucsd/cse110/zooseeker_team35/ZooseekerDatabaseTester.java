@@ -20,7 +20,10 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 
 @RunWith(AndroidJUnit4.class)
 public class ZooseekerDatabaseTester {

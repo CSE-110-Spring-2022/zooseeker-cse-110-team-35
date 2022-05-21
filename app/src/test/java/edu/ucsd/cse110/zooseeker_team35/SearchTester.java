@@ -15,6 +15,8 @@ import android.widget.TextView;
 import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker_team35.activities.SearchResultsActivity;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 @RunWith(AndroidJUnit4.class)
 public class SearchTester {

@@ -17,6 +17,10 @@ import org.junit.runner.RunWith;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
+
 @RunWith(AndroidJUnit4.class)
 public class PathGenerationTest {
     @Test

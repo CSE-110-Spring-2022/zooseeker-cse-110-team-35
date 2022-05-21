@@ -1,14 +1,19 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
 import androidx.annotation.VisibleForTesting;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ProceedDirectionFormat;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 //      DirectionTracker has methods nextExhibit, prevExhibit such that nextExhibit moves to the next exhibit,
 //      prevExhibit moves to the previous exhibit
@@ -45,7 +50,7 @@ public class DirectionTracker{
         }
     }
 
-    static List<String> getDirectionsToCurrentExhibit(){
+    public static List<String> getDirectionsToCurrentExhibit(){
         List<String> directionList = new ArrayList<String>();
         GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
 

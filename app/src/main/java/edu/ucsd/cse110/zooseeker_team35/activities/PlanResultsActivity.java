@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.ucsd.cse110.zooseeker_team35.DirectionTracker;
-import edu.ucsd.cse110.zooseeker_team35.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.R;
-import edu.ucsd.cse110.zooseeker_team35.ZooData;
-import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;
-import edu.ucsd.cse110.zooseeker_team35.ZooPathFinder;
-import edu.ucsd.cse110.zooseeker_team35.activities.DirectionsActivity;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
 
 
 public class PlanResultsActivity extends AppCompatActivity {

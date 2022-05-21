@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
 import android.content.Context;
 import android.location.Location;

@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.R;
-import edu.ucsd.cse110.zooseeker_team35.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 public class ExhibitsAdapter extends RecyclerView.Adapter<ExhibitsAdapter.ViewHolder> {
     private List<ZooData.VertexInfo> exhibits = Collections.emptyList();

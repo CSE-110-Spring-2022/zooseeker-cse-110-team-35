@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.database;
 
 import android.content.Context;
 
@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
+
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 @Database(entities = {ExhibitStatus.class}, version = 1)
 public abstract class ExhibitStatusDatabase extends RoomDatabase {
@@ -37,7 +40,7 @@ public abstract class ExhibitStatusDatabase extends RoomDatabase {
 
     private static ExhibitStatusDatabase makeDatabase(Context context) {
         //Loads all the vertices from the json and creates a list of statuses we will put in the db
-        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON(context,ZooInfoProvider.nodeInfoJSON);
+        Map<String, ZooData.VertexInfo> vertices = ZooData.loadVertexInfoJSON(context, ZooInfoProvider.nodeInfoJSON);
         List<ExhibitStatus> exhibitStatuses = new ArrayList<>();
 
         //Goes through and adds all exhibits to the list, with default isAdded values false
