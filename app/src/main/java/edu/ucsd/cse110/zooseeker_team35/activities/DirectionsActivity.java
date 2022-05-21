@@ -11,23 +11,19 @@ import android.widget.TextView;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
-import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationObserver;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
 import edu.ucsd.cse110.zooseeker_team35.R;
-import edu.ucsd.cse110.zooseeker_team35.location_tracking.ZooLiveMap;
 
-public class DirectionsActivity extends AppCompatActivity implements LocationObserver {
+public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     DirectionsAdapter adapter;
     TextView exhibitName;
-    ZooLiveMap zooLiveMap;
     DirectionFormatStrategy formatStrategy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         LocationProvider userLocationProvider = new LocationProvider(this);
-        zooLiveMap = new ZooLiveMap(userLocationProvider);
         setup();
     }
 
@@ -55,11 +51,7 @@ public class DirectionsActivity extends AppCompatActivity implements LocationObs
     //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(zooLiveMap));
+        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit());
     }
 
-    @Override
-    public void update() {
-        updateDisplay();
-    }
 }

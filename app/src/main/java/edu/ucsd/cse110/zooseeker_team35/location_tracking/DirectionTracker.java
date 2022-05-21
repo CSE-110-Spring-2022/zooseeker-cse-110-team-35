@@ -73,19 +73,6 @@ public class DirectionTracker{
         return directionList;
     }
 
-    public static List<String> getDirectionsToCurrentExhibit(ZooLiveMap zooLiveMap){
-        if (!zooLiveMap.hasLiveData()){
-            return getDirectionsToCurrentExhibit();
-        }
-        List<String> directionList = new ArrayList<String>();
-        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
-
-        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
-        List<String> vertexes = path.getVertexList();
-
-        return null;
-    }
-
     public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
