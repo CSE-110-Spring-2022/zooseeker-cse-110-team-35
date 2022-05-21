@@ -10,12 +10,12 @@ public class ZooPathFinder {
     Graph<String, IdentifiedWeightedEdge> zooGraph;
     PathAlgorithmStrategy pathAlgorithm;
 
-    ZooPathFinder(Graph<String, IdentifiedWeightedEdge> zooGraph) {
+    public ZooPathFinder(Graph<String, IdentifiedWeightedEdge> zooGraph) {
         pathAlgorithm = new ShortestPathTSAlgorithm();
         this.zooGraph = zooGraph;
     }
 
-    ZooPathFinder(Graph<String, IdentifiedWeightedEdge> zooGraph, PathAlgorithmStrategy pathAlgorithm){
+    public ZooPathFinder(Graph<String, IdentifiedWeightedEdge> zooGraph, PathAlgorithmStrategy pathAlgorithm){
         this.pathAlgorithm = pathAlgorithm;
         this.zooGraph = zooGraph;
     }

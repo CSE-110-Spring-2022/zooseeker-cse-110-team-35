@@ -25,13 +25,13 @@
             android:name=".activities.DirectionsActivity"
             android:exported="false" />
         <activity
-            android:name=".PlanResultsActivity"
+            android:name=".activities.PlanResultsActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchResultsActivity"
+            android:name=".activities.SearchResultsActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".activities.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,6 +11,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.ExhibitListViewModel;
+import edu.ucsd.cse110.zooseeker_team35.ExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
