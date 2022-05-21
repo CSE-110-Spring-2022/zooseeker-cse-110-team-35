@@ -39,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import edu.ucsd.cse110.zooseeker_team35.activities.MainActivity;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class ExhibitListTest {

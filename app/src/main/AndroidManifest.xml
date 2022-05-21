@@ -22,7 +22,7 @@
 
 
         <activity
-            android:name=".DirectionsActivity"
+            android:name=".activities.DirectionsActivity"
             android:exported="false" />
         <activity
             android:name=".PlanResultsActivity"
@@ -34,7 +34,7 @@
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

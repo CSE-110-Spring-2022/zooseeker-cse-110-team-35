@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker_team35.HomeActivity;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.ZooInfoProvider;
 
 public class MainActivity extends AppCompatActivity {
 

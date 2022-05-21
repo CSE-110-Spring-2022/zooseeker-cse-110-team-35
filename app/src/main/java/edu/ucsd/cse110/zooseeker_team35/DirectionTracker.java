@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.zooseeker_team35;
 
+import androidx.annotation.VisibleForTesting;
+
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 
@@ -9,17 +11,22 @@ import java.util.List;
 import java.util.Map;
 
 //      DirectionTracker has methods nextExhibit, prevExhibit such that nextExhibit moves to the next exhibit,
-//      prevExhibit moves to the previous exhibit, and getDirectionsToCurrentExhibit()
-//      returns the list of edges for the current exhibit,
-//      DirectionTracker will be used to keep track of the current exhibit we are getting directions to
-public class DirectionTracker implements Serializable {
-    static int currentExhibit;
-    static List<GraphPath<String, IdentifiedWeightedEdge>> pathList;
-    static Map<String, ZooData.VertexInfo> vertexInfo;
-    static Map<String, ZooData.EdgeInfo> edgeInfo;
-    static Graph<String, IdentifiedWeightedEdge> graph;
+//      prevExhibit moves to the previous exhibit
+//      DirectionTracker will be used to keep track of the current exhibit we are getting directions to and
+//      the information about the Graph
+public class DirectionTracker{
+    private static int currentExhibit;
+    private static List<GraphPath<String, IdentifiedWeightedEdge>> pathList;
+    private static Map<String, ZooData.VertexInfo> vertexInfo;
+    private static Map<String, ZooData.EdgeInfo> edgeInfo;
+    private static Graph<String, IdentifiedWeightedEdge> graph;
 
-    static void initialize(Graph<String, IdentifiedWeightedEdge> newGraph, List<GraphPath<String, IdentifiedWeightedEdge>> newPathList) {
+    @VisibleForTesting
+    public static void setCurrentExhibit(int currentExhibit) {
+        DirectionTracker.currentExhibit = currentExhibit;
+    }
+
+    public static void initialize(Graph<String, IdentifiedWeightedEdge> newGraph, List<GraphPath<String, IdentifiedWeightedEdge>> newPathList) {
         pathList = newPathList;
         graph = newGraph;
         currentExhibit = 0;
@@ -27,12 +34,12 @@ public class DirectionTracker implements Serializable {
         edgeInfo = ZooInfoProvider.getEdgeMap();
     }
 
-    static void nextExhibit(){
+    public static void nextExhibit(){
         if (currentExhibit < pathList.size() - 1) {
             currentExhibit++;
         }
     }
-    static void prevExhibit(){
+    public static void prevExhibit(){
         if (currentExhibit > 0) {
             currentExhibit--;
         }
@@ -61,7 +68,20 @@ public class DirectionTracker implements Serializable {
         return directionList;
     }
 
-    static String getCurrentExhibit() {
+    public static List<String> getDirectionsToCurrentExhibit(ZooLiveMap zooLiveMap){
+        if (!zooLiveMap.hasLiveData()){
+            return getDirectionsToCurrentExhibit();
+        }
+        List<String> directionList = new ArrayList<String>();
+        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
+
+        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
+        List<String> vertexes = path.getVertexList();
+
+        return null;
+    }
+
+    public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
 }

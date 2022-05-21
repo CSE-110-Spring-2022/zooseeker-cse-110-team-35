@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,16 +11,30 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class DirectionsActivity extends AppCompatActivity {
+import edu.ucsd.cse110.zooseeker_team35.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.DirectionTracker;
+import edu.ucsd.cse110.zooseeker_team35.DirectionsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.LocationObserver;
+import edu.ucsd.cse110.zooseeker_team35.LocationProvider;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.ZooLiveMap;
+
+public class DirectionsActivity extends AppCompatActivity implements LocationObserver {
     private RecyclerView recyclerView;
     DirectionsAdapter adapter;
     TextView exhibitName;
-
+    ZooLiveMap zooLiveMap;
+    DirectionFormatStrategy formatStrategy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
+        LocationProvider userLocationProvider = new LocationProvider(this);
+        zooLiveMap = new ZooLiveMap(userLocationProvider);
+        setup();
+    }
 
+    private void setup() {
         exhibitName = findViewById(R.id.exhibit_name);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
         adapter = new DirectionsAdapter();
@@ -44,6 +58,11 @@ public class DirectionsActivity extends AppCompatActivity {
     //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit());
+        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(zooLiveMap));
+    }
+
+    @Override
+    public void update() {
+        updateDisplay();
     }
 }

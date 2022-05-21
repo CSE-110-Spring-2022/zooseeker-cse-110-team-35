@@ -17,12 +17,12 @@ import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 public class DirectionTrackerTest {
-    ZooMap zooMap;
+    ZooPathFinder zooPathFinder;
 
     @Before
     public void setDirectionTrackerInfo() {
         Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(ApplicationProvider.getApplicationContext(), "sample_zoo_graph.json");
-        zooMap = new ZooMap(zooGraph);
+        zooPathFinder = new ZooPathFinder(zooGraph);
         Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(ApplicationProvider.getApplicationContext(), "sample_node_info.json");
         Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), "sample_edge_info.json");
         ZooInfoProvider.setIdVertexMap(vertexInfo);
@@ -34,8 +34,8 @@ public class DirectionTrackerTest {
     public void testGetCurrentExhibit() {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooMap.zooGraph, pathList);
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
         assertEquals(DirectionTracker.getCurrentExhibit(), "Gorillas");
     }
 
@@ -43,8 +43,8 @@ public class DirectionTrackerTest {
     public void testGetDirectionsToExhibit() {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooMap.zooGraph, pathList);
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
         List<String> expectedDirections = new ArrayList<String>();
         DirectionFormatStrategy formatStrategy = new ProceedDirectionFormat();
         expectedDirections.add(formatStrategy.buildDirection(1, "Entrance and Exit Gate", "Entrance Plaza", "Entrance Way", 10 ));
@@ -57,8 +57,8 @@ public class DirectionTrackerTest {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
         targetExhibits.add("gators");
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooMap.zooGraph, pathList);
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
         DirectionTracker.nextExhibit();
         assertEquals(DirectionTracker.getCurrentExhibit(), "Gorillas");
         DirectionTracker.nextExhibit();
@@ -72,9 +72,9 @@ public class DirectionTrackerTest {
         List<String> targetExhibits = new ArrayList<>();
         targetExhibits.add("gorillas");
         targetExhibits.add("gators");
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
-        DirectionTracker.initialize(zooMap.zooGraph, pathList);
-        DirectionTracker.currentExhibit = 1;
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        DirectionTracker.initialize(zooPathFinder.zooGraph, pathList);
+        DirectionTracker.setCurrentExhibit(1);
         DirectionTracker.prevExhibit();
         assertEquals(DirectionTracker.getCurrentExhibit(), "Alligators");
         DirectionTracker.prevExhibit();
