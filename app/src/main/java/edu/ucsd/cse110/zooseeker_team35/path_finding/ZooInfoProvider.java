@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.path_finding;
 
 import android.content.Context;
 
@@ -7,6 +7,10 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 
 /*
 A static class that contains information about the exhibits at the Zoo
@@ -79,7 +83,7 @@ public class ZooInfoProvider{
         List<ExhibitStatus> exhibitStatuses = dao.getAdded(true);
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
-            if (exhibitStatus.isAdded){
+            if (exhibitStatus.getIsAdded()){
                 if (getVertexWithId(exhibitStatus.getId()) != null ){
                     selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
                 }

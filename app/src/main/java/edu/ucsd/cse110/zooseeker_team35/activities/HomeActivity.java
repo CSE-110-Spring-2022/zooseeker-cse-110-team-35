@@ -1,7 +1,6 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -29,11 +33,7 @@ public class HomeActivity extends AppCompatActivity {
         //      and display them in a recyclerView
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
 
-        ExhibitListViewModel viewModel = new ViewModelProvider(this)
-                .get(ExhibitListViewModel.class);
-
         adapter = new ExhibitsAdapter();
-        //viewModel.getExhibits().observe(this, adapter::setExhibits);
         adapter.setHasStableIds(true);
         recyclerView = findViewById(R.id.added_exhibits_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -15,6 +14,13 @@ import org.jgrapht.GraphPath;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
 
 
 public class PlanResultsActivity extends AppCompatActivity {
@@ -25,13 +31,13 @@ public class PlanResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan_results);
 
         Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), ZooInfoProvider.zooGraphJSON);
-        ZooMap zooMap = new ZooMap(zooGraph);
+        ZooPathFinder zooPathFinder = new ZooPathFinder(zooGraph);
         List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits(this.getApplicationContext());
         List<String> targetExhibits = new LinkedList<>();
         for (ZooData.VertexInfo vertex : selectedExhibits){
             targetExhibits.add(vertex.id);
         }
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooMap.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
         DirectionTracker.initialize(zooGraph, pathList);
 
         //TODO: display the results of the plan in a recyclerView

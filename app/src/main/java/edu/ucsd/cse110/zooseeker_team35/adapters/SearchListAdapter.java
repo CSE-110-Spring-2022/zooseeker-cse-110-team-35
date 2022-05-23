@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
 import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder> {
     private List<ZooData.VertexInfo> searchItems = Collections.emptyList();
@@ -77,7 +83,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         public void setSearchItem(ZooData.VertexInfo searchItem) {
             this.searchItem = searchItem;
             this.textView.setText(searchItem.name);
-            this.checkBox.setChecked(dao.get(searchItem.id).isAdded);
+            this.checkBox.setChecked(dao.get(searchItem.id).getIsAdded());
         }
     }
 

@@ -17,6 +17,10 @@ import org.junit.runner.RunWith;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
+
 @RunWith(AndroidJUnit4.class)
 public class PathGenerationTest {
     @Test
@@ -31,12 +35,12 @@ public class PathGenerationTest {
 
         Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
 
-        ZooMap zooMap = new ZooMap(g);
+        ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<String> targetExhibits = new LinkedList<>();
         targetExhibits.add(solutionExhibitTwo);
         targetExhibits.add(solutionExhibitThree);
         targetExhibits.add(solutionExhibitOne);
-        List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooMap.calculatePath(start, end, targetExhibits);
+        List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
         assertEquals( paths.size(), 4);
         assertEquals( paths.get(0), DijkstraShortestPath.findPathBetween(g, start, solutionExhibitOne));
         assertEquals( paths.get(1), DijkstraShortestPath.findPathBetween(g, solutionExhibitOne, solutionExhibitTwo));
@@ -54,10 +58,10 @@ public class PathGenerationTest {
 
         Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
 
-        ZooMap zooMap = new ZooMap(g);
+        ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<String> targetExhibits = new LinkedList<>();
         targetExhibits.add(solutionExhibitOne);
-        List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooMap.calculatePath(start, end, targetExhibits);
+        List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
         assertEquals( paths.size(), 2);
         assertEquals( paths.get(0), DijkstraShortestPath.findPathBetween(g, start, solutionExhibitOne));
         assertEquals( paths.get(1), DijkstraShortestPath.findPathBetween(g, solutionExhibitOne, end));

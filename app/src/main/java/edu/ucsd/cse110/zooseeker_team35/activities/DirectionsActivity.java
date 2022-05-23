@@ -1,26 +1,33 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
+import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
+import edu.ucsd.cse110.zooseeker_team35.R;
 
 public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     DirectionsAdapter adapter;
     TextView exhibitName;
-
+    DirectionFormatStrategy formatStrategy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
+        LocationProvider userLocationProvider = new LocationProvider(this);
+        setup();
+    }
 
+    private void setup() {
         exhibitName = findViewById(R.id.exhibit_name);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
         adapter = new DirectionsAdapter();
@@ -46,4 +53,5 @@ public class DirectionsActivity extends AppCompatActivity {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
         adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit());
     }
+
 }
