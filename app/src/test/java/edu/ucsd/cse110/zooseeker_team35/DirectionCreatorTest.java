@@ -48,7 +48,7 @@ public class DirectionCreatorTest {
 
         List<String> briefDirections;
 
-        private static final String tag = "brief direction: ";
+        final String tag = "brief direction: ";
 
         for(int i = 0; i < paths.size(); i++) {
             briefDirections = dc.createDirections(paths.get(i),/*argument*/, /*argument*/);
@@ -80,7 +80,7 @@ public class DirectionCreatorTest {
 
         List<String> detailedDirections;
 
-        private static final String tag = "brief direction: ";
+        final String tag = "brief direction: ";
 
         for(int i = 0; i < paths.size(); i++) {
             detailedDirections = dc.createDirections(paths.get(i),/*argument*/, /*argument*/);
