@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LocationMockTest {
-    private Context context;
+    private ComponentActivity context;
 
     @Before
     public void createMockActivity(){
