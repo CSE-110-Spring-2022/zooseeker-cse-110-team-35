@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LocationMockTest {
-    private ComponentActivity context;
+    private Context context;
 
     @Before
     public void createMockActivity(){
@@ -25,6 +25,9 @@ public class LocationMockTest {
     @Test
     public void injectLatitudeLongitude(){
         LocationProvider locPro = new LocationProvider(context);
+        Location location = new Location("test");
+        locPro.mockLocation(location);
+
         locPro.mockLocation(117,120);
 
         assertEquals(117.0, locPro.getCurrentLocation().getLatitude(),0);
