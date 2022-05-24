@@ -10,6 +10,7 @@ public class DetailedDirectionCreator implements DirectionCreator{
 
     @Override
     public List<String> createDirections(GraphPath<String, IdentifiedWeightedEdge> path, List<IdentifiedWeightedEdge> edges, List<String> vertexes) {
+
         return null;
     }
 }
