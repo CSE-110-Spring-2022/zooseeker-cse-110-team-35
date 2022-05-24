@@ -35,6 +35,15 @@ public class LocationProvider {
         };
     }
 
+    public void mockLocation(double latitude, double longitude){
+        currentLocation.setLongitude(longitude);
+        currentLocation.setLatitude(latitude);
+    }
+
+    public void mockLocation(Location location){
+        currentLocation = location;
+    }
+
     public Location getCurrentLocation(){
         return currentLocation;
     }
