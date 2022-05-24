@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
