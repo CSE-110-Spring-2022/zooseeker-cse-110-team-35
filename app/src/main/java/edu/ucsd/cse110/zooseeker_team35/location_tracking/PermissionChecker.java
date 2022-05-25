@@ -26,7 +26,7 @@ public class PermissionChecker{
         });
     }
 
-    boolean ensurePermissions() {
+    public boolean ensurePermissions() {
         var requiredPermissions = new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION

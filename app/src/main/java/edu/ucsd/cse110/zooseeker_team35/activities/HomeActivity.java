@@ -13,6 +13,7 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.PermissionChecker;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
@@ -22,7 +23,7 @@ public class HomeActivity extends AppCompatActivity {
     private ExhibitsAdapter adapter;
     private TextView noExhibitsTextView;
     private TextView exhibitsCountTextView;
-
+    private final PermissionChecker permissionChecker = new PermissionChecker(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,13 @@ public class HomeActivity extends AppCompatActivity {
         exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
 
         updateDisplay();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        /* Permission Setup */
+        if (this.ensurePermissions()) return;
     }
 
     //functionality when the plan button is clicked
@@ -84,4 +92,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setExhibits(exhibits);
     }
 
+    private boolean ensurePermissions() {
+        return permissionChecker.ensurePermissions();
+    }
 }
