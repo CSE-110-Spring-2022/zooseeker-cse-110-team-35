@@ -18,24 +18,31 @@ public class BriefDirectionCreator implements DirectionCreator{
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         List<String> vertexes = path.getVertexList();
         List<String> directionList = new ArrayList<String>();
-
+        int directionNumber = 1;
+        double accumulatedDist = 0;
+        String startNode = vertexes.get(0);
+        System.out.println(edges);
         for (int i = 0; i < edges.size(); i++) {
-            String startNode = vertexes.get(i);
             IdentifiedWeightedEdge e = edges.get(i);
-            String prevEdge = e.getId();
-            double accumulatedDist = 0;
-            while (i < edges.size() && edges.get(i).getId().equals(prevEdge)){
-                accumulatedDist += graph.getEdgeWeight(e);
-                i++;
+            String curStreetName = edgeInfo.get(e.getId()).street;
+            if (accumulatedDist == 0) {
+                accumulatedDist = graph.getEdgeWeight(e);
             }
-            String endNode = vertexes.get(i + 1);
-            String pathInfo = directionFormatter.buildDirection(
-                    i+1,
-                    vertexInfo.get(startNode).name,
-                    vertexInfo.get(endNode).name,
-                    edgeInfo.get(prevEdge).street,
-                    accumulatedDist);
-            directionList.add(pathInfo);
+            if (i < edges.size() - 1 && curStreetName.equals(edgeInfo.get(edges.get(i+1).getId()).street) ){
+                accumulatedDist += graph.getEdgeWeight(e);
+            } else {
+//                System.out.println("current edge: " + curStreetName + " next edge: " + nextStreetName);
+                String endNode = vertexes.get(i + 1);
+                String pathInfo = directionFormatter.buildDirection(
+                        directionNumber++,
+                        vertexInfo.get(startNode).name,
+                        vertexInfo.get(endNode).name,
+                        edgeInfo.get(e.getId()).street,
+                        accumulatedDist);
+                directionList.add(pathInfo);
+                startNode = vertexes.get(i + 1);
+                accumulatedDist = 0;
+            }
         }
         return directionList;
     }

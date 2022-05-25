@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker_team35.direction_display.BriefDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreator;
@@ -25,6 +26,7 @@ import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
 
+@RunWith(AndroidJUnit4.class)
 public class DirectionCreatorTest {
     @Test
     public void checkBriefDirectionCreator() {
@@ -41,6 +43,9 @@ public class DirectionCreatorTest {
 
         Context context = ApplicationProvider.getApplicationContext();
         Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
+
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
 
@@ -51,7 +56,7 @@ public class DirectionCreatorTest {
         final String tag = "brief direction: ";
 
         for(int i = 0; i < paths.size(); i++) {
-            briefDirections = dc.createDirections(paths.get(i),/*argument*/, /*argument*/);
+            briefDirections = dc.createDirections(paths.get(i),vertexInfo,edgeInfo,g);
             for(int j = 0; j < briefDirections.size(); j++) {
                 Log.i(tag, briefDirections.get(j));
             }
@@ -73,6 +78,8 @@ public class DirectionCreatorTest {
 
         Context context = ApplicationProvider.getApplicationContext();
         Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
 
@@ -83,7 +90,7 @@ public class DirectionCreatorTest {
         final String tag = "brief direction: ";
 
         for(int i = 0; i < paths.size(); i++) {
-            detailedDirections = dc.createDirections(paths.get(i),/*argument*/, /*argument*/);
+            detailedDirections = dc.createDirections(paths.get(i),vertexInfo,edgeInfo,g);
             for(int j = 0; j < detailedDirections.size(); j++) {
                 Log.i(tag, detailedDirections.get(j));
             }

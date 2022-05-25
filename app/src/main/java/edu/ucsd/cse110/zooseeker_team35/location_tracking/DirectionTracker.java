@@ -52,8 +52,11 @@ public class DirectionTracker{
     }
 
     public static List<String> getDirectionsToCurrentExhibit(){
+        return DirectionTracker.getDirectionsToCurrentExhibit(new DetailedDirectionCreator());
+    }
+
+    public static List<String> getDirectionsToCurrentExhibit(DirectionCreator directionCreator){
         GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
-        DirectionCreator directionCreator = new BriefDirectionCreator();
         return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
     }
 
