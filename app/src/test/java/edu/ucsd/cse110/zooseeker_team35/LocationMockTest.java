@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
+
 @RunWith(AndroidJUnit4.class)
 public class LocationMockTest {
     private Context context;
