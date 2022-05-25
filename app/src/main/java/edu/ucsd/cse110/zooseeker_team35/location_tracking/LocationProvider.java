@@ -53,7 +53,7 @@ public class LocationProvider implements LocationSubject {
     }
 
     @Override
-    public void notifyObservsers() {
+    public void notifyObservers() {
         for (LocationObserver observer : observers){
             observer.update();
         }
