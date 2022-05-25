@@ -1,11 +1,10 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +12,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.adapters.SearchListAdapter;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private List<ZooData.VertexInfo> exhibits;
@@ -21,7 +24,6 @@ public class SearchResultsActivity extends AppCompatActivity {
     private Button searchBtn2;
     private EditText searchBar;
     private TextView backButton;
-    private SearchListViewModel viewModel;
     public RecyclerView recyclerView;
     public SearchListAdapter adapter;
 

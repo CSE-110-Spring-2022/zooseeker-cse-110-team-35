@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
 import android.content.Context;
 import android.location.Location;
@@ -9,6 +9,8 @@ import android.util.Log;
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 /*
 USAGE (IMPORTANT):
 Before creating a locationProvider object, you must ensure permissions with PermissionChecker.
@@ -16,7 +18,7 @@ This should be used in the same way that it is in the lab, where we return based
 "ensurePermissions" boolean, within the activity.
  */
 
-public class LocationProvider {
+public class LocationProvider{
 
     private Context context;
     private LocationListener locationListener;

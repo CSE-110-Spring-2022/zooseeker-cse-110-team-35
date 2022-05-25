@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.database;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -18,15 +18,15 @@ public class ExhibitStatus {
     }
 
     @NonNull
-    String getId() {
+    public String getId() {
         return id;
     }
 
-    boolean getIsAdded() {
+    public boolean getIsAdded() {
         return isAdded;
     }
 
-    void setIsAdded(boolean isAdded) {
+    public void setIsAdded(boolean isAdded) {
         this.isAdded = isAdded;
     }
 }

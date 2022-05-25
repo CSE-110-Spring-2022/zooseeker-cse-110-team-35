@@ -1,15 +1,11 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.path_finding;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.traverse.ClosestFirstIterator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
+import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 
 // interface for algorithms that will solves the modifed Traveling Salesman Problem
 public interface PathAlgorithmStrategy {

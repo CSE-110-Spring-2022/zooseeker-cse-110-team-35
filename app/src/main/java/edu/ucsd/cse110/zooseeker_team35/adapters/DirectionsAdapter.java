@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35;
+package edu.ucsd.cse110.zooseeker_team35.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collections;
 import java.util.List;
+
+import edu.ucsd.cse110.zooseeker_team35.R;
 
 public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.ViewHolder> {
     private List<String> directions = Collections.emptyList();
@@ -33,7 +35,6 @@ public class DirectionsAdapter extends RecyclerView.Adapter<DirectionsAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setExhibits(directions.get(position));
-        holder.setIsRecyclable(false);
     }
 
     @Override
