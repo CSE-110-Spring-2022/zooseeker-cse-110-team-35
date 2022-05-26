@@ -1,4 +1,4 @@
-package edu.ucsd.cse110.zooseeker_team35.path_finding;
+package edu.ucsd.cse110.zooseeker_team35.direction_display;
 
 /*
 DirectionFormatStrategy will construct a direction in the form of a String using the start location,
