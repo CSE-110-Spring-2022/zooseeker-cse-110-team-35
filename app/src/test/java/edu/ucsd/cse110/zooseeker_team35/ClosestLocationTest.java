@@ -26,16 +26,16 @@ public class ClosestLocationTest {
 
     @Before
     public void createMap() {
-        location = new Location(LocationManager.GPS_PROVIDER);
+        location = new Location(LocationManager.GPS_PROVIDER); // my current location: UCSD
         location.setMock(true);
     }
 
     @Test
     public void testZooAndAirport() {
         double zooLat = 32.7353;
-        double zooLng = -117.1490;
+        double zooLng = -117.1490; // san diego zoo coordinates
         double airportLat = 32.733952;
-        double airportLng = -117.193346;
+        double airportLng = -117.193346; // san diego airport coordinates
 
         double toZoo = FindClosestExhibitHelper.euclideanDistance(location, zooLat, zooLng);
         double toAirport = FindClosestExhibitHelper.euclideanDistance(location, airportLat, airportLng);
