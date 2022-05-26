@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import edu.ucsd.cse110.zooseeker_team35.path_finding.ProceedDirectionFormat;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.ProceedDirectionFormat;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
-import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 

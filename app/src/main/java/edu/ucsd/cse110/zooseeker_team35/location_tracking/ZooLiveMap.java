@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
-
 //TODO: implement the ZooLiveMap class
 public class ZooLiveMap{
     LocationSubject userLocationProvider;

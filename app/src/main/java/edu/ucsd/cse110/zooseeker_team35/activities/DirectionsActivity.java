@@ -8,15 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import edu.ucsd.cse110.zooseeker_team35.path_finding.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
-import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationObserver;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
 import edu.ucsd.cse110.zooseeker_team35.R;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.ZooLiveMap;
 
-public class DirectionsActivity extends AppCompatActivity implements LocationObserver {
+public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     DirectionsAdapter adapter;
     TextView exhibitName;
@@ -56,11 +56,6 @@ public class DirectionsActivity extends AppCompatActivity implements LocationObs
     private void updateDisplay() {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
         adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(zooLiveMap));
-    }
-
-    @Override
-    public void update() {
-        updateDisplay();
     }
 
     public void onResetButtonClicked(View view) {
