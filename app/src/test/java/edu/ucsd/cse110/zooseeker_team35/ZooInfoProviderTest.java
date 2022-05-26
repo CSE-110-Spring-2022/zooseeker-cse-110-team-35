@@ -59,9 +59,9 @@ public class ZooInfoProviderTest {
 
     @Test
     public void testGetSelectedExhibits(){
-        ExhibitStatus test1 = new ExhibitStatus("gators", true);
-        ExhibitStatus test2 = new ExhibitStatus("gorillas", false);
-        ExhibitStatus test3 = new ExhibitStatus("arctic_foxes", true);
+        ExhibitStatus test1 = new ExhibitStatus("gators", true, false);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", false, false);
+        ExhibitStatus test3 = new ExhibitStatus("arctic_foxes", true, false);
         dao.insert(test1);
         dao.insert(test2);
         dao.insert(test3);

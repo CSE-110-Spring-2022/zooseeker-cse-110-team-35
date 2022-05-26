@@ -62,4 +62,8 @@ public class DirectionsActivity extends AppCompatActivity implements LocationObs
     public void update() {
         updateDisplay();
     }
+
+    public void onResetButtonClicked(View view) {
+        finish();
+    }
 }

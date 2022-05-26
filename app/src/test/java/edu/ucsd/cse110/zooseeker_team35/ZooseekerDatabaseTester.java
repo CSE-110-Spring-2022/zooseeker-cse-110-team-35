@@ -46,8 +46,8 @@ public class ZooseekerDatabaseTester {
 
     @Test
     public void testInsert() {
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
-        ExhibitStatus test2 = new ExhibitStatus("gorillas", false);
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, false);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", false, false);
 
         long id1 = dao.insert(test1);
         long id2 = dao.insert(test2);
@@ -57,20 +57,21 @@ public class ZooseekerDatabaseTester {
 
     @Test
     public void testGet() {
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, false);
         assertNotNull(test1);
         dao.insert(test1);
         ExhibitStatus test2 = dao.get("monkeys");
 
         assertEquals(test2.getId(), test1.getId());
         assertEquals(test2.getIsAdded(), test1.getIsAdded());
+        assertEquals(test2.getIsVisited(), test1.getIsVisited());
     }
 
     @Test
     public void testGetAdded() {
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
-        ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
-        ExhibitStatus test3 = new ExhibitStatus("humans",  false);
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, false);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", true, false);
+        ExhibitStatus test3 = new ExhibitStatus("humans",  false, false);
 
         List<ExhibitStatus> exhibits = new ArrayList<>();
         exhibits.add(test1);
@@ -84,20 +85,23 @@ public class ZooseekerDatabaseTester {
 
         assertEquals(exhibits2.get(0).getId(), test1.getId());
         assertEquals(exhibits2.get(0).getIsAdded(), test1.getIsAdded());
+        assertEquals(exhibits2.get(0).getIsVisited(), test1.getIsVisited());
 
         assertEquals(exhibits2.get(1).getId(), test3.getId());
         assertEquals(exhibits2.get(1).getIsAdded(), test3.getIsAdded());
+        assertEquals(exhibits2.get(1).getIsVisited(), test3.getIsVisited());
 
         List<ExhibitStatus> exhibits3 = dao.getAdded(true);
         assertNotNull(exhibits3);
 
         assertEquals(exhibits3.get(0).getId(), test2.getId());
         assertEquals(exhibits3.get(0).getIsAdded(), test2.getIsAdded());
+        assertEquals(exhibits3.get(0).getIsVisited(), test2.getIsVisited());
     }
 
     @Test
     public void testUpdate() {
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, false);
         dao.insert(test1);
 
         test1 = dao.get("monkeys");
@@ -112,15 +116,15 @@ public class ZooseekerDatabaseTester {
 
     @Test
     public void testGetAll() {
-        ExhibitStatus test1 = new ExhibitStatus("monkeys", false);
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, false);
         assertNotNull(test1);
         dao.insert(test1);
 
-        ExhibitStatus test2 = new ExhibitStatus("gorillas", true);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", true, false);
         assertNotNull(test2);
         dao.insert(test2);
 
-        ExhibitStatus test3 = new ExhibitStatus("sharks", false);
+        ExhibitStatus test3 = new ExhibitStatus("sharks", false, false);
         assertNotNull(test3);
         dao.insert(test3);
 
@@ -135,5 +139,32 @@ public class ZooseekerDatabaseTester {
 
         assertEquals(test3.getId(), testList.get(2).getId());
         assertEquals(test3.getIsAdded(), testList.get(2).getIsAdded());
+    }
+
+    @Test
+    public void testGetVisited() {
+        ExhibitStatus test1 = new ExhibitStatus("monkeys", false, true);
+        ExhibitStatus test2 = new ExhibitStatus("gorillas", true, false);
+        ExhibitStatus test3 = new ExhibitStatus("humans",  false, true);
+
+        dao.insert(test1);
+        dao.insert(test2);
+        dao.insert(test3);
+
+        List<ExhibitStatus> exhibits1 = dao.getVisited(true);
+        assertEquals(exhibits1.size(), 2);
+
+        assertEquals(exhibits1.get(0).getId(), test1.getId());
+        assertEquals(exhibits1.get(0).getIsAdded(), test1.getIsAdded());
+        assertEquals(exhibits1.get(0).getIsVisited(), test1.getIsVisited());
+
+        assertEquals(exhibits1.get(1).getId(), test3.getId());
+        assertEquals(exhibits1.get(1).getIsAdded(), test3.getIsAdded());
+        assertEquals(exhibits1.get(1).getIsVisited(), test3.getIsVisited());
+
+        List<ExhibitStatus> exhibits2 = dao.getVisited(false);
+        assertEquals(exhibits2.get(0).getId(), test2.getId());
+        assertEquals(exhibits2.get(0).getIsAdded(), test2.getIsAdded());
+        assertEquals(exhibits2.get(0).getIsVisited(), test2.getIsVisited());
     }
 }

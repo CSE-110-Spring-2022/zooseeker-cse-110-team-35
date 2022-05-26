@@ -23,7 +23,7 @@
         android:id="@+id/search_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="70dp"
         android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="Search"
@@ -37,11 +37,11 @@
         android:id="@+id/search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="18dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
-        android:text="Search"
+        android:layout_marginEnd="20dp"
         android:onClick="onSearchButtonClicked"
+        android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/search_text"
         app:layout_constraintTop_toTopOf="parent" />
@@ -83,5 +83,20 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/added_exhibits_recycler"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="4dp"
+        android:background="@null"
+        android:onClick="onResetButtonClicked"
+        app:layout_constraintEnd_toStartOf="@+id/search_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:tint="@color/purple_500" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

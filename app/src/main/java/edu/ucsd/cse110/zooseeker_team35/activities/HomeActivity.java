@@ -13,6 +13,9 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
@@ -84,4 +87,17 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setExhibits(exhibits);
     }
 
+    public void onResetButtonClicked(View view) {
+        ExhibitStatusDao dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
+        List<ExhibitStatus> databaseExhibits = dao.getAll();
+
+        for(ExhibitStatus e : databaseExhibits) {
+            e.setIsAdded(false);
+            e.setIsVisited(false);
+            dao.update(e);
+        }
+
+        exhibits = ZooInfoProvider.getSelectedExhibits(this);
+        updateDisplay();
+    }
 }

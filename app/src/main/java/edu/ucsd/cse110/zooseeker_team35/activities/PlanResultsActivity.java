@@ -60,4 +60,8 @@ public class PlanResultsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DirectionsActivity.class);
         startActivity(intent);
     }
+
+    public void onBackButtonClicked(View view) {
+        finish();
+    }
 }
