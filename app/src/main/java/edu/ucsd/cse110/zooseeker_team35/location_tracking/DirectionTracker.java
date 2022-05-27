@@ -4,6 +4,7 @@ import androidx.annotation.VisibleForTesting;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +63,20 @@ public class DirectionTracker{
 
     public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
+    }
+
+    public static int getCurrentExhibitIndex() {
+        return currentExhibit;
+    }
+
+    public static GraphPath<String, IdentifiedWeightedEdge> reCalculatedDirection(ZooData.VertexInfo closestExhibit) {
+        String lastVertex = pathList.get(currentExhibit).getEndVertex();
+        GraphPath<String, IdentifiedWeightedEdge> newPath = DijkstraShortestPath.findPathBetween(graph, closestExhibit.id, lastVertex);
+        return newPath;
+    }
+
+    public static List<String> getDirectionsFromClosestExhibit(DirectionCreator directionCreator, ZooData.VertexInfo closestExhibit){
+        GraphPath<String, IdentifiedWeightedEdge> path = reCalculatedDirection(closestExhibit);
+        return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
     }
 }

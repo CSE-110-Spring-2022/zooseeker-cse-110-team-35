@@ -1,11 +1,14 @@
 package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
+import android.content.Context;
 import android.location.Location;
 
 import java.util.List;
+import java.util.Map;
 
 
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class FindClosestExhibitHelper {
 
@@ -14,18 +17,31 @@ public class FindClosestExhibitHelper {
                 + Math.pow((latlng1.getLongitude() - longitude), 2));
     }
 
-    /*public static ZooData.VertexInfo closestExhibit(Location currentLoc, List<ZooData.VertexInfo> vertexes) {
+    public static ZooData.VertexInfo closestExhibit(Context context, Location currentLoc, List<ZooData.VertexInfo> planedExhibits) {
         double minDistance = Double.MAX_VALUE;
-        ZooData.VertexInfo closestVertex = null;
-        for(int i = 0; i < vertexes.size(); i++) {
-            double lat = vertexes.get(i).lat;
-            double lng = vertexes.get(i).lng;
+        ZooData.VertexInfo nearestExhibit = null;
+        List<ZooData.VertexInfo> allExhibits = ZooInfoProvider.getExhibits();
+
+        /*for(int i = 0; i < allExhibits.size(); i++) {
+            double lat = allExhibits.get(i).lat;
+            double lng = allExhibits.get(i).lng;
             double distance = euclideanDistance(currentLoc, lat, lng);
             if(minDistance >= distance) {
                 minDistance = distance;
-                closestVertex = vertexes.get(i);
+                nearestExhibit = allExhibits.get(i);
             }
         }
-        return closestVertex;
-    }*/
+
+        for(int i = 0; i < planedExhibits.size(); i++) {
+            double lat = planedExhibits.get(i).lat;
+            double lng = planedExhibits.get(i).lng;
+            double distance = euclideanDistance(currentLoc, lat, lng);
+            if(minDistance >= distance) {
+                minDistance = distance;
+                nearestExhibit = planedExhibits.get(i);
+            }
+        }*/
+
+        return nearestExhibit;
+    }
 }
