@@ -22,6 +22,7 @@ import edu.ucsd.cse110.zooseeker_team35.direction_display.BriefDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
@@ -29,6 +30,7 @@ import edu.ucsd.cse110.zooseeker_team35.location_tracking.FindClosestExhibitHelp
 import edu.ucsd.cse110.zooseeker_team35.R;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.ZooLiveMap;
 
 public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -39,14 +41,19 @@ public class DirectionsActivity extends AppCompatActivity {
     private static boolean activeThread;
     DirectionsAdapter adapter;
     TextView exhibitName;
-    DirectionCreator currentDirectionCreator;
+    ZooLiveMap zooLiveMap;
+    DirectionFormatStrategy formatStrategy;
+    private DirectionCreator currentDirectionCreator;
     Switch directionToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         subject = new LocationProvider(this);
         periodicUpDateLocation();
+        LocationProvider userLocationProvider = new LocationProvider(this);
+        zooLiveMap = new ZooLiveMap(userLocationProvider);
         setup();
     }
 
@@ -82,6 +89,7 @@ public class DirectionsActivity extends AppCompatActivity {
             exhibitName.setText(closestExhibit.name);
             adapter.setExhibits(DirectionTracker.getDirectionsFromClosestExhibit(currentDirectionCreator, closestExhibit));
         }
+        updateDisplay();
     }
 
     public void onPrevButtonClicked(View view) {
@@ -97,7 +105,7 @@ public class DirectionsActivity extends AppCompatActivity {
     //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator));
+        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(zooLiveMap));
     }
 
     protected void onStart() {
@@ -133,9 +141,13 @@ public class DirectionsActivity extends AppCompatActivity {
     public int currentExhibit(ZooData.VertexInfo nearestExhibit) {
         int index = -1;
         List<ZooData.VertexInfo> addedExhibits = ZooInfoProvider.getSelectedExhibits(this);
-        if(addedExhibits.contains(nearestExhibit)) {
+        if (addedExhibits.contains(nearestExhibit)) {
             index = addedExhibits.indexOf(nearestExhibit);
         }
         return index;
+    }
+
+    public void onResetButtonClicked(View view) {
+        finish();
     }
 }

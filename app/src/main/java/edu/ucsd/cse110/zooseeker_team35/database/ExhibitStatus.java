@@ -10,11 +10,12 @@ public class ExhibitStatus {
     @PrimaryKey
     @NonNull String id;
 
-    boolean isAdded;
+    boolean isAdded, isVisited;
 
-    public ExhibitStatus(@NonNull String id, boolean isAdded) {
+    public ExhibitStatus(@NonNull String id, boolean isAdded, boolean isVisited) {
         this.id = id;
         this.isAdded = isAdded;
+        this.isVisited = isVisited;
     }
 
     @NonNull
@@ -26,7 +27,11 @@ public class ExhibitStatus {
         return isAdded;
     }
 
+    public boolean getIsVisited() { return isVisited; }
+
     public void setIsAdded(boolean isAdded) {
         this.isAdded = isAdded;
     }
+
+    public void setIsVisited(boolean isVisited) { this.isVisited = isVisited; }
 }

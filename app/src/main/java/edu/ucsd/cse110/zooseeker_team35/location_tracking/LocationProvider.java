@@ -18,15 +18,16 @@ This should be used in the same way that it is in the lab, where we return based
 "ensurePermissions" boolean, within the activity.
  */
 
-public class LocationProvider{
+public class LocationProvider implements LocationSubject {
 
-    private Context context;
+    private Context activity;
     private LocationListener locationListener;
     private Location currentLocation;
+    private List<LocationObserver> observers;
 
-    public LocationProvider(Context context){
-        this.context = context;
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public LocationProvider(ComponentActivity activity){
+        this.activity = activity;
+        LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location){
@@ -37,16 +38,24 @@ public class LocationProvider{
         };
     }
 
-    public void mockLocation(double latitude, double longitude){
-        currentLocation.setLongitude(longitude);
-        currentLocation.setLatitude(latitude);
-    }
-
-    public void mockLocation(Location location){
-        currentLocation = location;
-    }
-
     public Location getCurrentLocation(){
         return currentLocation;
+    }
+
+    @Override
+    public void registerObserver(LocationObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(LocationObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (LocationObserver observer : observers){
+            observer.update();
+        }
     }
 }

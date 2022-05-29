@@ -6,7 +6,6 @@ import org.jgrapht.GraphPath;
 import java.util.List;
 
 public class ZooPathFinder {
-    //TODO: initialize the Graph using vertex information from the database
     Graph<String, IdentifiedWeightedEdge> zooGraph;
     PathAlgorithmStrategy pathAlgorithm;
 

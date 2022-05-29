@@ -2,6 +2,7 @@ package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class FindClosestExhibitHelper {
         ZooData.VertexInfo nearestExhibit = null;
         List<ZooData.VertexInfo> allExhibits = ZooInfoProvider.getExhibits();
 
-        /*for(int i = 0; i < allExhibits.size(); i++) {
+        for(int i = 0; i < allExhibits.size(); i++) {
             double lat = allExhibits.get(i).lat;
             double lng = allExhibits.get(i).lng;
             double distance = euclideanDistance(currentLoc, lat, lng);
@@ -32,7 +33,7 @@ public class FindClosestExhibitHelper {
             }
         }
 
-        for(int i = 0; i < planedExhibits.size(); i++) {
+        /*for(int i = 0; i < planedExhibits.size(); i++) {
             double lat = planedExhibits.get(i).lat;
             double lng = planedExhibits.get(i).lng;
             double distance = euclideanDistance(currentLoc, lat, lng);
@@ -41,6 +42,7 @@ public class FindClosestExhibitHelper {
                 nearestExhibit = planedExhibits.get(i);
             }
         }*/
+        Log.i("Zoo-Seeker-nearest-exhibit", String.format("The closest exhibit is: %s", nearestExhibit.name));
 
         return nearestExhibit;
     }

@@ -46,7 +46,7 @@ public abstract class ExhibitStatusDatabase extends RoomDatabase {
         //Goes through and adds all exhibits to the list, with default isAdded values false
         for(String id : vertices.keySet()) {
             if(vertices.get(id).kind == ZooData.VertexInfo.Kind.EXHIBIT) {
-                exhibitStatuses.add(new ExhibitStatus(id, false));
+                exhibitStatuses.add(new ExhibitStatus(id, false, false));
             }
         }
 

@@ -19,7 +19,15 @@ public class ShortestPathTSAlgorithm implements PathAlgorithmStrategy {
     public List<GraphPath<String, IdentifiedWeightedEdge>> findShortestWeightedPath(Graph<String, IdentifiedWeightedEdge> zooGraph, String start, String end, List<String> selectedExhibits) {
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = new ArrayList<GraphPath<String, IdentifiedWeightedEdge>>();
 
-        Set<String> targetExhibits = new HashSet<String>(selectedExhibits);
+        Set<String> targetExhibits = new HashSet<String>();
+        for (String exhibitId : selectedExhibits){
+            ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(exhibitId);
+            if (vertex.parent_id != null){
+                targetExhibits.add(vertex.parent_id);
+            } else {
+                targetExhibits.add(exhibitId);
+            }
+        }
 
         String pathStart = start;
         while (!targetExhibits.isEmpty()) {
