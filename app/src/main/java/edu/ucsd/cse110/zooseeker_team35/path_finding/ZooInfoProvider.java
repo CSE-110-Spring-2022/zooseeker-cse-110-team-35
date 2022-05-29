@@ -91,6 +91,16 @@ public class ZooInfoProvider{
         return selectedExhibits;
     }
 
+    public static List<ZooData.VertexInfo> getVisitableVertexList() {
+        List<ZooData.VertexInfo> visitable = new LinkedList<>();
+        for (ZooData.VertexInfo vertex : vertexes){
+            if (vertex.parent_id == null){
+                visitable.add(vertex);
+            }
+        }
+        return visitable;
+    }
+
 
     public static Map<String, ZooData.EdgeInfo> getEdgeMap() {
         return idEdgeMap;

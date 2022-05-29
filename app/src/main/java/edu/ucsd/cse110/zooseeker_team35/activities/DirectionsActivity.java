@@ -1,10 +1,16 @@
 package edu.ucsd.cse110.zooseeker_team35.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -34,15 +40,11 @@ import edu.ucsd.cse110.zooseeker_team35.location_tracking.ZooLiveMap;
 
 public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
-    private Future<Void> future;
     private Location currentLocation;
     private LocationProvider subject;
-    private static boolean activeThread;
     DirectionsAdapter adapter;
     TextView exhibitName;
     ZooLiveMap zooLiveMap;
-    DirectionFormatStrategy formatStrategy;
     private DirectionCreator currentDirectionCreator;
     Switch directionToggle;
 
@@ -51,9 +53,37 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         subject = new LocationProvider(this);
-        periodicUpDateLocation();
+//        periodicUpDateLocation();
         LocationProvider userLocationProvider = new LocationProvider(this);
         zooLiveMap = new ZooLiveMap(userLocationProvider);
+
+
+        var locationManger = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        LocationListener locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                System.out.println("location changed to: :" + location);
+                currentLocation = location;
+                updateDisplay();
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                10000,     //10 second intervals
+                10,
+                locationListener);
+
+
         setup();
     }
 
@@ -78,17 +108,17 @@ public class DirectionsActivity extends AppCompatActivity {
                 updateDisplay();
             }
         });
-        ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.
-                closestExhibit(this, currentLocation, ZooInfoProvider.getSelectedExhibits(getApplicationContext()));
-        int newExhibit = currentExhibit(closestExhibit);
-        if(newExhibit >= 0) {
-            DirectionTracker.setCurrentExhibit(newExhibit);
-            updateDisplay();
-        }
-        else {
-            exhibitName.setText(closestExhibit.name);
-            adapter.setExhibits(DirectionTracker.getDirectionsFromClosestExhibit(currentDirectionCreator, closestExhibit));
-        }
+
+
+//        int newExhibit = currentExhibit(closestExhibit);
+//        if(newExhibit >= 0) {
+//            DirectionTracker.setCurrentExhibit(newExhibit);
+//            updateDisplay();
+//        }
+//        else {
+//            exhibitName.setText(closestExhibit.name);
+//            adapter.setExhibits(DirectionTracker.getDirectionsFromClosestExhibit(currentDirectionCreator, closestExhibit));
+//        }
         updateDisplay();
     }
 
@@ -104,39 +134,48 @@ public class DirectionsActivity extends AppCompatActivity {
 
     //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
+        List<String> directions;
+        if (currentLocation != null) {
+            ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.
+                    closestExhibit(this, currentLocation, ZooInfoProvider.getVisitableVertexList());
+            System.out.println(closestExhibit);
+            directions = DirectionTracker.getDirectionsToCurrentExhibit(closestExhibit);
+        } else {
+            directions = DirectionTracker.getDirectionsToCurrentExhibit();
+        }
+        adapter.setExhibits(directions);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-        adapter.setExhibits(DirectionTracker.getDirectionsToCurrentExhibit(zooLiveMap));
     }
+//
+//    protected void onStart() {
+//        super.onStart();
+//        activeThread = true;
+//    }
+//
+//    protected void onRestart() {
+//        super.onRestart();
+//        activeThread = true;
+//    }
+//
+//    protected void onPause() {
+//        super.onPause();
+//        activeThread = false;
+//    }
+//
+//    protected void onStop() {
+//        super.onStop();
+//        activeThread = false;
+//    }
 
-    protected void onStart() {
-        super.onStart();
-        activeThread = true;
-    }
-
-    protected void onRestart() {
-        super.onRestart();
-        activeThread = true;
-    }
-
-    protected void onPause() {
-        super.onPause();
-        activeThread = false;
-    }
-
-    protected void onStop() {
-        super.onStop();
-        activeThread = false;
-    }
-
-    private void periodicUpDateLocation() {
-        this.future = backgroundThreadExecutor.submit(() -> {
-            do {
-                currentLocation = subject.getCurrentLocation();
-                Thread.sleep(5000);
-            } while (activeThread);
-            return null;
-        });
-    }
+//    private void periodicUpDateLocation() {
+//        this.future = backgroundThreadExecutor.submit(() -> {
+//            do {
+//                currentLocation = subject.getCurrentLocation();
+//                Thread.sleep(5000);
+//            } while (activeThread);
+//            return null;
+//        });
+//    }
 
     public int currentExhibit(ZooData.VertexInfo nearestExhibit) {
         int index = -1;

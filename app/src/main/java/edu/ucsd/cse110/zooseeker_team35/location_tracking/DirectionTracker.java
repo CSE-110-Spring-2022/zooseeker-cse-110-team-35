@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
+import android.location.Location;
+
 import androidx.annotation.VisibleForTesting;
 
 import org.jgrapht.Graph;
@@ -76,15 +78,29 @@ public class DirectionTracker{
     }
 
     //TODO: get the directions to current exhibit from the current location using zooLiveMap's getClosestVertex method
-    public static List<String> getDirectionsToCurrentExhibit(ZooLiveMap zooLiveMap){
-        if (!zooLiveMap.hasLiveData()){
-            return getDirectionsToCurrentExhibit();
-        }
+    public static List<String> getDirectionsToCurrentExhibit(ZooData.VertexInfo closestVertex){
+
         List<String> directionList = new ArrayList<String>();
-        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
+        String target = pathList.get(currentExhibit).getEndVertex();
+        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, closestVertex.id, target);
 
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         List<String> vertexes = path.getVertexList();
+
+
+        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
+        for (int i = 0; i < edges.size(); i++) {
+            IdentifiedWeightedEdge e = edges.get(i);
+            String startNode = vertexes.get(i);
+            String endNode = vertexes.get(i + 1);
+            String pathInfo = directionFormatter.buildDirection(
+                    i+1,
+                    vertexInfo.get(startNode).name,
+                    vertexInfo.get(endNode).name,
+                    edgeInfo.get(e.getId()).street,
+                    graph.getEdgeWeight(e));
+            directionList.add(pathInfo);
+        }
 
         return directionList;
     }

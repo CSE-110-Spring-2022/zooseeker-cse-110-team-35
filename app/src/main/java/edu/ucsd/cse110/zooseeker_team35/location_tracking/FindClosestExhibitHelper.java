@@ -21,8 +21,8 @@ public class FindClosestExhibitHelper {
     public static ZooData.VertexInfo closestExhibit(Context context, Location currentLoc, List<ZooData.VertexInfo> planedExhibits) {
         double minDistance = Double.MAX_VALUE;
         ZooData.VertexInfo nearestExhibit = null;
-        List<ZooData.VertexInfo> allExhibits = ZooInfoProvider.getExhibits();
-
+        List<ZooData.VertexInfo> allExhibits = ZooInfoProvider.getVisitableVertexList();
+        System.out.println(currentLoc);
         for(int i = 0; i < allExhibits.size(); i++) {
             double lat = allExhibits.get(i).lat;
             double lng = allExhibits.get(i).lng;
