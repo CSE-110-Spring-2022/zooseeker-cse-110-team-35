@@ -94,7 +94,7 @@ public class ZooInfoProvider{
     public static List<ZooData.VertexInfo> getVisitableVertexList() {
         List<ZooData.VertexInfo> visitable = new LinkedList<>();
         for (ZooData.VertexInfo vertex : vertexes){
-            if (vertex.parent_id == null){
+            if (vertex.group_id == null){
                 visitable.add(vertex);
             }
         }

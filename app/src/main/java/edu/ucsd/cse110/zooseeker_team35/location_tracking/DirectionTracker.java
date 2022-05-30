@@ -1,7 +1,5 @@
 package edu.ucsd.cse110.zooseeker_team35.location_tracking;
 
-import android.location.Location;
-
 import androidx.annotation.VisibleForTesting;
 
 import org.jgrapht.Graph;
@@ -93,7 +91,7 @@ public class DirectionTracker{
         if (path.getWeight() == 0){
             String id = path.getStartVertex();
             ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(id);
-            ZooData.VertexInfo parent = ZooInfoProvider.getVertexWithId(vertex.parent_id);
+            ZooData.VertexInfo parent = ZooInfoProvider.getVertexWithId(vertex.group_id);
             directionList.add("1. Find " + vertex.name + " inside " + parent.name);
             return directionList;
         }

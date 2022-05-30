@@ -25,14 +25,14 @@ public class ShortestPathTSAlgorithm implements PathAlgorithmStrategy {
         Set<String> targetExhibits = new HashSet<String>();
         for (String exhibitId : selectedExhibits){
             ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(exhibitId);
-            if (vertex.parent_id != null){
-                targetExhibits.add(vertex.parent_id);
-                if (parentChildMap.containsKey(vertex.parent_id)){
-                    parentChildMap.get(vertex.parent_id).add(exhibitId);
+            if (vertex.group_id != null){
+                targetExhibits.add(vertex.group_id);
+                if (parentChildMap.containsKey(vertex.group_id)){
+                    parentChildMap.get(vertex.group_id).add(exhibitId);
                 } else {
                     List<String> newList = new ArrayList<>();
                     newList.add(exhibitId);
-                    parentChildMap.put(vertex.parent_id, newList);
+                    parentChildMap.put(vertex.group_id, newList);
                 }
             } else {
                 targetExhibits.add(exhibitId);

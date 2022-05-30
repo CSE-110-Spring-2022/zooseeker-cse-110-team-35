@@ -52,7 +52,6 @@ public class PlanResultsActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 planSummary);
         listView.setAdapter(adapter);
-
     }
 
     //

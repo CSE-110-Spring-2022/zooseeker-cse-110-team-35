@@ -41,10 +41,8 @@ import edu.ucsd.cse110.zooseeker_team35.location_tracking.ZooLiveMap;
 public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Location currentLocation;
-    private LocationProvider subject;
     DirectionsAdapter adapter;
     TextView exhibitName;
-    ZooLiveMap zooLiveMap;
     private DirectionCreator currentDirectionCreator;
     Switch directionToggle;
 
@@ -52,10 +50,6 @@ public class DirectionsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
-        subject = new LocationProvider(this);
-        LocationProvider userLocationProvider = new LocationProvider(this);
-        zooLiveMap = new ZooLiveMap(userLocationProvider);
-
 
         var locationManger = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
