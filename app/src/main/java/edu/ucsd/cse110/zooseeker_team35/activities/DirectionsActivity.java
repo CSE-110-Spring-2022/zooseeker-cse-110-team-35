@@ -53,7 +53,6 @@ public class DirectionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
         subject = new LocationProvider(this);
-//        periodicUpDateLocation();
         LocationProvider userLocationProvider = new LocationProvider(this);
         zooLiveMap = new ZooLiveMap(userLocationProvider);
 
@@ -78,12 +77,7 @@ public class DirectionsActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                10000,     //10 second intervals
-                10,
-                locationListener);
-
-
+        locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000,10, locationListener);
         setup();
     }
 
@@ -108,17 +102,6 @@ public class DirectionsActivity extends AppCompatActivity {
                 updateDisplay();
             }
         });
-
-
-//        int newExhibit = currentExhibit(closestExhibit);
-//        if(newExhibit >= 0) {
-//            DirectionTracker.setCurrentExhibit(newExhibit);
-//            updateDisplay();
-//        }
-//        else {
-//            exhibitName.setText(closestExhibit.name);
-//            adapter.setExhibits(DirectionTracker.getDirectionsFromClosestExhibit(currentDirectionCreator, closestExhibit));
-//        }
         updateDisplay();
     }
 
@@ -144,45 +127,6 @@ public class DirectionsActivity extends AppCompatActivity {
         }
         adapter.setExhibits(directions);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
-    }
-//
-//    protected void onStart() {
-//        super.onStart();
-//        activeThread = true;
-//    }
-//
-//    protected void onRestart() {
-//        super.onRestart();
-//        activeThread = true;
-//    }
-//
-//    protected void onPause() {
-//        super.onPause();
-//        activeThread = false;
-//    }
-//
-//    protected void onStop() {
-//        super.onStop();
-//        activeThread = false;
-//    }
-
-//    private void periodicUpDateLocation() {
-//        this.future = backgroundThreadExecutor.submit(() -> {
-//            do {
-//                currentLocation = subject.getCurrentLocation();
-//                Thread.sleep(5000);
-//            } while (activeThread);
-//            return null;
-//        });
-//    }
-
-    public int currentExhibit(ZooData.VertexInfo nearestExhibit) {
-        int index = -1;
-        List<ZooData.VertexInfo> addedExhibits = ZooInfoProvider.getSelectedExhibits(this);
-        if (addedExhibits.contains(nearestExhibit)) {
-            index = addedExhibits.indexOf(nearestExhibit);
-        }
-        return index;
     }
 
     public void onResetButtonClicked(View view) {
