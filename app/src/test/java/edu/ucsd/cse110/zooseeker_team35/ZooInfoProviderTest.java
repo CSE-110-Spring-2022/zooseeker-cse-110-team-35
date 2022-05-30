@@ -33,8 +33,8 @@ public class ZooInfoProviderTest {
     @Before
     public void setZooInfo(){
         context = ApplicationProvider.getApplicationContext();
-        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info2.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info2.json");
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
         db = Room.inMemoryDatabaseBuilder(context, ExhibitStatusDatabase.class)

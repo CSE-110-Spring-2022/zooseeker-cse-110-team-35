@@ -21,7 +21,6 @@ public class BriefDirectionCreator implements DirectionCreator{
         int directionNumber = 1;
         double accumulatedDist = 0;
         String startNode = vertexes.get(0);
-        System.out.println(edges);
         for (int i = 0; i < edges.size(); i++) {
             IdentifiedWeightedEdge e = edges.get(i);
             String curStreetName = edgeInfo.get(e.getId()).street;
@@ -31,7 +30,6 @@ public class BriefDirectionCreator implements DirectionCreator{
             if (i < edges.size() - 1 && curStreetName.equals(edgeInfo.get(edges.get(i+1).getId()).street) ){
                 accumulatedDist += graph.getEdgeWeight(e);
             } else {
-//                System.out.println("current edge: " + curStreetName + " next edge: " + nextStreetName);
                 String endNode = vertexes.get(i + 1);
                 String pathInfo = directionFormatter.buildDirection(
                         directionNumber++,

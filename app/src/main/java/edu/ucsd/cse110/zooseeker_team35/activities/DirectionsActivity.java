@@ -138,10 +138,9 @@ public class DirectionsActivity extends AppCompatActivity {
         if (currentLocation != null) {
             ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.
                     closestExhibit(this, currentLocation, ZooInfoProvider.getVisitableVertexList());
-            System.out.println(closestExhibit);
-            directions = DirectionTracker.getDirectionsToCurrentExhibit(closestExhibit);
+            directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator ,closestExhibit);
         } else {
-            directions = DirectionTracker.getDirectionsToCurrentExhibit();
+            directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator);
         }
         adapter.setExhibits(directions);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());

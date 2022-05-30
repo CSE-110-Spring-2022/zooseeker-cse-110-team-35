@@ -77,40 +77,20 @@ public class DirectionTracker{
         return directionList;
     }
 
-    //TODO: get the directions to current exhibit from the current location using zooLiveMap's getClosestVertex method
-    public static List<String> getDirectionsToCurrentExhibit(ZooData.VertexInfo closestVertex){
 
-        List<String> directionList = new ArrayList<String>();
-        String target = pathList.get(currentExhibit).getEndVertex();
-        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, closestVertex.id, target);
-
-        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
-        List<String> vertexes = path.getVertexList();
-
-
-        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
-        for (int i = 0; i < edges.size(); i++) {
-            IdentifiedWeightedEdge e = edges.get(i);
-            String startNode = vertexes.get(i);
-            String endNode = vertexes.get(i + 1);
-            String pathInfo = directionFormatter.buildDirection(
-                    i+1,
-                    vertexInfo.get(startNode).name,
-                    vertexInfo.get(endNode).name,
-                    edgeInfo.get(e.getId()).street,
-                    graph.getEdgeWeight(e));
-            directionList.add(pathInfo);
-        }
-
-        return directionList;
-    }
 
     public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
 
-    public static int getCurrentExhibitIndex() {
-        return currentExhibit;
+    public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator){
+        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
+        return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
+    }
+
+    public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator, ZooData.VertexInfo closestExhibit){
+        GraphPath<String, IdentifiedWeightedEdge> path = reCalculatedDirection(closestExhibit);
+        return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
     }
 
     public static GraphPath<String, IdentifiedWeightedEdge> reCalculatedDirection(ZooData.VertexInfo closestExhibit) {
@@ -119,8 +99,4 @@ public class DirectionTracker{
         return newPath;
     }
 
-    public static List<String> getDirectionsFromClosestExhibit(DirectionCreator directionCreator, ZooData.VertexInfo closestExhibit){
-        GraphPath<String, IdentifiedWeightedEdge> path = reCalculatedDirection(closestExhibit);
-        return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
-    }
 }

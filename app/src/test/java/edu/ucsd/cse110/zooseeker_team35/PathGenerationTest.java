@@ -33,7 +33,7 @@ public class PathGenerationTest {
         String solutionExhibitThree = "elephant_odyssey";
         String end = "entrance_exit_gate";
 
-        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
+        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph2.json");
 
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<String> targetExhibits = new LinkedList<>();
@@ -56,7 +56,7 @@ public class PathGenerationTest {
         String solutionExhibitOne = "lions";
         String end = "entrance_exit_gate";
 
-        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
+        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph2.json");
 
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<String> targetExhibits = new LinkedList<>();
