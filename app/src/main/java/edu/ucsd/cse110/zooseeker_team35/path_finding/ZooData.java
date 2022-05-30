@@ -113,7 +113,6 @@ public class ZooData {
             Reader reader = new InputStreamReader(input);
             // And now we just import it!
             importer.importGraph(g, reader);
-
             return g;
         } catch (IOException e) {
             e.printStackTrace();

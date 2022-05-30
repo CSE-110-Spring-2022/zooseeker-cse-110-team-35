@@ -78,18 +78,26 @@ public class DirectionTracker{
     }
 
 
-
     public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
 
     public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator){
         GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
-        return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
+        return getDirectionsToCurrentExhibit(directionCreator, ZooInfoProvider.getVertexWithId(path.getStartVertex()));
     }
 
     public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator, ZooData.VertexInfo closestExhibit){
-        GraphPath<String, IdentifiedWeightedEdge> path = reCalculatedDirection(closestExhibit);
+        List<String> directionList = new ArrayList<String>();
+        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
+        if (path.getWeight() == 0){
+            String id = path.getStartVertex();
+            ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(id);
+            ZooData.VertexInfo parent = ZooInfoProvider.getVertexWithId(vertex.parent_id);
+            directionList.add("1. Find " + vertex.name + " inside " + parent.name);
+            return directionList;
+        }
+        path = reCalculatedDirection(closestExhibit);
         return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
     }
 
