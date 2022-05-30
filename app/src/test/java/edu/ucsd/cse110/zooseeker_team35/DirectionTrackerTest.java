@@ -29,10 +29,10 @@ public class DirectionTrackerTest {
 
     @Before
     public void setDirectionTrackerInfo() {
-        Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(ApplicationProvider.getApplicationContext(), "sample_zoo_graph.json");
+        Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(ApplicationProvider.getApplicationContext(), "sample_zoo_graph2.json");
         zooPathFinder = new ZooPathFinder(zooGraph);
-        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(ApplicationProvider.getApplicationContext(), "sample_node_info.json");
-        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), "sample_edge_info.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(ApplicationProvider.getApplicationContext(), "sample_node_info2.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(ApplicationProvider.getApplicationContext(), "sample_edge_info2.json");
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
 

@@ -24,6 +24,7 @@ import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreat
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
 
 @RunWith(AndroidJUnit4.class)
@@ -42,10 +43,11 @@ public class DirectionCreatorTest {
         targetExhibits.add(solutionExhibitOne);
 
         Context context = ApplicationProvider.getApplicationContext();
-        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
-        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
-
+        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph2.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info2.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info2.json");
+        ZooInfoProvider.setIdVertexMap(vertexInfo);
+        ZooInfoProvider.setIdEdgeMap(edgeInfo);
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
 
@@ -77,9 +79,11 @@ public class DirectionCreatorTest {
         targetExhibits.add(solutionExhibitOne);
 
         Context context = ApplicationProvider.getApplicationContext();
-        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
-        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
-        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info.json");
+        Graph<String, IdentifiedWeightedEdge> g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph2.json");
+        Map<String, ZooData.VertexInfo> vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info2.json");
+        Map<String, ZooData.EdgeInfo> edgeInfo = ZooData.loadEdgeInfoJSON(context, "sample_edge_info2.json");
+        ZooInfoProvider.setIdVertexMap(vertexInfo);
+        ZooInfoProvider.setIdEdgeMap(edgeInfo);
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
         List<GraphPath<String, IdentifiedWeightedEdge>> paths = zooPathFinder.calculatePath(start, end, targetExhibits);
 

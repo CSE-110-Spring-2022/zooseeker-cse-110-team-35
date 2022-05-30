@@ -31,9 +31,11 @@ public class ZooData {
         }
 
         public String id;
+        public String parent_id;
         public Kind kind;
         public String name;
         public List<String> tags;
+        public double lat, lng;
     }
 
     public static class EdgeInfo {
@@ -111,7 +113,6 @@ public class ZooData {
             Reader reader = new InputStreamReader(input);
             // And now we just import it!
             importer.importGraph(g, reader);
-
             return g;
         } catch (IOException e) {
             e.printStackTrace();

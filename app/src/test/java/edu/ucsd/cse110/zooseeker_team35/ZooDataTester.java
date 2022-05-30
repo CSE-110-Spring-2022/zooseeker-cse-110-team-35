@@ -22,7 +22,7 @@ public class ZooDataTester {
     @Before
     public void createMap() {
         Context context = ApplicationProvider.getApplicationContext();
-        testMap = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
+        testMap = ZooData.loadVertexInfoJSON(context, "sample_node_info2.json");
     }
 
     @Test

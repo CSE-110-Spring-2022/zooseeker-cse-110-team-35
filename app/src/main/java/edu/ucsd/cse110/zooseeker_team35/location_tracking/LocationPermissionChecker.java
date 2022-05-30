@@ -11,17 +11,16 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Arrays;
 
-
-public class PermissionChecker{
+public class LocationPermissionChecker {
     private ComponentActivity activity;
 
     final ActivityResultLauncher<String[]> requestPermissionLauncher;
 
-    public PermissionChecker(ComponentActivity activity){
+    public LocationPermissionChecker(ComponentActivity activity) {
         this.activity = activity;
-        requestPermissionLauncher = activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), perms ->{
+        requestPermissionLauncher = activity.registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), perms -> {
             perms.forEach((perm, isGranted) -> {
-                Log.i("ZooSeeker", String.format("Permission %s granted: %s", perm, isGranted));
+                Log.i("Zoo-Seeker", String.format("Permission %s granted: %s", perm, isGranted));
             });
         });
     }
@@ -36,11 +35,12 @@ public class PermissionChecker{
                 .map(perm -> ContextCompat.checkSelfPermission(activity, perm))
                 .allMatch(status -> status == PackageManager.PERMISSION_DENIED);
 
-        if(hasNoLocationPerms){
+        if (hasNoLocationPerms) {
             requestPermissionLauncher.launch(requiredPermissions);
+            // Note: the activity will be restarted when permission change!
+            // This entire method will be re-run, but we won't get stuck here.
             return true;
         }
         return false;
     }
 }
-

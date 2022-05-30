@@ -13,6 +13,11 @@ import java.util.List;
 
 import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationPermissionChecker;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.PermissionChecker;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
@@ -22,15 +27,13 @@ public class HomeActivity extends AppCompatActivity {
     private ExhibitsAdapter adapter;
     private TextView noExhibitsTextView;
     private TextView exhibitsCountTextView;
-
+    private final LocationPermissionChecker permissionChecker = new LocationPermissionChecker(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //TODO: get the list of exhibits that have been selected, ie. Vertex with isClicked=true
-        //      and display them in a recyclerView
         exhibits = ZooInfoProvider.getSelectedExhibits(getApplicationContext());
 
         adapter = new ExhibitsAdapter();
@@ -43,6 +46,13 @@ public class HomeActivity extends AppCompatActivity {
         exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
 
         updateDisplay();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        /* Permission Setup */
+        if (this.ensurePermissions()) return;
     }
 
     //functionality when the plan button is clicked
@@ -86,4 +96,21 @@ public class HomeActivity extends AppCompatActivity {
         adapter.setExhibits(exhibits);
     }
 
+    private boolean ensurePermissions() {
+        return permissionChecker.ensurePermissions();
+    }
+
+    public void onResetButtonClicked(View view) {
+        ExhibitStatusDao dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
+        List<ExhibitStatus> databaseExhibits = dao.getAll();
+
+        for(ExhibitStatus e : databaseExhibits) {
+            e.setIsAdded(false);
+            e.setIsVisited(false);
+            dao.update(e);
+        }
+
+        exhibits = ZooInfoProvider.getSelectedExhibits(this);
+        updateDisplay();
+    }
 }

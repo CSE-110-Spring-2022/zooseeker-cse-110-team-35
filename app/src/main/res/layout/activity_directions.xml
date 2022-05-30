@@ -26,8 +26,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="20dp"
-        android:text="Next"
         android:onClick="onNextButtonClicked"
+        android:text="Next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/prev_btn" />
@@ -39,8 +39,8 @@
         android:layout_marginStart="40dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="20dp"
-        android:text="Previous"
         android:onClick="onPrevButtonClicked"
+        android:text="Previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next_btn"
         app:layout_constraintStart_toStartOf="parent" />
@@ -48,13 +48,31 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/directions_recycler"
         android:layout_width="0dp"
-        android:layout_height="453dp"
+        android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/next_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exhibit_name" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="341dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        android:onClick="onResetButtonClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_revert"
+        app:tint="@color/black" />
 
     <Switch
         android:id="@+id/direction_toggle"

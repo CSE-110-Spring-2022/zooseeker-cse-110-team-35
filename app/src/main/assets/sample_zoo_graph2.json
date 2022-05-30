@@ -6,22 +6,7 @@
     { "id": "lions" },
     { "id": "gators" },
     { "id": "elephant_odyssey"},
-    { "id": "arctic_foxes"},
-    { "id": "exhibit_7"},
-    { "id": "exhibit_8"},
-    { "id": "exhibit_9"},
-    { "id": "exhibit_10"},
-    { "id": "exhibit_11"},
-    { "id": "exhibit_12"},
-    { "id": "exhibit_13"},
-    { "id": "exhibit_14"},
-    { "id": "exhibit_15"},
-    { "id": "exhibit_16"},
-    { "id": "exhibit_17"},
-    { "id": "exhibit_18"},
-    { "id": "exhibit_19"},
-    { "id": "exhibit_20"},
-    { "id": "exhibit_21"}
+    { "id": "arctic_foxes"}
   ],
   "edges": [
     {
@@ -65,97 +50,6 @@
       "source": "gators",
       "target": "lions",
       "weight": 200.0
-    },
-    {
-      "id": "edge-7",
-      "source": "entrance_plaza",
-      "target": "exhibit_7",
-      "weight": 50.0
-    },
-    {
-      "id": "edge-8",
-      "source": "entrance_plaza",
-      "target": "exhibit_8",
-      "weight": 55.0
-    },
-    {
-      "id": "edge-9",
-      "source": "entrance_plaza",
-      "target": "exhibit_9",
-      "weight": 60.0
-    },
-    {
-      "id": "edge-10",
-      "source": "entrance_plaza",
-      "target": "exhibit_10",
-      "weight": 65.0
-    },
-    {
-      "id": "edge-11",
-      "source": "entrance_plaza",
-      "target": "exhibit_11",
-      "weight": 70.0
-    },
-    {
-      "id": "edge-12",
-      "source": "entrance_plaza",
-      "target": "exhibit_12",
-      "weight": 75.0
-    },
-    {
-      "id": "edge-13",
-      "source": "entrance_plaza",
-      "target": "exhibit_13",
-      "weight": 80.0
-    },
-    {
-      "id": "edge-14",
-      "source": "entrance_plaza",
-      "target": "exhibit_14",
-      "weight": 85.0
-    },
-    {
-      "id": "edge-15",
-      "source": "entrance_plaza",
-      "target": "exhibit_15",
-      "weight": 90.0
-    },
-    {
-      "id": "edge-16",
-      "source": "entrance_plaza",
-      "target": "exhibit_16",
-      "weight": 95.0
-    },
-    {
-      "id": "edge-17",
-      "source": "entrance_plaza",
-      "target": "exhibit_17",
-      "weight": 100.0
-    },
-    {
-      "id": "edge-18",
-      "source": "entrance_plaza",
-      "target": "exhibit_18",
-      "weight": 100.0
-    },
-    {
-      "id": "edge-19",
-      "source": "entrance_plaza",
-      "target": "exhibit_19",
-      "weight": 100.0
-    },
-    {
-      "id": "edge-20",
-      "source": "entrance_plaza",
-      "target": "exhibit_20",
-      "weight": 100.0
-    },
-    {
-      "id": "edge-21",
-      "source": "entrance_plaza",
-      "target": "exhibit_21",
-      "weight": 100.0
     }
-
   ]
 }

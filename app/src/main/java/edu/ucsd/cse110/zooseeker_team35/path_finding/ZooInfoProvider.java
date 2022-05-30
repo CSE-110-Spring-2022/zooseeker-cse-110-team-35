@@ -79,7 +79,6 @@ public class ZooInfoProvider{
     }
 
     public static List<ZooData.VertexInfo> getSelectedExhibits(Context context, ExhibitStatusDao dao) {
-        //TODO: get the list of ExhibitStatus with isAdded=true
         List<ExhibitStatus> exhibitStatuses = dao.getAdded(true);
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
@@ -90,6 +89,16 @@ public class ZooInfoProvider{
             }
         }
         return selectedExhibits;
+    }
+
+    public static List<ZooData.VertexInfo> getVisitableVertexList() {
+        List<ZooData.VertexInfo> visitable = new LinkedList<>();
+        for (ZooData.VertexInfo vertex : vertexes){
+            if (vertex.parent_id == null){
+                visitable.add(vertex);
+            }
+        }
+        return visitable;
     }
 
 

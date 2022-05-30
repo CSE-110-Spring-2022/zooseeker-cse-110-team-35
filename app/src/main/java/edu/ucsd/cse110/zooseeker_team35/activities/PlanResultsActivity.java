@@ -40,7 +40,6 @@ public class PlanResultsActivity extends AppCompatActivity {
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
         DirectionTracker.initialize(zooGraph, pathList);
 
-        //TODO: display the results of the plan in a recyclerView
         List<String> planSummary = new ArrayList<>();
         planSummary.add(ZooInfoProvider.getVertexWithId(pathList.get(0).getStartVertex()).name + "\n\n");
         double distance = 0;
@@ -60,5 +59,9 @@ public class PlanResultsActivity extends AppCompatActivity {
     public void onDirectionsButtonClicked(View view) {
         Intent intent = new Intent(this, DirectionsActivity.class);
         startActivity(intent);
+    }
+
+    public void onBackButtonClicked(View view) {
+        finish();
     }
 }
