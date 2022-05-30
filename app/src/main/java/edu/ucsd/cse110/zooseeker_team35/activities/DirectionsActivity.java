@@ -42,6 +42,8 @@ public class DirectionsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Location currentLocation;
     private LocationProvider subject;
+    private List<String> directions;
+    private boolean prev = false;
     DirectionsAdapter adapter;
     TextView exhibitName;
     ZooLiveMap zooLiveMap;
@@ -124,23 +126,30 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public void onPrevButtonClicked(View view) {
         DirectionTracker.prevExhibit();
+        prev = true;
         updateDisplay();
     }
 
     public void onNextButtonClicked(View view) {
         DirectionTracker.nextExhibit();
+        prev = false;
         updateDisplay();
     }
 
     //update the display to the current exhibit and directions to current exhibit
     private void updateDisplay() {
-        List<String> directions;
         if (currentLocation != null) {
-            ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.
-                    closestExhibit(this, currentLocation, ZooInfoProvider.getVisitableVertexList());
-            System.out.println(closestExhibit);
-            directions = DirectionTracker.getDirectionsToCurrentExhibit(closestExhibit);
-        } else {
+            if(prev) {
+                directions = DirectionTracker.getReverseDirectionFromCurrentLocation();
+            }
+            else {
+                ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.
+                        closestExhibit(this, currentLocation, ZooInfoProvider.getVisitableVertexList());
+                System.out.println(closestExhibit);
+                directions = DirectionTracker.getDirectionsToCurrentExhibit(closestExhibit);
+            }
+        }
+        else {
             directions = DirectionTracker.getDirectionsToCurrentExhibit();
         }
         adapter.setExhibits(directions);

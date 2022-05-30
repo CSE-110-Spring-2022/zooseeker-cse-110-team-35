@@ -77,6 +77,32 @@ public class DirectionTracker{
         return directionList;
     }
 
+    public static List<String> getReverseDirectionFromCurrentLocation() {
+        List<String> directionList = new ArrayList<>();
+        String target = pathList.get(currentExhibit).getEndVertex();
+        String currentVertex = pathList.get(currentExhibit + 1).getEndVertex();
+        GraphPath<String, IdentifiedWeightedEdge> path = DijkstraShortestPath.findPathBetween(graph, currentVertex, target);
+
+        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
+        List<String> vertexes = path.getVertexList();
+
+
+        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
+        for (int i = 0; i < edges.size(); i++) {
+            IdentifiedWeightedEdge e = edges.get(i);
+            String startNode = vertexes.get(i);
+            String endNode = vertexes.get(i + 1);
+            String pathInfo = directionFormatter.buildDirection(
+                    i + 1,
+                    vertexInfo.get(startNode).name,
+                    vertexInfo.get(endNode).name,
+                    edgeInfo.get(e.getId()).street,
+                    graph.getEdgeWeight(e));
+            directionList.add(pathInfo);
+        }
+        return directionList;
+    }
+
     //TODO: get the directions to current exhibit from the current location using zooLiveMap's getClosestVertex method
     public static List<String> getDirectionsToCurrentExhibit(ZooData.VertexInfo closestVertex){
 
