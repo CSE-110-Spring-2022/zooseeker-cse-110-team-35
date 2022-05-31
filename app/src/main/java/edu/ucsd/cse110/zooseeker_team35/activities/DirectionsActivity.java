@@ -268,8 +268,30 @@ public class DirectionsActivity extends AppCompatActivity {
         TextView mockRouteTv = this.findViewById(R.id.coord_text);
         String route = mockRouteTv.getText().toString();
         model.removeLocationProviderSource();
-        List<Coord> coords = ZooData.loadRouteJson(this, route);
-        this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
+        if(route.contains(".json")) {
+            List<Coord> coords = ZooData.loadRouteJson(this, route);
+            this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
+        }
+        else {
+            String[] coord = route.split(",");
+            for(String s : coord) {
+                s = s.trim();
+            }
+            try {
+                double lat = Double.parseDouble(coord[0]);
+                double lng = Double.parseDouble(coord[1]);
+
+                Coord mockCoord = new Coord(lat, lng);
+                currentLocation.setLatitude(lat);
+                currentLocation.setLongitude(lng);
+
+                this.mockLocation(mockCoord);
+            } catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+                Log.d("Exceptions", "Input was not a valid double pair");
+            }
+        }
     }
 
     public void onEnableGPSClicked(View view) {
