@@ -95,17 +95,6 @@ public class DirectionsActivity extends AppCompatActivity {
             model.addLocationProviderSource(locationManager, provider);
         }
 
-        /*
-        var locationManger = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        LocationListener locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.d("Zookeeper Location", String.format("Location changed: %s", location));
-                currentLocation = location;
-                updateDisplay();
-            }
-        };
-*/
         model.getLastKnownCoords().observe(this, (coord) -> {
             Log.i("Zookeeper Location", String.format("Observing location model update to %s", coord));
             currentLocation.setLatitude(coord.lat);
@@ -118,11 +107,6 @@ public class DirectionsActivity extends AppCompatActivity {
             List<Coord> coords = ZooData.loadRouteJson(this, mockRoute);
             this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
         }
-        /*
-        locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000,10, locationListener);
-
-        currentLocation = locationManger.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-         */
         setup();
     }
 
@@ -152,15 +136,6 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public void onPrevButtonClicked(View view) {
         DirectionTracker.prevExhibit();
-
-        String currentExhibit = DirectionTracker.getCurrentExhibit();
-        //ExhibitStatus currentExhibitStatus = dao.get(currentExhibit);
-//        ExhibitStatus currentExhibitStatus = dao.get(DirectionTracker.getCurrentExhibitId());
-//        currentExhibitStatus.setIsVisited(false);
-//        dao.update(currentExhibitStatus);
-//        editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
-//        editor.apply();
-
         updateDisplay();
     }
 
@@ -192,18 +167,17 @@ public class DirectionsActivity extends AppCompatActivity {
             String currentId = DirectionTracker.getCurrentExhibitId();
             List<ZooData.VertexInfo> unvisitedNodes = ZooInfoProvider.getUnvisitedVertex(getApplicationContext());
             ZooData.VertexInfo closestExhibit;
-            /*
+            System.out.println(unvisitedNodes);
             if (!unvisitedNodes.isEmpty()) {
                 closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, unvisitedNodes);
                 //check if the two exhibits belong to same group
+                System.out.println(closestExhibit);
                 ZooData.VertexInfo curExhibit = ZooInfoProvider.getVertexWithId(currentId);
                 if (!checkNodeEquality(curExhibit, closestExhibit)) {
                     promptReroute(closestExhibit.id);
                 }
 
             }
-
-             */
             closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation);
             directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator ,closestExhibit);
         } else {
@@ -288,5 +262,19 @@ public class DirectionsActivity extends AppCompatActivity {
     @VisibleForTesting
     public Future<?> mockRoute(List<Coord> route, long delay, TimeUnit unit) {
         return model.mockRoute(route, delay, unit);
+    }
+
+    public void onMockButtonPressed(View view) {
+        TextView mockRouteTv = this.findViewById(R.id.coord_text);
+        String route = mockRouteTv.getText().toString();
+        model.removeLocationProviderSource();
+        List<Coord> coords = ZooData.loadRouteJson(this, route);
+        this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
+    }
+
+    public void onEnableGPSClicked(View view) {
+        var locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        var provider = LocationManager.GPS_PROVIDER;
+        model.addLocationProviderSource(locationManager, provider);
     }
 }

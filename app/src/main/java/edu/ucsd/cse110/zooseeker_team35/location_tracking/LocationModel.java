@@ -63,13 +63,13 @@ public class LocationModel extends AndroidViewModel {
             }
         };
         // Register for updates.
-        locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+        locationManager.requestLocationUpdates(provider, 1000, 0f, locationListener);
 
         locationProviderSource = providerSource;
         lastKnownCoords.addSource(locationProviderSource, lastKnownCoords::setValue);
     }
 
-    void removeLocationProviderSource() {
+    public void removeLocationProviderSource() {
         if (locationProviderSource == null) return;
         lastKnownCoords.removeSource(locationProviderSource);
     }

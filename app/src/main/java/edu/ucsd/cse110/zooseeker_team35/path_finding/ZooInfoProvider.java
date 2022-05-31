@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,8 @@ public class ZooInfoProvider{
     public static String nodeInfoJSON = "sample_node_info.json";
     public static String zooGraphJSON = "sample_zoo_graph.json";
 
-    private static Map<String, ZooData.VertexInfo> idVertexMap;
-    private static Map<String, ZooData.EdgeInfo> idEdgeMap;
+    private static Map<String, ZooData.VertexInfo> idVertexMap = new HashMap<>();
+    private static Map<String, ZooData.EdgeInfo> idEdgeMap = new HashMap<>();
     private static List<ZooData.VertexInfo> vertexes;
     private static List<ZooData.VertexInfo> exhibits;
 
@@ -54,7 +55,11 @@ public class ZooInfoProvider{
     }
 
     public static ZooData.VertexInfo getVertexWithId(String id) {
-        return idVertexMap.get(id);
+        ZooData.VertexInfo toReturn = idVertexMap.get(id);
+        if (toReturn == null){
+            System.out.println("crashing bc id = " + id);
+        }
+        return toReturn;
     }
 
     public static List<ZooData.VertexInfo> getExhibits() {
