@@ -264,6 +264,7 @@ public class DirectionsActivity extends AppCompatActivity {
             return;
         }
         List<ZooData.VertexInfo> targetExhibits = DirectionTracker.getRemainingVertexes();
+        targetExhibits.remove(0);
         System.out.println("important: " + targetExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList()));
         while (!targetExhibits.isEmpty() && targetExhibits.get(0).group_id != null) {
             targetExhibits.remove(0);
