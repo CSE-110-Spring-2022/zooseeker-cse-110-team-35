@@ -44,6 +44,10 @@ public class DirectionTracker{
         edgeInfo = ZooInfoProvider.getEdgeMap();
     }
 
+    public static Graph<String, IdentifiedWeightedEdge> getGraph() {
+        return graph;
+    }
+
     public static void nextExhibit(){
         if (currentExhibit < pathList.size() - 1) {
             currentExhibit++;

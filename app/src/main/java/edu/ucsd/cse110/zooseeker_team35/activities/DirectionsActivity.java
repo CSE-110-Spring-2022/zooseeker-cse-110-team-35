@@ -167,12 +167,8 @@ public class DirectionsActivity extends AppCompatActivity {
             String currentId = DirectionTracker.getCurrentExhibitId();
             List<ZooData.VertexInfo> unvisitedNodes = DirectionTracker.getRemainingVertexes();
             ZooData.VertexInfo closestExhibit;
-            System.out.println("unvisited: ");
-            for (ZooData.VertexInfo v : unvisitedNodes){
-                System.out.println(v.id);
-            }
             if (!unvisitedNodes.isEmpty()) {
-                closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, unvisitedNodes);
+                closestExhibit = FindClosestExhibitHelper.closestExhibitPathwise(DirectionTracker.getGraph(),currentLocation, unvisitedNodes);
                 //check if the two exhibits belong to same group
                 System.out.println("closest unvisited: " + closestExhibit.id);
                 ZooData.VertexInfo curExhibit = ZooInfoProvider.getVertexWithId(currentId);
