@@ -1,12 +1,15 @@
 package edu.ucsd.cse110.zooseeker_team35.activities;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +33,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
@@ -39,11 +43,14 @@ import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreat
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.Coord;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.adapters.DirectionsAdapter;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationModel;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationProvider;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.FindClosestExhibitHelper;
 import edu.ucsd.cse110.zooseeker_team35.R;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.PermissionChecker;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
@@ -60,17 +67,35 @@ public class DirectionsActivity extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     ExhibitStatusDao dao;
+    LocationModel model;
     private boolean rerouteOffered;
+    private boolean useLocationService;
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("shared", MODE_PRIVATE);
         editor = preferences.edit();
         dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
+        var locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        var permissionChecker = new PermissionChecker(this);
+        permissionChecker.ensurePermissions();
+        var provider = LocationManager.GPS_PROVIDER;
+        currentLocation = locationManager.getLastKnownLocation(provider);
+
+        useLocationService = getIntent().getBooleanExtra("use_location_updated", false);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
 
+        model = new ViewModelProvider(this).get(LocationModel.class);
+
+        if (useLocationService) {
+            model.addLocationProviderSource(locationManager, provider);
+        }
+
+        /*
         var locationManger = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         LocationListener locationListener = new LocationListener() {
             @Override
@@ -80,20 +105,24 @@ public class DirectionsActivity extends AppCompatActivity {
                 updateDisplay();
             }
         };
+*/
+        model.getLastKnownCoords().observe(this, (coord) -> {
+            Log.i("Zookeeper Location", String.format("Observing location model update to %s", coord));
+            currentLocation.setLatitude(coord.lat);
+            currentLocation.setLongitude(coord.lng);
+            updateDisplay();
+        });
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if(!useLocationService) {
+            String mockRoute = getIntent().getStringExtra("mockRoute");
+            List<Coord> coords = ZooData.loadRouteJson(this, mockRoute);
+            this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
         }
+        /*
         locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000,10, locationListener);
 
         currentLocation = locationManger.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+         */
         setup();
     }
 
@@ -163,6 +192,7 @@ public class DirectionsActivity extends AppCompatActivity {
             String currentId = DirectionTracker.getCurrentExhibitId();
             List<ZooData.VertexInfo> unvisitedNodes = ZooInfoProvider.getUnvisitedVertex(getApplicationContext());
             ZooData.VertexInfo closestExhibit;
+            /*
             if (!unvisitedNodes.isEmpty()) {
                 closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, unvisitedNodes);
                 //check if the two exhibits belong to same group
@@ -170,7 +200,10 @@ public class DirectionsActivity extends AppCompatActivity {
                 if (!checkNodeEquality(curExhibit, closestExhibit)) {
                     promptReroute(closestExhibit.id);
                 }
+
             }
+
+             */
             closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation);
             directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator ,closestExhibit);
         } else {
@@ -245,5 +278,15 @@ public class DirectionsActivity extends AppCompatActivity {
     public void onResetButtonClicked(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    @VisibleForTesting
+    public void mockLocation(Coord coords) {
+        model.mockLocation(coords);
+    }
+
+    @VisibleForTesting
+    public Future<?> mockRoute(List<Coord> route, long delay, TimeUnit unit) {
+        return model.mockRoute(route, delay, unit);
     }
 }

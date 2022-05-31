@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -59,14 +60,26 @@ public class PlanResultsActivity extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("shared", MODE_PRIVATE);
             DirectionTracker.setCurrentExhibit(preferences.getInt("currentExhibit", -1));
             Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("use_location_updated", true);
             startActivity(intent);
         }
     }
 
     //
     public void onDirectionsButtonClicked(View view) {
-        Intent intent = new Intent(this, DirectionsActivity.class);
-        startActivity(intent);
+        TextView mockRouteTv = this.findViewById(R.id.mockRouteTv);
+        if(!mockRouteTv.getText().toString().equals("")) {
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("mockRoute", mockRouteTv.getText().toString());
+            intent.putExtra("use_location_updated", false);
+
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("use_location_updated", true);
+            startActivity(intent);
+        }
     }
 
     public void onBackButtonClicked(View view) {
