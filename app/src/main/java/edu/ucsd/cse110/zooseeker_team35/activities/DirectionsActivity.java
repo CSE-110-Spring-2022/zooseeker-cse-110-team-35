@@ -105,7 +105,7 @@ public class DirectionsActivity extends AppCompatActivity {
         if(!useLocationService) {
             String mockRoute = getIntent().getStringExtra("mockRoute");
             List<Coord> coords = ZooData.loadRouteJson(this, mockRoute);
-            this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
+            this.mockRoute(coords, 1000, TimeUnit.MILLISECONDS);
         }
         setup();
     }
@@ -165,18 +165,21 @@ public class DirectionsActivity extends AppCompatActivity {
         List<String> directions;
         if (currentLocation != null) {
             String currentId = DirectionTracker.getCurrentExhibitId();
-            List<ZooData.VertexInfo> unvisitedNodes = ZooInfoProvider.getUnvisitedVertex(getApplicationContext());
+            List<ZooData.VertexInfo> unvisitedNodes = DirectionTracker.getRemainingVertexes();
             ZooData.VertexInfo closestExhibit;
-            System.out.println(unvisitedNodes);
+            System.out.println("unvisited: ");
+            for (ZooData.VertexInfo v : unvisitedNodes){
+                System.out.println(v.id);
+            }
             if (!unvisitedNodes.isEmpty()) {
                 closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, unvisitedNodes);
                 //check if the two exhibits belong to same group
-                System.out.println(closestExhibit);
+                System.out.println("closest unvisited: " + closestExhibit.id);
                 ZooData.VertexInfo curExhibit = ZooInfoProvider.getVertexWithId(currentId);
+                System.out.println("current exhibit: " + curExhibit.id);
                 if (!checkNodeEquality(curExhibit, closestExhibit)) {
                     promptReroute(closestExhibit.id);
                 }
-
             }
             closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation);
             directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator ,closestExhibit);
@@ -232,19 +235,7 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     private void reroute(String closestVertex){
-        Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), ZooInfoProvider.zooGraphJSON);
-        ZooPathFinder zooPathFinder = new ZooPathFinder(zooGraph);
-        List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getUnvisitedVertex(this.getApplicationContext());
-        List<String> targetExhibits = new LinkedList<>();
-        for (ZooData.VertexInfo vertex : selectedExhibits){
-            if (vertex.id == closestVertex) continue;
-            targetExhibits.add(vertex.id);
-        }
-        if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
-            closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
-        }
-        List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath(closestVertex, "entrance_exit_gate", targetExhibits);
-        DirectionTracker.updatePathList(pathList);
+        DirectionTracker.updatePathList(closestVertex);
         updateDisplay();
     }
 

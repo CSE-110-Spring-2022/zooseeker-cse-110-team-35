@@ -7,8 +7,10 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.ProceedDirectionFormat;
@@ -16,6 +18,7 @@ import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrategy;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
+import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooPathFinder;
 
 //      DirectionTracker has methods nextExhibit, prevExhibit such that nextExhibit moves to the next exhibit,
 //      prevExhibit moves to the previous exhibit
@@ -113,8 +116,48 @@ public class DirectionTracker{
         return newPath;
     }
 
-    public static void updatePathList(List<GraphPath<String, IdentifiedWeightedEdge>> pathListRight) {
+    public static List<ZooData.VertexInfo> getRemainingVertexes() {
+        List<ZooData.VertexInfo> remainingExhibits = new LinkedList<>();
+        for (GraphPath<String, IdentifiedWeightedEdge> graphPath : pathList.subList(currentExhibit, pathList.size())){
+            String id = graphPath.getEndVertex();
+            if (id.equals("entrance_exit_gate")){
+                continue;
+            }
+            ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(id);
+            remainingExhibits.add(vertex);
+        }
+        return remainingExhibits;
+    }
 
+//    flamingo
+//    I/System.out: crocodile
+//    I/System.out: hippo
+//    I/System.out: parker_aviary
+//    I/System.out: motmot
+//    I/System.out: owens_aviary
+//    I/System.out: mynah
+//    I/System.out: dove
+//    I/System.out: fern_canyon
+//
+//                  parker_aviary
+//    I/System.out: owens_aviary
+//    I/System.out: mynah
+//    I/System.out: dove
+//    I/System.out: parker_aviary
+//    I/System.out: fern_canyon
+//    I/System.out: hippo
+//    I/System.out: crocodile
+//    I/System.out: flamingo
+
+    public static void updatePathList(String closestVertex) {
+        List<String> targetExhibits = getRemainingVertexes().stream().map(vertex -> vertex.id).collect(Collectors.toList());
+        targetExhibits.remove(closestVertex);
+        System.out.println(targetExhibits);
+        if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
+            closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
+        }
+        ZooPathFinder zooPathFinder = new ZooPathFinder(graph);
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathListRight = zooPathFinder.calculatePath(closestVertex, "entrance_exit_gate", targetExhibits);
         List<GraphPath<String, IdentifiedWeightedEdge>> pathListLeft = pathList.subList(0, currentExhibit);
         String connectingStart = pathList.get(currentExhibit).getStartVertex();
         if (ZooInfoProvider.getVertexWithId(connectingStart).group_id != null){

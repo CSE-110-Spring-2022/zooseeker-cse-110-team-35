@@ -26,7 +26,6 @@ public class ShortestPathTSAlgorithm implements PathAlgorithmStrategy {
         for (String exhibitId : selectedExhibits){
             ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(exhibitId);
             if (vertex.group_id != null){
-                targetExhibits.add(vertex.group_id);
                 if (parentChildMap.containsKey(vertex.group_id)){
                     parentChildMap.get(vertex.group_id).add(exhibitId);
                 } else {
@@ -34,12 +33,20 @@ public class ShortestPathTSAlgorithm implements PathAlgorithmStrategy {
                     newList.add(exhibitId);
                     parentChildMap.put(vertex.group_id, newList);
                 }
+                if (!vertex.group_id.equals(start)) {
+                    targetExhibits.add(vertex.group_id);
+                }
             } else {
                 targetExhibits.add(exhibitId);
             }
         }
 
         String pathStart = start;
+        if (parentChildMap.containsKey(start)){
+            for (String childId : parentChildMap.get(start)){
+                pathList.add(new SelfPathAdapter<>(childId));
+            }
+        }
         while (!targetExhibits.isEmpty()) {
             ClosestFirstIterator graphIterator = new ClosestFirstIterator(zooGraph, pathStart);
             graphIterator.next();
