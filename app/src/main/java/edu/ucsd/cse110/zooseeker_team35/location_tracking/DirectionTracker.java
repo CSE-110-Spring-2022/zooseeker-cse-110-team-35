@@ -129,29 +129,8 @@ public class DirectionTracker{
         return remainingExhibits;
     }
 
-//    flamingo
-//    I/System.out: crocodile
-//    I/System.out: hippo
-//    I/System.out: parker_aviary
-//    I/System.out: motmot
-//    I/System.out: owens_aviary
-//    I/System.out: mynah
-//    I/System.out: dove
-//    I/System.out: fern_canyon
-//
-//                  parker_aviary
-//    I/System.out: owens_aviary
-//    I/System.out: mynah
-//    I/System.out: dove
-//    I/System.out: parker_aviary
-//    I/System.out: fern_canyon
-//    I/System.out: hippo
-//    I/System.out: crocodile
-//    I/System.out: flamingo
+    public static void updatePathList(String closestVertex, List<String> targetExhibits) {
 
-    public static void updatePathList(String closestVertex) {
-        List<String> targetExhibits = getRemainingVertexes().stream().map(vertex -> vertex.id).collect(Collectors.toList());
-        targetExhibits.remove(closestVertex);
         System.out.println(targetExhibits);
         if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
             closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
@@ -173,6 +152,6 @@ public class DirectionTracker{
         combined.add(connectorPath);
         combined.addAll(pathListRight);
         pathList = combined;
-
     }
+
 }

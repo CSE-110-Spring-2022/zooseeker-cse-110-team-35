@@ -27,16 +27,12 @@ public class FindClosestExhibitHelper {
         ZooData.VertexInfo nearestExhibit = null;
         System.out.println(currentLoc);
         for(int i = 0; i < planedExhibits.size(); i++) {
-            ZooData.VertexInfo cur = planedExhibits.get(i);
-            if (cur.group_id != null) {
-                cur = ZooInfoProvider.getVertexWithId(cur.group_id);
-            }
-            double lat = cur.lat;
-            double lng = cur.lng;
+            double lat = planedExhibits.get(i).lat;
+            double lng = planedExhibits.get(i).lng;
             double distance = euclideanDistance(currentLoc, lat, lng);
             if(minDistance >= distance) {
                 minDistance = distance;
-                nearestExhibit = cur;
+                nearestExhibit = planedExhibits.get(i);
             }
         }
         Log.i("Zoo-Seeker-nearest-exhibit", String.format("The closest exhibit is: %s", nearestExhibit.name));
