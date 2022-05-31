@@ -120,8 +120,12 @@ public class ZooInfoProvider{
         List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
         for (ExhibitStatus exhibitStatus : exhibitStatuses){
             if (exhibitStatus.getIsAdded()){
-                if (getVertexWithId(exhibitStatus.getId()) != null ){
+                ZooData.VertexInfo vertex = getVertexWithId(exhibitStatus.getId());
+                if (vertex != null ){
                     selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
+                    if (vertex.group_id != null){
+                        selectedExhibits.add(getVertexWithId(vertex.group_id));
+                    }
                 }
             }
         }
