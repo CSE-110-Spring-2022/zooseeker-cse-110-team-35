@@ -141,7 +141,11 @@ public class DirectionsActivity extends AppCompatActivity {
         editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
         editor.apply();
 
-        rerouteOffered = false;
+        if (ZooInfoProvider.getVertexWithId(DirectionTracker.getCurrentExhibitId()).group_id != null){
+            rerouteOffered = true;
+        } else {
+            rerouteOffered = false;
+        }
         updateDisplay();
     }
 
@@ -191,7 +195,6 @@ public class DirectionsActivity extends AppCompatActivity {
         if (rerouteOffered) {
             return;
         }
-
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -260,11 +263,10 @@ public class DirectionsActivity extends AppCompatActivity {
         System.out.println("important: " + targetExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList()));
         ZooData.VertexInfo removed = targetExhibits.remove(0);
         System.out.println("important: " + removed.group_id);
-        if (removed.group_id == null){
-            while (!targetExhibits.isEmpty() && targetExhibits.get(0).group_id != null) {
-                targetExhibits.remove(0);
-            }
+        while (!targetExhibits.isEmpty() && targetExhibits.get(0).group_id != null) {
+            targetExhibits.remove(0);
         }
+
         if (targetExhibits.isEmpty()){
             targetExhibits.add(ZooInfoProvider.getVertexWithId("entrance_exit_gate"));
         }
