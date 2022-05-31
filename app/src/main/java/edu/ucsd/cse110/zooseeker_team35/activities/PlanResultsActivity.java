@@ -3,6 +3,7 @@ package edu.ucsd.cse110.zooseeker_team35.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -52,6 +53,14 @@ public class PlanResultsActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 planSummary);
         listView.setAdapter(adapter);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.getBoolean("isMidPlan") == true) {
+            SharedPreferences preferences = getSharedPreferences("shared", MODE_PRIVATE);
+            DirectionTracker.setCurrentExhibit(preferences.getInt("currentExhibit", -1));
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            startActivity(intent);
+        }
     }
 
     //

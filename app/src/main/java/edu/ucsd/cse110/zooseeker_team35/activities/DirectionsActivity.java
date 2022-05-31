@@ -7,11 +7,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -24,6 +27,7 @@ import java.util.concurrent.Future;
 
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
+import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.BriefDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
@@ -45,9 +49,16 @@ public class DirectionsActivity extends AppCompatActivity {
     TextView exhibitName;
     private DirectionCreator currentDirectionCreator;
     Switch directionToggle;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    ExhibitStatusDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preferences = getSharedPreferences("shared", MODE_PRIVATE);
+        editor = preferences.edit();
+        dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
 
@@ -55,7 +66,7 @@ public class DirectionsActivity extends AppCompatActivity {
         LocationListener locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                System.out.println("location changed to: :" + location);
+                Log.d("Zookeeper Location", String.format("Location changed: %s", location));
                 currentLocation = location;
                 updateDisplay();
             }
@@ -72,6 +83,8 @@ public class DirectionsActivity extends AppCompatActivity {
             return;
         }
         locationManger.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000,10, locationListener);
+
+        currentLocation = locationManger.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         setup();
     }
 
@@ -101,11 +114,30 @@ public class DirectionsActivity extends AppCompatActivity {
 
     public void onPrevButtonClicked(View view) {
         DirectionTracker.prevExhibit();
+
+        String currentExhibit = DirectionTracker.getCurrentExhibit();
+        //ExhibitStatus currentExhibitStatus = dao.get(currentExhibit);
+        ExhibitStatus currentExhibitStatus = dao.get(DirectionTracker.getCurrentExhibitId());
+        currentExhibitStatus.setIsVisited(false);
+        dao.update(currentExhibitStatus);
+        editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
+        editor.apply();
+
         updateDisplay();
     }
 
     public void onNextButtonClicked(View view) {
+        //Marks the "soon to be previous" exhibit as being visited
+        String currentExhibit = DirectionTracker.getCurrentExhibit();
+        //ExhibitStatus currentExhibitStatus = dao.get(currentExhibit);
+        ExhibitStatus currentExhibitStatus = dao.get(DirectionTracker.getCurrentExhibitId());
+        currentExhibitStatus.setIsVisited(true);
+        dao.update(currentExhibitStatus);
+
         DirectionTracker.nextExhibit();
+        editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
+        editor.apply();
+
         updateDisplay();
     }
 
@@ -124,6 +156,7 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onResetButtonClicked(View view) {
-        finish();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }

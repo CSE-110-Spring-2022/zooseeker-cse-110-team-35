@@ -80,6 +80,14 @@ public class DirectionTracker{
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
 
+    public static String getCurrentExhibitId() {
+        return pathList.get(currentExhibit).getEndVertex();
+    }
+
+    public static int getCurrentExhibitIndex() {
+        return currentExhibit;
+    }
+
     public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator){
         GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
         return getDirectionsToCurrentExhibit(directionCreator, ZooInfoProvider.getVertexWithId(path.getStartVertex()));
