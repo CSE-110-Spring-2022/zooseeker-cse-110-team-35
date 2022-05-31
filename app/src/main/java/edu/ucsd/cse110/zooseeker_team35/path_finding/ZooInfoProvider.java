@@ -19,7 +19,6 @@ selected vertexes
  */
 
 public class ZooInfoProvider{
-    private static ExhibitStatusDao dao;
     public static String edgeInfoJSON = "sample_edge_info.json";
     public static String nodeInfoJSON = "sample_node_info.json";
     public static String zooGraphJSON = "sample_zoo_graph.json";
@@ -109,4 +108,20 @@ public class ZooInfoProvider{
     public static Map<String, ZooData.VertexInfo> getVertexMap() {
         return idVertexMap;
     }
+
+    public static List<ZooData.VertexInfo> getUnvisitedVertex(Context context) {
+        ExhibitStatusDao dao = ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao();
+        List<ExhibitStatus> exhibitStatuses = dao.getVisited(false);
+        List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
+        for (ExhibitStatus exhibitStatus : exhibitStatuses){
+            if (exhibitStatus.getIsAdded()){
+                if (getVertexWithId(exhibitStatus.getId()) != null ){
+                    selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
+                }
+            }
+        }
+        System.out.println(selectedExhibits);
+        return selectedExhibits;
+    }
+
 }

@@ -113,4 +113,15 @@ public class DirectionTracker{
         return newPath;
     }
 
+    public static void updatePathList(List<GraphPath<String, IdentifiedWeightedEdge>> pathListRight) {
+
+        List<GraphPath<String, IdentifiedWeightedEdge>> pathListLeft = pathList.subList(0, currentExhibit);
+        GraphPath<String, IdentifiedWeightedEdge> connectorPath = DijkstraShortestPath.findPathBetween(graph, pathList.get(currentExhibit).getStartVertex(), pathListRight.get(0).getStartVertex());
+        List<GraphPath<String, IdentifiedWeightedEdge>> combined = new ArrayList<>();
+        combined.addAll(pathListLeft);
+        combined.add(connectorPath);
+        combined.addAll(pathListRight);
+        pathList = combined;
+
+    }
 }

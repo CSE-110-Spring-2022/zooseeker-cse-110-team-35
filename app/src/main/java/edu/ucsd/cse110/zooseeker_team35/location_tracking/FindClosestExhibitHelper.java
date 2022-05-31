@@ -18,22 +18,15 @@ public class FindClosestExhibitHelper {
                 + Math.pow((latlng1.getLongitude() - longitude), 2));
     }
 
-    public static ZooData.VertexInfo closestExhibit(Context context, Location currentLoc, List<ZooData.VertexInfo> planedExhibits) {
+    public static ZooData.VertexInfo closestExhibit(Location currentLoc) {
+        return closestExhibit(currentLoc, ZooInfoProvider.getVisitableVertexList());
+    }
+
+    public static ZooData.VertexInfo closestExhibit(Location currentLoc, List<ZooData.VertexInfo> planedExhibits) {
         double minDistance = Double.MAX_VALUE;
         ZooData.VertexInfo nearestExhibit = null;
-        List<ZooData.VertexInfo> allExhibits = ZooInfoProvider.getVisitableVertexList();
         System.out.println(currentLoc);
-        for(int i = 0; i < allExhibits.size(); i++) {
-            double lat = allExhibits.get(i).lat;
-            double lng = allExhibits.get(i).lng;
-            double distance = euclideanDistance(currentLoc, lat, lng);
-            if(minDistance >= distance) {
-                minDistance = distance;
-                nearestExhibit = allExhibits.get(i);
-            }
-        }
-
-        /*for(int i = 0; i < planedExhibits.size(); i++) {
+        for(int i = 0; i < planedExhibits.size(); i++) {
             double lat = planedExhibits.get(i).lat;
             double lng = planedExhibits.get(i).lng;
             double distance = euclideanDistance(currentLoc, lat, lng);
@@ -41,9 +34,8 @@ public class FindClosestExhibitHelper {
                 minDistance = distance;
                 nearestExhibit = planedExhibits.get(i);
             }
-        }*/
+        }
         Log.i("Zoo-Seeker-nearest-exhibit", String.format("The closest exhibit is: %s", nearestExhibit.name));
-
         return nearestExhibit;
     }
 }
