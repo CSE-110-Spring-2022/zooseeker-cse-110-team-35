@@ -256,25 +256,24 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onSkipButtonClicked(View view) {
-        if (DirectionTracker.getCurrentExhibitId().equals("entrance_exit_gate")){
+        String currentExhibitId = DirectionTracker.getCurrentExhibitId();
+        if (currentExhibitId.equals("entrance_exit_gate")){
+            return;
+        }
+        if (ZooInfoProvider.getVertexWithId(currentExhibitId).group_id != null) {
             return;
         }
         List<ZooData.VertexInfo> targetExhibits = DirectionTracker.getRemainingVertexes();
         System.out.println("important: " + targetExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList()));
-        ZooData.VertexInfo removed = targetExhibits.remove(0);
-        System.out.println("important: " + removed.group_id);
         while (!targetExhibits.isEmpty() && targetExhibits.get(0).group_id != null) {
             targetExhibits.remove(0);
         }
-
         if (targetExhibits.isEmpty()){
             targetExhibits.add(ZooInfoProvider.getVertexWithId("entrance_exit_gate"));
         }
         ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, targetExhibits);
         targetExhibits.remove(closestExhibit);
-        System.out.println("closest : " + closestExhibit.id);
         List<String> remainingExhibits = targetExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList());
-        System.out.println(remainingExhibits);
         DirectionTracker.updatePathList(closestExhibit.id, remainingExhibits);
         updateDisplay();
     }

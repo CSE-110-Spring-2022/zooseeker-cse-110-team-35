@@ -103,7 +103,7 @@ public class DirectionTracker{
     public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator, ZooData.VertexInfo closestExhibit){
         List<String> directionList = new ArrayList<String>();
         GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
-        if (path.getWeight() == 0){
+        if (path.getWeight() == 0 && ZooInfoProvider.getVertexWithId(path.getStartVertex()).group_id != null ){
             String id = path.getStartVertex();
             ZooData.VertexInfo vertex = ZooInfoProvider.getVertexWithId(id);
             ZooData.VertexInfo parent = ZooInfoProvider.getVertexWithId(vertex.group_id);
@@ -134,8 +134,6 @@ public class DirectionTracker{
     }
 
     public static void updatePathList(String closestVertex, List<String> targetExhibits) {
-
-        System.out.println(targetExhibits);
         if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
             closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
         }
@@ -156,6 +154,9 @@ public class DirectionTracker{
         combined.add(connectorPath);
         combined.addAll(pathListRight);
         pathList = combined;
+        if (currentExhibit >= pathList.size()){
+            currentExhibit = pathList.size() - 1;
+        }
     }
 
 }
