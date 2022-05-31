@@ -165,8 +165,9 @@ public class DirectionsActivity extends AppCompatActivity {
             ZooData.VertexInfo closestExhibit;
             if (!unvisitedNodes.isEmpty()) {
                 closestExhibit = FindClosestExhibitHelper.closestExhibit(currentLocation, unvisitedNodes);
-                System.out.println("closest unvisited vertex: " + closestExhibit.id);
-                if (!closestExhibit.id.equals(currentId) && !currentId.equals(ZooInfoProvider.getVertexWithId(closestExhibit.id).group_id)) {
+                //check if the two exhibits belong to same group
+                ZooData.VertexInfo curExhibit = ZooInfoProvider.getVertexWithId(currentId);
+                if (!checkNodeEquality(curExhibit, closestExhibit)) {
                     promptReroute(closestExhibit.id);
                 }
             }
@@ -177,6 +178,22 @@ public class DirectionsActivity extends AppCompatActivity {
         }
         adapter.setExhibits(directions);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
+    }
+
+    private boolean checkNodeEquality (ZooData.VertexInfo node1, ZooData.VertexInfo node2) {
+        if (node1.id.equals(node2.id)){
+            return true;
+        }
+        if (node1.group_id != null && node1.group_id.equals(node2.id)){
+            return true;
+        }
+        if (node2.group_id != null && node2.group_id.equals(node1.id)){
+            return true;
+        }
+        if (node2.group_id != null && node1.group_id != null && node1.group_id.equals(node2.group_id)){
+            return true;
+        }
+        return false;
     }
 
     private void promptReroute(String closestVertex) {
@@ -201,7 +218,7 @@ public class DirectionsActivity extends AppCompatActivity {
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do You Want To Reroute?").setPositiveButton("Yes", dialogClickListener)
+        builder.setMessage("You are closer to " + ZooInfoProvider.getVertexWithId(closestVertex).name + " than your current destination. Do You Want To Reroute?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();
 
         rerouteOffered = true;
@@ -215,6 +232,9 @@ public class DirectionsActivity extends AppCompatActivity {
         for (ZooData.VertexInfo vertex : selectedExhibits){
             if (vertex.id == closestVertex) continue;
             targetExhibits.add(vertex.id);
+        }
+        if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
+            closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
         }
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath(closestVertex, "entrance_exit_gate", targetExhibits);
         DirectionTracker.updatePathList(pathList);

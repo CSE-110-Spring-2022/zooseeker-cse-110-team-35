@@ -116,7 +116,15 @@ public class DirectionTracker{
     public static void updatePathList(List<GraphPath<String, IdentifiedWeightedEdge>> pathListRight) {
 
         List<GraphPath<String, IdentifiedWeightedEdge>> pathListLeft = pathList.subList(0, currentExhibit);
-        GraphPath<String, IdentifiedWeightedEdge> connectorPath = DijkstraShortestPath.findPathBetween(graph, pathList.get(currentExhibit).getStartVertex(), pathListRight.get(0).getStartVertex());
+        String connectingStart = pathList.get(currentExhibit).getStartVertex();
+        if (ZooInfoProvider.getVertexWithId(connectingStart).group_id != null){
+            connectingStart = ZooInfoProvider.getVertexWithId(connectingStart).group_id;
+        }
+        String connectingEnd = pathListRight.get(0).getStartVertex();
+        if (ZooInfoProvider.getVertexWithId(connectingEnd).group_id != null){
+            connectingEnd = ZooInfoProvider.getVertexWithId(connectingEnd).group_id;
+        }
+        GraphPath<String, IdentifiedWeightedEdge> connectorPath = DijkstraShortestPath.findPathBetween(graph, connectingStart, connectingEnd);
         List<GraphPath<String, IdentifiedWeightedEdge>> combined = new ArrayList<>();
         combined.addAll(pathListLeft);
         combined.add(connectorPath);
