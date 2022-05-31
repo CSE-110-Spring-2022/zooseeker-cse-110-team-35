@@ -82,7 +82,7 @@ public class DirectionsActivity extends AppCompatActivity {
         var permissionChecker = new PermissionChecker(this);
         permissionChecker.ensurePermissions();
         var provider = LocationManager.GPS_PROVIDER;
-        currentLocation = locationManager.getLastKnownLocation(provider);
+        currentLocation = new Location(provider);
 
         useLocationService = getIntent().getBooleanExtra("use_location_updated", false);
 
