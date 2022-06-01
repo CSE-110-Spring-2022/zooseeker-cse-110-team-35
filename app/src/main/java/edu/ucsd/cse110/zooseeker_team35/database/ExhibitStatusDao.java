@@ -34,6 +34,9 @@ public interface ExhibitStatusDao {
     @Query("SELECT * FROM exhibitStatuses WHERE isVisited=:isVisited")
     List<ExhibitStatus> getVisited(boolean isVisited);
 
+    @Query("SELECT * FROM exhibitStatuses WHERE isAdded AND NOT isVisited")
+    List<ExhibitStatus> notYetVisited();
+
     @Update
     int update(ExhibitStatus exhibitStatus);
 

@@ -66,7 +66,7 @@ public class UI_SearchResultSuggestions {
         List<ExhibitStatus> exhibitStatuses = new ArrayList<>();
         for(String id : vertices.keySet()) {
             if(vertices.get(id).kind == ZooData.VertexInfo.Kind.EXHIBIT) {
-                exhibitStatuses.add(new ExhibitStatus(id, false));
+                exhibitStatuses.add(new ExhibitStatus(id, false, false));
             }
         }
         ExhibitStatusDao exhibitStatusDao = testDb.exhibitStatusDao();

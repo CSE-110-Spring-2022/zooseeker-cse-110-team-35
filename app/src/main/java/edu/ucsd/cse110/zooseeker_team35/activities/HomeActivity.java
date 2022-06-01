@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -46,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
         exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
 
         updateDisplay();
+
+        if(getIntent().getBooleanExtra("reset", false)) {
+            onResetButtonClicked(this.findViewById(R.id.resetBtn));
+        }
     }
 
     @Override
@@ -103,6 +108,10 @@ public class HomeActivity extends AppCompatActivity {
     public void onResetButtonClicked(View view) {
         ExhibitStatusDao dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
         List<ExhibitStatus> databaseExhibits = dao.getAll();
+        SharedPreferences preferences = getSharedPreferences("shared", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.apply();
 
         for(ExhibitStatus e : databaseExhibits) {
             e.setIsAdded(false);

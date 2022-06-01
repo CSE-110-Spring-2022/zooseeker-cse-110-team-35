@@ -3,10 +3,12 @@ package edu.ucsd.cse110.zooseeker_team35.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
@@ -52,10 +54,34 @@ public class PlanResultsActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1,
                 planSummary);
         listView.setAdapter(adapter);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null && extras.getBoolean("isMidPlan") == true) {
+            SharedPreferences preferences = getSharedPreferences("shared", MODE_PRIVATE);
+            DirectionTracker.setCurrentExhibit(preferences.getInt("currentExhibit", -1));
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("use_location_updated", true);
+            startActivity(intent);
+        }
     }
 
     //
     public void onDirectionsButtonClicked(View view) {
+        /*
+        TextView mockRouteTv = this.findViewById(R.id.mockRouteTv);
+        if(!mockRouteTv.getText().toString().equals("")) {
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("mockRoute", mockRouteTv.getText().toString());
+            intent.putExtra("use_location_updated", false);
+
+            startActivity(intent);
+        }
+        else {
+            Intent intent = new Intent(this, DirectionsActivity.class);
+            intent.putExtra("use_location_updated", true);
+            startActivity(intent);
+        }
+        */
         Intent intent = new Intent(this, DirectionsActivity.class);
         startActivity(intent);
     }

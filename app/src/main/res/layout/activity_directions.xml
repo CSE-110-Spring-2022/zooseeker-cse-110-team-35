@@ -52,11 +52,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="120dp"
         app:layout_constraintBottom_toTopOf="@+id/next_btn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exhibit_name" />
+        app:layout_constraintTop_toBottomOf="@+id/exhibit_name"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
         android:id="@+id/imageButton3"
@@ -83,6 +85,57 @@
         android:text="Brief Directions"
         app:layout_constraintBottom_toTopOf="@+id/exhibit_name"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/coord_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="Coords"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/mock_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/directions_recycler" />
+
+    <Button
+        android:id="@+id/mock_btn"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="10dp"
+        android:onClick="onMockButtonPressed"
+        android:text="Mock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/enable_gps_btn"
+        app:layout_constraintStart_toEndOf="@+id/coord_text"
+        app:layout_constraintTop_toBottomOf="@+id/directions_recycler" />
+
+    <Button
+        android:id="@+id/enable_gps_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
+        android:text="Enable GPS"
+        android:onClick="onEnableGPSClicked"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/mock_btn"
+        app:layout_constraintTop_toBottomOf="@+id/directions_recycler" />
+
+    <Button
+        android:id="@+id/skip_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="5dp"
+        android:text="Skip Exhibit"
+        android:onClick="onSkipButtonClicked"
+        app:layout_constraintBottom_toTopOf="@+id/next_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enable_gps_btn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

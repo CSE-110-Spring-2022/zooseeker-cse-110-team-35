@@ -20,14 +20,6 @@ public class Coord {
         return new Coord(lat, lng);
     }
 
-    public static Coord fromLatLng(LatLng latLng) {
-        return Coord.of(latLng.latitude, latLng.longitude);
-    }
-
-    public LatLng toLatLng() {
-        return new LatLng(lat, lng);
-    }
-
     public static Coord fromLocation(Location location) {
         return Coord.of(location.getLatitude(), location.getLongitude());
     }

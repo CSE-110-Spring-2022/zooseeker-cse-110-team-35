@@ -20,6 +20,9 @@ import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
 import org.jgrapht.nio.json.JSONImporter;
 
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.Coord;
+import edu.ucsd.cse110.zooseeker_team35.location_tracking.Coords;
+
 public class ZooData {
     public static class VertexInfo {
         public static enum Kind {
@@ -27,7 +30,8 @@ public class ZooData {
             // from the strings in our JSON to this Enum.
             @SerializedName("gate") GATE,
             @SerializedName("exhibit") EXHIBIT,
-            @SerializedName("intersection") INTERSECTION
+            @SerializedName("intersection") INTERSECTION,
+            @SerializedName("exhibit_group") GROUP,
         }
 
         public String id;
@@ -117,6 +121,22 @@ public class ZooData {
         } catch (IOException e) {
             e.printStackTrace();
             return g;
+        }
+    }
+
+    public static List<Coord> loadRouteJson(Context context, String path) {
+        try{
+            InputStream input = context.getAssets().open(path);
+            Reader reader = new InputStreamReader(input);
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<Coord>>() {
+            }.getType();
+            List<Coord> coords = gson.fromJson(reader, type);
+
+            return coords;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Collections.emptyList();
         }
     }
 }

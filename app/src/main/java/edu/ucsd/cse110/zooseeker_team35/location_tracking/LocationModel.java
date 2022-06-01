@@ -58,18 +58,18 @@ public class LocationModel extends AndroidViewModel {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 var coord = Coord.fromLocation(location);
-                Log.i(TAG, String.format("Model received GPS location update: %s", coord));
+//                Log.i(TAG, String.format("Model received GPS location update: %s", coord));
                 providerSource.postValue(coord);
             }
         };
         // Register for updates.
-        locationManager.requestLocationUpdates(provider, 0, 0f, locationListener);
+        locationManager.requestLocationUpdates(provider, 10000, 0f, locationListener);
 
         locationProviderSource = providerSource;
         lastKnownCoords.addSource(locationProviderSource, lastKnownCoords::setValue);
     }
 
-    void removeLocationProviderSource() {
+    public void removeLocationProviderSource() {
         if (locationProviderSource == null) return;
         lastKnownCoords.removeSource(locationProviderSource);
     }
@@ -86,7 +86,7 @@ public class LocationModel extends AndroidViewModel {
             int n = route.size();
             for (var coord : route) {
                 // Mock the location...
-                Log.i(TAG, String.format("Model mocking route (%d / %d): %s", i++, n, coord));
+//                Log.i(TAG, String.format("Model mocking route (%d / %d): %s", i++, n, coord));
                 mockLocation(coord);
 
                 // Sleep for a while...

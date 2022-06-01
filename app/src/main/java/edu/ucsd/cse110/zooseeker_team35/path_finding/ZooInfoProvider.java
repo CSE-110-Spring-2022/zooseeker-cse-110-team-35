@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,12 @@ selected vertexes
  */
 
 public class ZooInfoProvider{
-    private static ExhibitStatusDao dao;
     public static String edgeInfoJSON = "sample_edge_info.json";
     public static String nodeInfoJSON = "sample_node_info.json";
     public static String zooGraphJSON = "sample_zoo_graph.json";
 
-    private static Map<String, ZooData.VertexInfo> idVertexMap;
-    private static Map<String, ZooData.EdgeInfo> idEdgeMap;
+    private static Map<String, ZooData.VertexInfo> idVertexMap = new HashMap<>();
+    private static Map<String, ZooData.EdgeInfo> idEdgeMap = new HashMap<>();
     private static List<ZooData.VertexInfo> vertexes;
     private static List<ZooData.VertexInfo> exhibits;
 
@@ -55,7 +55,11 @@ public class ZooInfoProvider{
     }
 
     public static ZooData.VertexInfo getVertexWithId(String id) {
-        return idVertexMap.get(id);
+        ZooData.VertexInfo toReturn = idVertexMap.get(id);
+        if (toReturn == null){
+            System.out.println("crashing bc id = " + id);
+        }
+        return toReturn;
     }
 
     public static List<ZooData.VertexInfo> getExhibits() {
@@ -109,4 +113,24 @@ public class ZooInfoProvider{
     public static Map<String, ZooData.VertexInfo> getVertexMap() {
         return idVertexMap;
     }
+
+    public static List<ZooData.VertexInfo> getUnvisitedVertex(Context context) {
+        ExhibitStatusDao dao = ExhibitStatusDatabase.getSingleton(context).exhibitStatusDao();
+        List<ExhibitStatus> exhibitStatuses = dao.getVisited(false);
+        List<ZooData.VertexInfo> selectedExhibits = new ArrayList<>();
+        for (ExhibitStatus exhibitStatus : exhibitStatuses){
+            if (exhibitStatus.getIsAdded()){
+                ZooData.VertexInfo vertex = getVertexWithId(exhibitStatus.getId());
+                if (vertex != null ){
+                    selectedExhibits.add(getVertexWithId(exhibitStatus.getId()));
+                    if (vertex.group_id != null){
+                        selectedExhibits.add(getVertexWithId(vertex.group_id));
+                    }
+                }
+            }
+        }
+        System.out.println(selectedExhibits);
+        return selectedExhibits;
+    }
+
 }
