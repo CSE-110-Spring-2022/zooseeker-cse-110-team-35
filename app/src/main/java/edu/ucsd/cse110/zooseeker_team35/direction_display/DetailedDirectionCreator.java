@@ -9,7 +9,6 @@ import java.util.Map;
 
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
-import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class DetailedDirectionCreator implements DirectionCreator{
 

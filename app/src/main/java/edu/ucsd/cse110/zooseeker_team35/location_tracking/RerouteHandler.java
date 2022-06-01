@@ -23,6 +23,19 @@ public class RerouteHandler {
         this.rerouteOffered = rerouteOffered;
     }
 
+    public void testRerouteNeeded(Location currentLocation) {
+        String currentId = DirectionTracker.getCurrentExhibitId();
+        List<ZooData.VertexInfo> unvisitedNodes = DirectionTracker.getRemainingVertexes();
+        if (!unvisitedNodes.isEmpty()) {
+            ZooData.VertexInfo closestExhibit = FindClosestExhibitHelper.closestExhibitPathwise(DirectionTracker.getGraph(),currentLocation, unvisitedNodes);
+            //check if the two exhibits belong to same group
+            ZooData.VertexInfo curExhibit = ZooInfoProvider.getVertexWithId(currentId);
+            if (!checkNodeEquality(curExhibit, closestExhibit)) {
+                reroute(closestExhibit.id);
+            }
+        }
+    }
+
     public void calculateRerouteNeeded(Location currentLocation) {
         String currentId = DirectionTracker.getCurrentExhibitId();
         List<ZooData.VertexInfo> unvisitedNodes = DirectionTracker.getRemainingVertexes();
@@ -73,7 +86,6 @@ public class RerouteHandler {
                 }
             }
         };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(display);
         builder.setMessage("You are closer to " + ZooInfoProvider.getVertexWithId(closestVertex).name + " than your current destination. Do You Want To Reroute?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show();

@@ -4,14 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +22,7 @@ import java.util.Map;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.BriefDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
-import edu.ucsd.cse110.zooseeker_team35.direction_display.TestingDirectionFormat;
+import edu.ucsd.cse110.zooseeker_team35.testing_mocks.TestingDirectionFormat;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;

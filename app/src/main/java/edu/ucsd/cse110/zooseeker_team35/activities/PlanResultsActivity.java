@@ -16,6 +16,7 @@ import org.jgrapht.GraphPath;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.DirectionTracker;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
@@ -34,21 +35,11 @@ public class PlanResultsActivity extends AppCompatActivity {
 
         Graph<String, IdentifiedWeightedEdge> zooGraph = ZooData.loadZooGraphJSON(this.getApplicationContext(), ZooInfoProvider.zooGraphJSON);
         ZooPathFinder zooPathFinder = new ZooPathFinder(zooGraph);
-        List<ZooData.VertexInfo> selectedExhibits = ZooInfoProvider.getSelectedExhibits(this.getApplicationContext());
-        List<String> targetExhibits = new LinkedList<>();
-        for (ZooData.VertexInfo vertex : selectedExhibits){
-            targetExhibits.add(vertex.id);
-        }
+        List<String> targetExhibits = ZooInfoProvider.getSelectedExhibits(this.getApplicationContext()).stream().map(vertex -> vertex.id).collect(Collectors.toList());
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
         DirectionTracker.initialize(zooGraph, pathList);
 
-        List<String> planSummary = new ArrayList<>();
-        planSummary.add(ZooInfoProvider.getVertexWithId(pathList.get(0).getStartVertex()).name + "\n\n");
-        double distance = 0;
-        for (GraphPath<String, IdentifiedWeightedEdge> path : pathList){
-            distance += path.getWeight();
-            planSummary.add( ZooInfoProvider.getVertexWithId(path.getEndVertex()).name + " - " + distance + " feet away \n\n");
-        }
+        List<String> planSummary = calculatePlanSummary(pathList);
         ListView listView = findViewById(R.id.plan_summary);
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
@@ -63,6 +54,19 @@ public class PlanResultsActivity extends AppCompatActivity {
             intent.putExtra("use_location_updated", true);
             startActivity(intent);
         }
+    }
+
+    public List<String> calculatePlanSummary(List<GraphPath<String, IdentifiedWeightedEdge>> pathList){
+
+        List<String> planSummary = new ArrayList<>();
+        planSummary.add(ZooInfoProvider.getVertexWithId(pathList.get(0).getStartVertex()).name + "\n\n");
+        double distance = 0;
+        for (GraphPath<String, IdentifiedWeightedEdge> path : pathList){
+            distance += path.getWeight();
+            planSummary.add( ZooInfoProvider.getVertexWithId(path.getEndVertex()).name + " - " + distance + " feet away \n\n");
+        }
+
+        return planSummary;
     }
 
     //
