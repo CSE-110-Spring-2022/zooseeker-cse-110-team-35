@@ -9,6 +9,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
 
+import static edu.ucsd.cse110.zooseeker_team35.UI_TestUtilities.childAtPosition;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,26 +117,7 @@ public class ExhibitAddTest {
 
         List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(InstrumentationRegistry.getInstrumentation().getTargetContext());
         assertEquals(exhibits.size(), 2);
-        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("arctic_foxes")).count(), 1);
-        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("gorillas")).count(), 1);
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("crocodile")).count(), 1);
+        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("motmot")).count(), 1);
     }
 }
