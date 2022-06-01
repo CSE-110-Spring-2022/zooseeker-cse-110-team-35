@@ -67,6 +67,7 @@ public class PlanResultsActivity extends AppCompatActivity {
 
     //
     public void onDirectionsButtonClicked(View view) {
+        /*
         TextView mockRouteTv = this.findViewById(R.id.mockRouteTv);
         if(!mockRouteTv.getText().toString().equals("")) {
             Intent intent = new Intent(this, DirectionsActivity.class);
@@ -80,6 +81,9 @@ public class PlanResultsActivity extends AppCompatActivity {
             intent.putExtra("use_location_updated", true);
             startActivity(intent);
         }
+        */
+        Intent intent = new Intent(this, DirectionsActivity.class);
+        startActivity(intent);
     }
 
     public void onBackButtonClicked(View view) {

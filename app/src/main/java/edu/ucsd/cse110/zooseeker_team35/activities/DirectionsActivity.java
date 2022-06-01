@@ -55,31 +55,37 @@ public class DirectionsActivity extends AppCompatActivity {
     LocationModel model;
     private boolean rerouteOffered;
     private boolean useLocationService;
+    LocationManager locationManager;
+    String provider;
 
     @SuppressLint("MissingPermission")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Sets up SharedPreferences access for this activity
         preferences = getSharedPreferences("shared", MODE_PRIVATE);
         editor = preferences.edit();
-        dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
-        var locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
 
+        dao = ExhibitStatusDatabase.getSingleton(this).exhibitStatusDao();
+
+        //Sets locationManager/provider and grabs an "empty" location for mocking
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         var permissionChecker = new PermissionChecker(this);
         permissionChecker.ensurePermissions();
-        var provider = LocationManager.GPS_PROVIDER;
+        provider = LocationManager.GPS_PROVIDER;
         currentLocation = new Location(provider);
 
-        useLocationService = getIntent().getBooleanExtra("use_location_updated", false);
+        //useLocationService = getIntent().getBooleanExtra("use_location_updated", false);
 
+        //Sets us Directions RecyclerView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_directions);
 
+        //initiates ViewModelProvider
         model = new ViewModelProvider(this).get(LocationModel.class);
+        model.addLocationProviderSource(locationManager, provider);
 
-        if (useLocationService) {
-            model.addLocationProviderSource(locationManager, provider);
-        }
-
+        //Defines the listener for whenever the GPS location changed
         model.getLastKnownCoords().observe(this, (coord) -> {
             Log.i("Zookeeper Location", String.format("Observing location model update to %s", coord));
             currentLocation.setLatitude(coord.lat);
@@ -87,11 +93,6 @@ public class DirectionsActivity extends AppCompatActivity {
             updateDisplay();
         });
 
-        if(!useLocationService) {
-            String mockRoute = getIntent().getStringExtra("mockRoute");
-            List<Coord> coords = ZooData.loadRouteJson(this, mockRoute);
-            this.mockRoute(coords, 1000, TimeUnit.MILLISECONDS);
-        }
         setup();
     }
 
@@ -127,25 +128,28 @@ public class DirectionsActivity extends AppCompatActivity {
     public void onNextButtonClicked(View view) {
         //Marks the "soon to be previous" exhibit as being visited
         String currentExhibit = DirectionTracker.getCurrentExhibit();
-        //ExhibitStatus currentExhibitStatus = dao.get(currentExhibit);
 
         if (DirectionTracker.getCurrentExhibitId().equals("entrance_exit_gate")){
             return;
         }
 
+        //Makes sure the node is marked as visited in the database
         ExhibitStatus currentExhibitStatus = dao.get(DirectionTracker.getCurrentExhibitId());
         currentExhibitStatus.setIsVisited(true);
         dao.update(currentExhibitStatus);
 
+        //Moves direction along and Keeps track of current exhibit
         DirectionTracker.nextExhibit();
         editor.putInt("currentExhibit", DirectionTracker.getCurrentExhibitIndex());
         editor.apply();
 
+        //Check if reroute should be offered or not
         if (ZooInfoProvider.getVertexWithId(DirectionTracker.getCurrentExhibitId()).group_id != null){
             rerouteOffered = true;
         } else {
             rerouteOffered = false;
         }
+
         updateDisplay();
     }
 
@@ -153,9 +157,12 @@ public class DirectionsActivity extends AppCompatActivity {
     private void updateDisplay() {
         List<String> directions;
         if (currentLocation != null) {
+
+            //Grabs current exhibit and checks which nodes are left in the route
             String currentId = DirectionTracker.getCurrentExhibitId();
             List<ZooData.VertexInfo> unvisitedNodes = DirectionTracker.getRemainingVertexes();
             ZooData.VertexInfo closestExhibit;
+
             if (!unvisitedNodes.isEmpty()) {
                 closestExhibit = FindClosestExhibitHelper.closestExhibitPathwise(DirectionTracker.getGraph(),currentLocation, unvisitedNodes);
                 //check if the two exhibits belong to same group
@@ -171,6 +178,8 @@ public class DirectionsActivity extends AppCompatActivity {
         } else {
             directions = DirectionTracker.getDirectionsToCurrentExhibit(currentDirectionCreator);
         }
+
+        //Updates recyclerView with the new Directions from currentLocation
         adapter.setExhibits(directions);
         exhibitName.setText(DirectionTracker.getCurrentExhibit());
     }
@@ -191,6 +200,8 @@ public class DirectionsActivity extends AppCompatActivity {
         return false;
     }
 
+    //Reroute occurs if there is a new optimal route through the rest of the plan due to a change
+    //in the user's current location
     private void promptReroute(String closestVertex) {
         if (rerouteOffered) {
             return;
@@ -218,6 +229,7 @@ public class DirectionsActivity extends AppCompatActivity {
         rerouteOffered = true;
     }
 
+    //This method is called if user choose to reroute when prompted
     private void reroute(String closestVertex){
         List<String> remainingExhibits = DirectionTracker.getRemainingVertexes().stream().map(vertex -> vertex.id).collect(Collectors.toList());
         remainingExhibits.remove(closestVertex);
@@ -225,35 +237,49 @@ public class DirectionsActivity extends AppCompatActivity {
         updateDisplay();
     }
 
-
+    //The reset button takes the user back to the HomeActivity where they can restart their list
+    //or start a new list
     public void onResetButtonClicked(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
+    //Mocks a location update for the Locationmodel
     @VisibleForTesting
     public void mockLocation(Coord coords) {
         model.mockLocation(coords);
     }
 
+    //Mocks a sequence of positions from a json with a time delay between updates
     @VisibleForTesting
     public Future<?> mockRoute(List<Coord> route, long delay, TimeUnit unit) {
         return model.mockRoute(route, delay, unit);
     }
 
+    //Button which mocks either a route or single location depending on input
     public void onMockButtonPressed(View view) {
         TextView mockRouteTv = this.findViewById(R.id.coord_text);
         String route = mockRouteTv.getText().toString();
+
+        //Removes location source so that app is in "mocking mode" and won't check gps
         model.removeLocationProviderSource();
+
+        //If string is address of json file
         if(route.contains(".json")) {
             List<Coord> coords = ZooData.loadRouteJson(this, route);
             this.mockRoute(coords, 5000, TimeUnit.MILLISECONDS);
         }
+        //If not a json then attempts to read input as a comma separated latitude,longitude pair
         else {
+            //Splits on comma
             String[] coord = route.split(",");
+
+            //trims whitespace for formatting
             for(String s : coord) {
                 s = s.trim();
             }
+
+            //attempts to parse the two doubles and logs an exception if error is thrown
             try {
                 double lat = Double.parseDouble(coord[0]);
                 double lng = Double.parseDouble(coord[1]);
@@ -272,11 +298,10 @@ public class DirectionsActivity extends AppCompatActivity {
     }
 
     public void onEnableGPSClicked(View view) {
-        var locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        var provider = LocationManager.GPS_PROVIDER;
         model.addLocationProviderSource(locationManager, provider);
     }
 
+    //Skips the next exhibit in the plan
     public void onSkipButtonClicked(View view) {
         String currentExhibitId = DirectionTracker.getCurrentExhibitId();
         if (currentExhibitId.equals("entrance_exit_gate")){
@@ -298,6 +323,12 @@ public class DirectionsActivity extends AppCompatActivity {
         targetExhibits.remove(closestExhibit);
         List<String> remainingExhibits = targetExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList());
         DirectionTracker.updatePathList(closestExhibit.id, remainingExhibits);
+
+        //Updates the current index so that on restart the app remembers where the user was going
+        int index = DirectionTracker.getCurrentExhibitIndex() + 1;
+        editor.putInt("currentExhibit", index);
+        editor.apply();
+
         updateDisplay();
     }
 }
