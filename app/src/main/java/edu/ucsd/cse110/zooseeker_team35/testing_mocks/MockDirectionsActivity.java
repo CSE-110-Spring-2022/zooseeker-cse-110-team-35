@@ -4,6 +4,8 @@ import android.util.Log;
 
 import edu.ucsd.cse110.zooseeker_team35.activities.DirectionsActivity;
 
+//A mocked directions activity who only stores whether updateDisplay has been called and logs it
+
 public class MockDirectionsActivity extends DirectionsActivity {
     public boolean updateDisplayCalled = false;
     @Override

@@ -72,6 +72,7 @@ public class ShortestPathTSAlgorithm implements PathAlgorithmStrategy {
     }
 }
 
+//Adapter that allows us to create a custom GraphPath to add to our Directions
 class SelfPathAdapter<String, IdentifiedWeightedEdge> implements GraphPath<String, IdentifiedWeightedEdge> {
     private String nodeId;
 

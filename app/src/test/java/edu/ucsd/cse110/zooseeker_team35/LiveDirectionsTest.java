@@ -39,6 +39,12 @@ public class LiveDirectionsTest {
     List<String> targetExhibits;
     @Before
     public void initialize(){
+        //exhibit plan
+        String exhibit = "hippo";
+        targetExhibits = new LinkedList<>();
+        targetExhibits.add(exhibit);
+
+        //initialzie the state of the app when the app is on the directions screen
         Context context = ApplicationProvider.getApplicationContext();
         g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
         vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
@@ -46,14 +52,12 @@ public class LiveDirectionsTest {
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
-        String exhibit = "hippo";
-        targetExhibits = new LinkedList<>();
-        targetExhibits.add(exhibit);
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
         DirectionTracker.initialize(g, pathList);
     }
     @Test
     public void testLiveDirections(){
+        //mock our location to be flamingos
         LocationAdapter locationAdapter = new LocationAdapter(LocationManager.GPS_PROVIDER, 32.7440416465169, -117.15952052282296);
         Location mockedFlamingoLocation = (Location) locationAdapter;
 
@@ -61,6 +65,7 @@ public class LiveDirectionsTest {
 
         List<String> directions = DirectionTracker.getDirectionsToCurrentExhibit(new TestDirectionCreator(), closestVertex);
 
+        //directions should start from flamingoes to hippos
         List<String> solutions = new ArrayList<>();
         solutions.add("Flamingos->Monkey Trail / Hippo Trail:Monkey Trail");
         solutions.add("Monkey Trail / Hippo Trail->Hippos:Hippo Trail");

@@ -12,6 +12,7 @@ import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionFormatStrateg
 import edu.ucsd.cse110.zooseeker_team35.path_finding.IdentifiedWeightedEdge;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
+//Creates directions from a GraphPath and displays them in a format that is easier to test
 public class TestDirectionCreator implements DirectionCreator {
 
     @Override

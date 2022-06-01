@@ -39,6 +39,14 @@ public class RerouteTest {
 
     @Before
     public void initialize(){
+        //setup target ehxhibits that we want to visit
+        String exhibit = "hippo";
+        String exhibit2 = "flamingo";
+        List<String> targetExhibits = new LinkedList<>();
+        targetExhibits.add(exhibit);
+        targetExhibits.add(exhibit2);
+
+        //initialzie the state of the app when the app is on the directions screen
         Context context = ApplicationProvider.getApplicationContext();
         g = ZooData.loadZooGraphJSON(context,"sample_zoo_graph.json");
         vertexInfo = ZooData.loadVertexInfoJSON(context, "sample_node_info.json");
@@ -46,45 +54,58 @@ public class RerouteTest {
         ZooInfoProvider.setIdVertexMap(vertexInfo);
         ZooInfoProvider.setIdEdgeMap(edgeInfo);
         ZooPathFinder zooPathFinder = new ZooPathFinder(g);
-        String exhibit = "hippo";
-        String exhibit2 = "flamingo";
-        List<String> targetExhibits = new LinkedList<>();
-        targetExhibits.add(exhibit);
-        targetExhibits.add(exhibit2);
+
         List<GraphPath<String, IdentifiedWeightedEdge>> pathList = zooPathFinder.calculatePath("entrance_exit_gate", "entrance_exit_gate", targetExhibits);
         DirectionTracker.initialize(g, pathList);
     }
     @Test
     public void testRerouteNeeded(){
+        //create a mock directions activitiy that will tell us if anyone tries to update it
         MockDirectionsActivity mockDirections = new MockDirectionsActivity();
         DirectionsActivity testActivity =(DirectionsActivity) mockDirections;
         RerouteHandler rerouteHandler = new RerouteHandler(testActivity);
 
+        //mocks location to be hippo
         LocationAdapter locationAdapter = new LocationAdapter(LocationManager.GPS_PROVIDER, 32.74531131120979,-117.16626781198586);
         Location mockedLocation = (Location) locationAdapter;
 
         rerouteHandler.testRerouteNeeded(mockedLocation);
 
+        //updateDisplay should have been called
         assertTrue(mockDirections.updateDisplayCalled);
+
+        //our current exhibit should be hippo
         assertEquals(DirectionTracker.getCurrentExhibitId(), "hippo");
         DirectionTracker.nextExhibit();
+        //the next ehxibit shoudl be flamingo
         assertEquals(DirectionTracker.getCurrentExhibitId(), "flamingo");
+        DirectionTracker.nextExhibit();
+        //the next ehxhibit should be entrance_exit_gate
+        assertEquals(DirectionTracker.getCurrentExhibitId(), "entrance_exit_gate");
 
     }
 
     @Test
     public void testRerouteNotNeeded(){
+        //create a mock directions activitiy that will tell us if anyone tries to update it
         MockDirectionsActivity mockDirections = new MockDirectionsActivity();
         DirectionsActivity testActivity =(DirectionsActivity) mockDirections;
         RerouteHandler rerouteHandler = new RerouteHandler(testActivity);
 
+        //mock location to be entrance
         LocationAdapter locationAdapter = new LocationAdapter(LocationManager.GPS_PROVIDER, 32.73459618734685, -117.14936);
         Location mockedLocation = (Location) locationAdapter;
 
         rerouteHandler.testRerouteNeeded(mockedLocation);
 
         assertFalse(mockDirections.updateDisplayCalled);
+        //flamingoes shoudl be the starting exhibit
         assertEquals(DirectionTracker.getCurrentExhibitId(), "flamingo");
+        //the next ehxibit shoudl be hippos
+        assertEquals(DirectionTracker.getCurrentExhibitId(), "hippos");
+        DirectionTracker.nextExhibit();
+        //the next ehxhibit should be entrance_exit_gate
+        assertEquals(DirectionTracker.getCurrentExhibitId(), "entrance_exit_gate");
 
     }
 }
