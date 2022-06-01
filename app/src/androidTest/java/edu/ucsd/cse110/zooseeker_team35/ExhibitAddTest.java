@@ -115,8 +115,8 @@ public class ExhibitAddTest {
 
         List<ZooData.VertexInfo> exhibits = ZooInfoProvider.getSelectedExhibits(InstrumentationRegistry.getInstrumentation().getTargetContext());
         assertEquals(exhibits.size(), 2);
-        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("arctic_foxes")).count(), 1);
-        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("gorillas")).count(), 1);
+        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("crocodile")).count(), 1);
+        assertEquals(exhibits.stream().filter(vertexInfo -> vertexInfo.id.equals("motmot")).count(), 1);
     }
 
     private static Matcher<View> childAtPosition(

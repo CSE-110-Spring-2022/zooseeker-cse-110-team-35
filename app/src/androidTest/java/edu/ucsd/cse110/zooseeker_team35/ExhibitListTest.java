@@ -87,7 +87,7 @@ public class ExhibitListTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("lions"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("flamingo"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.search_btn), withText("Search"),
@@ -110,17 +110,17 @@ public class ExhibitListTest {
         materialCheckBox.perform(click());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.search_bar_2), withText("lions"),
+                allOf(withId(R.id.search_bar_2), withText("flamingo"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("elephant"));
+        appCompatEditText2.perform(replaceText("koi fish"));
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.search_bar_2), withText("elephant"),
+                allOf(withId(R.id.search_bar_2), withText("koi fish"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -160,16 +160,16 @@ public class ExhibitListTest {
         materialTextView.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.exhibit_item_text), withText("Elephant Odyssey"),
+                allOf(withId(R.id.exhibit_item_text), withText("Flamingos"),
                         withParent(withParent(withId(R.id.added_exhibits_recycler))),
                         isDisplayed()));
-        textView.check(matches(withText("Elephant Odyssey")));
+        textView.check(matches(withText("Flamingos")));
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.exhibit_item_text), withText("Lions"),
+                allOf(withId(R.id.exhibit_item_text), withText("Koi Fish"),
                         withParent(withParent(withId(R.id.added_exhibits_recycler))),
                         isDisplayed()));
-        textView2.check(matches(withText("Lions")));
+        textView2.check(matches(withText("Koi Fish")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.exhibit_count), withText("2"),
@@ -195,7 +195,7 @@ public class ExhibitListTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("lion"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("toucan"), closeSoftKeyboard());
 
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.search_btn), withText("Search"),
@@ -235,7 +235,7 @@ public class ExhibitListTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("ape"), closeSoftKeyboard());
+        appCompatEditText4.perform(replaceText("hippos"), closeSoftKeyboard());
 
         ViewInteraction materialButton3 = onView(
                 allOf(withId(R.id.search_btn), withText("Search"),
@@ -285,7 +285,7 @@ public class ExhibitListTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText6.perform(replaceText("lion"), closeSoftKeyboard());
+        appCompatEditText6.perform(replaceText("toucan"), closeSoftKeyboard());
 
         ViewInteraction materialButton4 = onView(
                 allOf(withId(R.id.search_btn), withText("Search"),
@@ -318,10 +318,10 @@ public class ExhibitListTest {
         materialTextView3.perform(click());
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.exhibit_item_text), withText("Gorillas"),
+                allOf(withId(R.id.exhibit_item_text), withText("Hippos"),
                         withParent(withParent(withId(R.id.added_exhibits_recycler))),
                         isDisplayed()));
-        textView3.check(matches(withText("Gorillas")));
+        textView3.check(matches(withText("Hippos")));
 
         ViewInteraction textView4 = onView(
                 allOf(withId(R.id.exhibit_count), withText("1"),
@@ -348,7 +348,7 @@ public class ExhibitListTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText9.perform(replaceText("ape"), closeSoftKeyboard());
+        appCompatEditText9.perform(replaceText("Hippo"), closeSoftKeyboard());
 
         ViewInteraction materialButton6 = onView(
                 allOf(withId(R.id.search_btn), withText("Search"),
