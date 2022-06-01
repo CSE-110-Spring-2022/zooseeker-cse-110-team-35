@@ -47,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
         exhibitsCountTextView = (TextView) findViewById(R.id.exhibit_count);
 
         updateDisplay();
+
+        if(getIntent().getBooleanExtra("reset", false)) {
+            onResetButtonClicked(this.findViewById(R.id.resetBtn));
+        }
     }
 
     @Override

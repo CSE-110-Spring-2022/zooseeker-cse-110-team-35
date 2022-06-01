@@ -241,6 +241,7 @@ public class DirectionsActivity extends AppCompatActivity {
     //or start a new list
     public void onResetButtonClicked(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("reset", true);
         startActivity(intent);
     }
 
