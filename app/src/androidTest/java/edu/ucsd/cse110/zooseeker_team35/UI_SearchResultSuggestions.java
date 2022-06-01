@@ -96,19 +96,22 @@ public class UI_SearchResultSuggestions {
         onView(withId(R.id.search_btn)).perform(click());
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(0, hasDescendant(withText("Arctic Foxes")))));
+                .check(matches(atPosition(0, hasDescendant(withText("Capuchin Monkeys")))));
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(1, hasDescendant(withText("Elephant Odyssey")))));
+                .check(matches(atPosition(1, hasDescendant(withText("Gorillas")))));
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(2, hasDescendant(withText("Gorillas")))));
+                .check(matches(atPosition(2, hasDescendant(withText("Hippos")))));
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(3, hasDescendant(withText("Lions")))));
+                .check(matches(atPosition(3, hasDescendant(withText("Orangutans")))));
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(recyclerViewSize(4)));
+                .check(matches(atPosition(4, hasDescendant(withText("Siamangs")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(recyclerViewSize(5)));
     }
 
     @Test
@@ -121,7 +124,7 @@ public class UI_SearchResultSuggestions {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("monkey"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("ape"), closeSoftKeyboard());
 
         onView(withId(R.id.search_btn)).perform(click());
 
@@ -129,7 +132,10 @@ public class UI_SearchResultSuggestions {
                 .check(matches(atPosition(0, hasDescendant(withText("Gorillas")))));
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(recyclerViewSize(1)));
+                .check(matches(atPosition(1, hasDescendant(withText("Orangutans")))));
+
+        onView(withId(R.id.search_item_recycler))
+                .check(matches(recyclerViewSize(2)));
     }
 
     @Test
@@ -142,12 +148,12 @@ public class UI_SearchResultSuggestions {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Lions"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("Blue Capped Motmot"), closeSoftKeyboard());
 
         onView(withId(R.id.search_btn)).perform(click());
 
         onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(0, hasDescendant(withText("Lions")))));
+                .check(matches(atPosition(0, hasDescendant(withText("Blue Capped Motmot")))));
 
         onView(withId(R.id.search_item_recycler))
                 .check(matches(recyclerViewSize(1)));
@@ -183,24 +189,6 @@ public class UI_SearchResultSuggestions {
                         isDisplayed()));
         materialButton.perform(click());
 
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(0, hasDescendant(withText("Alligators")))));
-
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(1, hasDescendant(withText("Arctic Foxes")))));
-
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(2, hasDescendant(withText("Elephant Odyssey")))));
-
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(3, hasDescendant(withText("Gorillas")))));
-
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(atPosition(4, hasDescendant(withText("Lions")))));
-
-        onView(withId(R.id.search_item_recycler))
-                .check(matches(recyclerViewSize(5)));
-
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.search_bar_2),
                         childAtPosition(
@@ -209,7 +197,7 @@ public class UI_SearchResultSuggestions {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("monkey"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("gorilla"), closeSoftKeyboard());
 
         ViewInteraction materialButton2 = onView(
                 allOf(withId(R.id.search_btn_2), withText("Search"),
