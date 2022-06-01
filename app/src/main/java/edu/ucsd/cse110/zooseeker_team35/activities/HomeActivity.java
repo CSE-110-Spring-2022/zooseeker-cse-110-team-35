@@ -15,7 +15,6 @@ import java.util.List;
 import edu.ucsd.cse110.zooseeker_team35.adapters.ExhibitsAdapter;
 import edu.ucsd.cse110.zooseeker_team35.R;
 import edu.ucsd.cse110.zooseeker_team35.location_tracking.LocationPermissionChecker;
-import edu.ucsd.cse110.zooseeker_team35.location_tracking.PermissionChecker;
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatus;
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDao;
 import edu.ucsd.cse110.zooseeker_team35.database.ExhibitStatusDatabase;
