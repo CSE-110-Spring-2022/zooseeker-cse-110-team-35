@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import edu.ucsd.cse110.zooseeker_team35.direction_display.DetailedDirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.DirectionCreator;
 import edu.ucsd.cse110.zooseeker_team35.direction_display.ProceedDirectionFormat;
 import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
@@ -59,30 +60,6 @@ public class DirectionTracker{
         }
     }
 
-    public static List<String> getDirectionsToCurrentExhibit(){
-        List<String> directionList = new ArrayList<String>();
-        GraphPath<String, IdentifiedWeightedEdge> path = pathList.get(currentExhibit);
-
-        List<IdentifiedWeightedEdge> edges = path.getEdgeList();
-        List<String> vertexes = path.getVertexList();
-
-        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
-        for (int i = 0; i < edges.size(); i++) {
-            IdentifiedWeightedEdge e = edges.get(i);
-            String startNode = vertexes.get(i);
-            String endNode = vertexes.get(i + 1);
-            String pathInfo = directionFormatter.buildDirection(
-                    i+1,
-                    vertexInfo.get(startNode).name,
-                    vertexInfo.get(endNode).name,
-                    edgeInfo.get(e.getId()).street,
-                    graph.getEdgeWeight(e));
-            directionList.add(pathInfo);
-        }
-        return directionList;
-    }
-
-
     public static String getCurrentExhibit() {
         return ZooInfoProvider.getVertexWithId(pathList.get(currentExhibit).getEndVertex()).name;
     }
@@ -93,6 +70,10 @@ public class DirectionTracker{
 
     public static int getCurrentExhibitIndex() {
         return currentExhibit;
+    }
+
+    public static List<String> getDirectionsToCurrentExhibit(){
+        return getDirectionsToCurrentExhibit(new DetailedDirectionCreator());
     }
 
     public static List<String> getDirectionsToCurrentExhibit (DirectionCreator directionCreator){
@@ -114,12 +95,14 @@ public class DirectionTracker{
         return directionCreator.createDirections(path, vertexInfo, edgeInfo, graph);
     }
 
-    public static GraphPath<String, IdentifiedWeightedEdge> reCalculatedDirection(ZooData.VertexInfo closestExhibit) {
+    //recalculate the directions with the closest ehxibit being the start exhibit
+    private static GraphPath<String, IdentifiedWeightedEdge> reCalculatedDirection(ZooData.VertexInfo closestExhibit) {
         String lastVertex = pathList.get(currentExhibit).getEndVertex();
         GraphPath<String, IdentifiedWeightedEdge> newPath = DijkstraShortestPath.findPathBetween(graph, closestExhibit.id, lastVertex);
         return newPath;
     }
 
+    //get all exhibits that haven't been visited yet including the vertex that we are currently on
     public static List<ZooData.VertexInfo> getRemainingVertexes() {
         List<ZooData.VertexInfo> remainingExhibits = new LinkedList<>();
         for (GraphPath<String, IdentifiedWeightedEdge> graphPath : pathList.subList(currentExhibit, pathList.size())){
@@ -133,10 +116,20 @@ public class DirectionTracker{
         return remainingExhibits;
     }
 
+    //update the pathList by rerouting starting from the closestVertex and visiting all the target exhibits
     public static void updatePathList(String closestVertex, List<String> targetExhibits) {
         if (ZooInfoProvider.getVertexWithId(closestVertex).group_id != null) {
             closestVertex = ZooInfoProvider.getVertexWithId(closestVertex).group_id;
         }
+        List<GraphPath<String, IdentifiedWeightedEdge>> newPathList = recalculatePathList(closestVertex, targetExhibits);
+        pathList = newPathList;
+        if (currentExhibit >= pathList.size()){
+            currentExhibit = pathList.size() - 1;
+        }
+    }
+
+    //calculate the new pathList as a result of rerouting starting from the closestVertex and visitng all the target Exhibits
+    private static List<GraphPath<String, IdentifiedWeightedEdge>> recalculatePathList(String closestVertex, List<String> targetExhibits){
         ZooPathFinder zooPathFinder = new ZooPathFinder(graph);
         List<GraphPath<String, IdentifiedWeightedEdge>> pathListRight = zooPathFinder.calculatePath(closestVertex, "entrance_exit_gate", targetExhibits);
         List<GraphPath<String, IdentifiedWeightedEdge>> pathListLeft = pathList.subList(0, currentExhibit);
@@ -149,14 +142,13 @@ public class DirectionTracker{
             connectingEnd = ZooInfoProvider.getVertexWithId(connectingEnd).group_id;
         }
         GraphPath<String, IdentifiedWeightedEdge> connectorPath = DijkstraShortestPath.findPathBetween(graph, connectingStart, connectingEnd);
+
         List<GraphPath<String, IdentifiedWeightedEdge>> combined = new ArrayList<>();
         combined.addAll(pathListLeft);
         combined.add(connectorPath);
         combined.addAll(pathListRight);
-        pathList = combined;
-        if (currentExhibit >= pathList.size()){
-            currentExhibit = pathList.size() - 1;
-        }
+
+        return combined;
     }
 
 }

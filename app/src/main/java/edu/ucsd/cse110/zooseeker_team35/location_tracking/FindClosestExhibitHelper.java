@@ -45,7 +45,6 @@ public class FindClosestExhibitHelper {
 
     public static ZooData.VertexInfo closestExhibitPathwise(Graph<String, IdentifiedWeightedEdge> graph, Location currentLoc, List<ZooData.VertexInfo> planedExhibits) {
         ZooData.VertexInfo nearestExhibit = closestExhibit(currentLoc);
-        System.out.println(planedExhibits.stream().map(vertex -> vertex.id).collect(Collectors.toList()));
         double minDistance = Double.MAX_VALUE;
         ZooData.VertexInfo nearestTargetExhibit = null;
         for (ZooData.VertexInfo cur : planedExhibits) {
@@ -53,7 +52,6 @@ public class FindClosestExhibitHelper {
                 cur = ZooInfoProvider.getVertexWithId(cur.group_id);
             }
             double distance = DijkstraShortestPath.findPathBetween(graph, nearestExhibit.id, cur.id).getWeight();
-            System.out.println("distance to " + cur.id + " : " + distance);
             if(minDistance >= distance) {
                 minDistance = distance;
                 nearestTargetExhibit = cur;

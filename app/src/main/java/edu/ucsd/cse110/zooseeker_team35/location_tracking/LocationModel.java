@@ -63,7 +63,7 @@ public class LocationModel extends AndroidViewModel {
             }
         };
         // Register for updates.
-        locationManager.requestLocationUpdates(provider, 10000, 0f, locationListener);
+        locationManager.requestLocationUpdates(provider, 1000, 0f, locationListener);
 
         locationProviderSource = providerSource;
         lastKnownCoords.addSource(locationProviderSource, lastKnownCoords::setValue);
