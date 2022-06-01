@@ -12,6 +12,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import static edu.ucsd.cse110.zooseeker_team35.UI_TestUtilities.childAtPosition;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -385,24 +387,5 @@ public class ExhibitListTest {
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         textView5.check(matches(withText("No Exhibits Added")));
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }
