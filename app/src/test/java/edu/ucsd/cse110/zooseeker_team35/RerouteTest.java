@@ -101,8 +101,9 @@ public class RerouteTest {
         assertFalse(mockDirections.updateDisplayCalled);
         //flamingoes shoudl be the starting exhibit
         assertEquals(DirectionTracker.getCurrentExhibitId(), "flamingo");
+        DirectionTracker.nextExhibit();
         //the next ehxibit shoudl be hippos
-        assertEquals(DirectionTracker.getCurrentExhibitId(), "hippos");
+        assertEquals(DirectionTracker.getCurrentExhibitId(), "hippo");
         DirectionTracker.nextExhibit();
         //the next ehxhibit should be entrance_exit_gate
         assertEquals(DirectionTracker.getCurrentExhibitId(), "entrance_exit_gate");
