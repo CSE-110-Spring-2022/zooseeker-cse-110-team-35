@@ -11,4 +11,6 @@ import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooData;
 
 public interface DirectionCreator {
     List<String> createDirections(GraphPath<String, IdentifiedWeightedEdge> path, Map<String, ZooData.VertexInfo> vertexInfo, Map<String, ZooData.EdgeInfo> edgeInfo, Graph<String, IdentifiedWeightedEdge> graph);
+
+    List<String> createDirections(DirectionFormatStrategy testingDirectionFormat, GraphPath<String, IdentifiedWeightedEdge> stringIdentifiedWeightedEdgeGraphPath, Map<String, ZooData.VertexInfo> vertexInfo, Map<String, ZooData.EdgeInfo> edgeInfo, Graph<String, IdentifiedWeightedEdge> g);
 }

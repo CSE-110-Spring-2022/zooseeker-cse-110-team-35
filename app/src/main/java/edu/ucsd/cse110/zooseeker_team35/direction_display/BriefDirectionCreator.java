@@ -13,10 +13,9 @@ import edu.ucsd.cse110.zooseeker_team35.path_finding.ZooInfoProvider;
 
 public class BriefDirectionCreator implements DirectionCreator{
 
-    @Override
-    public List<String> createDirections(GraphPath<String, IdentifiedWeightedEdge> path, Map<String, ZooData.VertexInfo> vertexInfo, Map<String, ZooData.EdgeInfo> edgeInfo, Graph<String, IdentifiedWeightedEdge> graph) {
+
+    public List<String> createDirections(DirectionFormatStrategy directionFormatter, GraphPath<String, IdentifiedWeightedEdge> path, Map<String, ZooData.VertexInfo> vertexInfo, Map<String, ZooData.EdgeInfo> edgeInfo, Graph<String, IdentifiedWeightedEdge> graph) {
         List<String> directionList = new ArrayList<String>();
-        DirectionFormatStrategy directionFormatter = new ProceedDirectionFormat();
         List<IdentifiedWeightedEdge> edges = path.getEdgeList();
         List<String> vertexes = path.getVertexList();
         int directionNumber = 1;
@@ -45,4 +44,9 @@ public class BriefDirectionCreator implements DirectionCreator{
         }
         return directionList;
     }
+
+    public List<String> createDirections(GraphPath<String, IdentifiedWeightedEdge> path, Map<String, ZooData.VertexInfo> vertexInfo, Map<String, ZooData.EdgeInfo> edgeInfo, Graph<String, IdentifiedWeightedEdge> graph) {
+        return createDirections(new ProceedDirectionFormat(), path, vertexInfo, edgeInfo, graph);
+    }
+
 }
